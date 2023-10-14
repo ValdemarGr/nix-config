@@ -11,6 +11,17 @@
       system = flake-utils.lib.system.x86_64-linux;
       machine = "valde";
     in {
+      nixosConfigurations.virtualBox = nixpkgs.lib.nixosSystem {
+	inherit system;
+	modules = [
+		(nixpkgs + "/nixos/modules/installer/virtualbox-demo.nix")
+		({pkgs, ...}: {
+ 			environment.systemPackages = [pkgs.gh];
+			programs.git.enable = true;
+			programs.neovim.enable = true;
+		})
+	];
+      };
       nixosConfigurations.${machine} = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
