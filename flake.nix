@@ -23,7 +23,7 @@
 		({pkgs, ...}: {
 			users.users.${machine} = {
 				isNormalUser = true;
-				extraGroup = [ "wheel" ];
+				extraGroups = [ "wheel" ];
 			};
  			environment.systemPackages = [pkgs.gh];
 			programs.git.enable = true;
