@@ -18,6 +18,23 @@
         "type": "github"
       }
     },
+    "gruvbox-baby": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1695824412,
+        "narHash": "sha256-NcwyDtqvYxjBQm5hWsfuYjO1A8fpxZKF2D8qhvOiN2k=",
+        "owner": "valdemargr",
+        "repo": "gruvbox-baby",
+        "rev": "f65fe30691db64e8ca32aa6fba0cf07703adca28",
+        "type": "github"
+      },
+      "original": {
+        "owner": "valdemargr",
+        "repo": "gruvbox-baby",
+        "rev": "f65fe30691db64e8ca32aa6fba0cf07703adca28",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -54,11 +71,31 @@
         "type": "indirect"
       }
     },
+    "nvim-telescope": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697004956,
+        "narHash": "sha256-7SqYFnfCjotOBhuX6Wx1IOhgMKoxaoI1a4SKz1d5RVM=",
+        "owner": "nvim-telescope",
+        "repo": "telescope.nvim",
+        "rev": "7011eaae0ac1afe036e30c95cf80200b8dc3f21a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-telescope",
+        "repo": "telescope.nvim",
+        "rev": "7011eaae0ac1afe036e30c95cf80200b8dc3f21a",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "gruvbox-baby": "gruvbox-baby",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nvim-telescope": "nvim-telescope",
+        "vim-fugitive": "vim-fugitive"
       }
     },
     "systems": {
@@ -73,6 +110,23 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "vim-fugitive": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1696899192,
+        "narHash": "sha256-poNiZqRMuw2+xlPsY8BIA3OCjRCpbh7uAyaWmlgPCUs=",
+        "owner": "tpope",
+        "repo": "vim-fugitive",
+        "rev": "cbe9dfa162c178946afa689dd3f42d4ea8bf89c1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tpope",
+        "repo": "vim-fugitive",
+        "rev": "cbe9dfa162c178946afa689dd3f42d4ea8bf89c1",
         "type": "github"
       }
     }
