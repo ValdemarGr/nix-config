@@ -32,7 +32,12 @@
 					home.packages = [pkgs.gh];
 					home.stateVersion = "23.05";
 					programs.bash.enable = true;
-					programs.neovim.enable = true;
+					programs.neovim = {
+						enable = true;
+						extraConfig = ''
+							set number relativenumber
+						'';
+					};
 				};
 			};
  			environment.systemPackages = [pkgs.gh];
