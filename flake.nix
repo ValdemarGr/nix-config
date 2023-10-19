@@ -2,10 +2,10 @@
   description = "Valde's nixos configuration";
   
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.05";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-    	url = "github:nix-community/home-manager/release-23.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvim-telescope = {
@@ -34,17 +34,17 @@
             home-manager.nixosModules.home-manager
             ({pkgs, ...}: 
               let 
-                nvim-telescope-plugin = pkgs.vimUtils.buildVimPluginFrom2Nix {
+                nvim-telescope-plugin = pkgs.vimUtils.buildVimPlugin {
                   pname = "telescope.nvim";
                   src = nvim-telescope;
                   version = "0.1.4";
                 };
-                vim-fugitive-plugin = pkgs.vimUtils.buildVimPluginFrom2Nix {
+                vim-fugitive-plugin = pkgs.vimUtils.buildVimPlugin {
                   pname = "vim-fugitive";
                   src = vim-fugitive;
                   version = "3.1";
                 };
-                gruvbox-baby-plugin = pkgs.vimUtils.buildVimPluginFrom2Nix {
+                gruvbox-baby-plugin = pkgs.vimUtils.buildVimPlugin {
                   pname = "gruvbox-baby";
                   src = gruvbox-baby;
                   version = "0.1";
@@ -58,7 +58,10 @@
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   users.${machine} = {
+		  #wayland.windowManager.hyprland.enable = true;
                     home.packages = [pkgs.gh];
+#		  wayland.windowManager.sway.enable = true;
+		    wayland.windowManager.hyprland.enable = true;
                     home.stateVersion = "23.05";
                     home.username = "${machine}";
                     home.homeDirectory = "/home/${machine}";
@@ -80,6 +83,7 @@
                   };
                 };
                 environment.systemPackages = [pkgs.gh];
+		programs.hyprland.enable = true;
                 programs.git.enable = true;
                 programs.neovim.enable = true;
               })
