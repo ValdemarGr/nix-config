@@ -65,6 +65,21 @@
                     home.stateVersion = "23.05";
                     home.username = "${machine}";
                     home.homeDirectory = "/home/${machine}";
+		    gtk = {
+		    	enable = true;
+			theme = {
+				package = pkgs.flat-remix-gtk;
+				name = "Flat-Remix-GTK-Grey-Darkest";
+			};
+			iconTheme = {
+				package = pkgs.libsForQt5.breeze-icons;
+				name = "breeze-dark";
+			};
+			font = {
+				name = "Sans";
+				size = 11;
+			};
+		    };
                     programs.home-manager.enable = true;
                     programs.bash.enable = true;
                     programs.git.enable = true;
