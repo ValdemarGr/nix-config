@@ -58,10 +58,18 @@
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   users.${machine} = {
-		  #wayland.windowManager.hyprland.enable = true;
                     home.packages = [pkgs.gh];
 #		  wayland.windowManager.sway.enable = true;
 		    wayland.windowManager.hyprland.enable = true;
+		    wayland.windowManager.hyprland.xwayland.enable = true;
+		    home  = {
+		    	pointerCursor = {
+				gtk.enable = true;
+				package = pkgs.bibata-cursors;
+				name = "Bibata-Modern-Amber";
+				size = 32;
+			};
+		    };
                     home.stateVersion = "23.05";
                     home.username = "${machine}";
                     home.homeDirectory = "/home/${machine}";
