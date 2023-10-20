@@ -52,8 +52,16 @@
               in {
                 users.users.${machine} = {
                   isNormalUser = true;
-                  extraGroups = [ "wheel" ];
+                  extraGroups = [ "wheel" "video" "audio" ];
                 };
+			hardware.opengl = {
+				enable = true;
+				driSupport = true;
+				driSupport32Bit = true;
+			};
+	    security.polkit.enable = true;
+	    security.rtkit.enable = true;
+	    programs.sway.enable = true;
                 home-manager = {
                   useGlobalPkgs = true;
                   useUserPackages = true;
@@ -90,6 +98,7 @@
 		    };
                     programs.home-manager.enable = true;
                     programs.bash.enable = true;
+		    wayland.windowManager.sway.enable = true;
                     programs.git.enable = true;
                     programs.neovim = {
                       enable = true;
