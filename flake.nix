@@ -72,7 +72,11 @@
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   users.${machine} = {
-                    home.packages = [pkgs.gh];
+                    home.packages = [
+		    	pkgs.gh
+			pkgs.nerdfonts
+		    ];
+		    fonts.fontconfig.enable = true;
 #		  wayland.windowManager.sway.enable = true;
 		    wayland.windowManager.hyprland.enable = true;
 		    wayland.windowManager.hyprland.xwayland.enable = true;
