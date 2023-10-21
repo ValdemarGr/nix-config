@@ -97,8 +97,19 @@
 
 		      bind = $mod SHIFT CTRL, right, movecurrentworkspacetomonitor, r
 		      bind = $mod SHIFT CTRL, left, movecurrentworkspacetomonitor, l
-		      bind = $mod SHIFT CTRL, up, movecurrentworkspacetomonitor, r+1
-		      bind = $mod SHIFT CTRL, down, movecurrentworkspacetomonitor, r-1
+		      bind = $mod SHIFT CTRL, up, workspace, m+1
+		      bind = $mod SHIFT CTRL, down, workspace, m-1
+
+		      bind = $mod, 0, workspace, 0
+		      bind = $mod, 1, workspace, 1
+		      bind = $mod, 2, workspace, 2
+		      bind = $mod, 3, workspace, 3
+		      bind = $mod, 4, workspace, 4
+		      bind = $mod, 5, workspace, 5
+		      bind = $mod, 6, workspace, 6
+		      bind = $mod, 7, workspace, 7
+		      bind = $mod, 8, workspace, 8
+		      bind = $mod, 9, workspace, 9
 
 		      general {
 		        gaps_in = 0
@@ -305,6 +316,7 @@
 			pkgs.grim
 			pkgs.slurp
 			pkgs.wl-clipboard
+			pkgs.discord
 		];
 		xdg.portal.enable = true;
 		xdg.portal.wlr.enable = true;
