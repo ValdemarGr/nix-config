@@ -188,8 +188,8 @@ programs.kitty.extraConfig = ''
 
 #: The basic colors
 
-foreground                      #1D2426
-background                      #AB9C71
+background                      #1D2426
+foreground                      #AB9C71
 # selection_foreground            #000000
 # selection_background            #fffacd
 
@@ -251,11 +251,13 @@ color9 #B07350
 
 #: green
 color2  #788249
-color10 #AF6B42
+# color10 #AF6B42
+color10 #85914a
 
 #: yellow
 color3  #9a8518
-color11 #869151
+#color11 #869151
+color11 #a18b1a
 
 #: blue
 color4  #567a6e
@@ -266,8 +268,10 @@ color5  #b9924a
 color13 #d69d55
 
 #: cyan
-color6  #5d796a
-color14 #668574
+# color6  #5d796a
+# color14 #668574
+color6  #569186
+color14 #5da396
 
 #: white
 color7  #977D5E
