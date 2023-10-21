@@ -27,10 +27,10 @@
       system = flake-utils.lib.system.x86_64-linux;
       machine = "valde";
     in {
-	      nixosConfigurations.virtualBox = nixpkgs.lib.nixosSystem {
+	      nixosConfigurations.${machine} = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
-            (nixpkgs + "/nixos/modules/installer/virtualbox-demo.nix")
+	    ./system/machine/home
             home-manager.nixosModules.home-manager
             ({pkgs, ...}: 
               let 
@@ -50,6 +50,7 @@
                   version = "0.1";
                 };
               in {
+	      nixpkgs.config.allowUnfree = true;
                 users.users.${machine} = {
                   isNormalUser = true;
                   extraGroups = [ "wheel" "video" "audio" ];
@@ -60,7 +61,6 @@
 				driSupport32Bit = true;
 			};
 	    security.polkit.enable = true;
-	    security.rtkit.enable = true;
 	    programs.sway.enable = true;
                 home-manager = {
                   useGlobalPkgs = true;
@@ -70,6 +70,10 @@
 #		  wayland.windowManager.sway.enable = true;
 		    wayland.windowManager.hyprland.enable = true;
 		    wayland.windowManager.hyprland.xwayland.enable = true;
+		    wayland.windowManager.hyprland.extraConfig = ''
+		      $mod = SUPER
+		      bind = $mod, F, exec, kitty
+		    '';
 		    home  = {
 		    	pointerCursor = {
 				gtk.enable = true;
@@ -98,6 +102,10 @@
 		    };
                     programs.home-manager.enable = true;
                     programs.bash.enable = true;
+		    programs.kitty.enable = true;
+		    programs.rofi.enable = true;
+		    services.spotifyd.enable = true;
+		    programs.firefox.enable = true;
 		    wayland.windowManager.sway.enable = true;
                     programs.git.enable = true;
                     programs.neovim = {
@@ -114,19 +122,21 @@
                     };
                   };
                 };
-                environment.systemPackages = [pkgs.gh];
-		programs.hyprland.enable = true;
+                environment.systemPackages = [pkgs.gh pkgs.spotify pkgs.dunst];
+		sound.enable = true;
+		security.rtkit.enable = true;
+		services.pipewire = {
+		  enable = true;
+		  alsa.enable = true;
+		  alsa.support32Bit = true;
+		  pulse.enable = true;
+		  jack.enable = true;
+		};
+		#programs.hyprland.enable = true;
                 programs.git.enable = true;
                 programs.neovim.enable = true;
               })
           ];
-      };
-      nixosConfigurations.${machine} = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ({ pkgs, ...}: {
-          })
-        ];
       };
       # use mkShell
       devShells.${system}.${machine} = nixpkgs.legacyPackages.${system}.pkgs.mkShell {
