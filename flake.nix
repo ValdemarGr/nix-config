@@ -188,15 +188,15 @@ programs.kitty.extraConfig = ''
 
 #: The basic colors
 
-# foreground                      #dddddd
-# background                      #000000
+foreground                      #1D2426
+background                      #AB9C71
 # selection_foreground            #000000
 # selection_background            #fffacd
 
 
 #: Cursor colors
 
-# cursor                          #cccccc
+cursor                          #BE5E1E
 # cursor_text_color               #111111
 
 
@@ -242,36 +242,36 @@ programs.kitty.extraConfig = ''
 #: The basic 16 colors
 
 #: black
-# color0 #000000
-# color8 #767676
+color0 #39474A
+color8 #4C5F63
 
 #: red
-# color1 #cc0403
-# color9 #f2201f
+color1 #986345
+color9 #B07350
 
 #: green
-# color2  #19cb00
-# color10 #23fd00
+color2  #788249
+color10 #AF6B42
 
 #: yellow
-# color3  #cecb00
-# color11 #fffd00
+color3  #9a8518
+color11 #869151
 
 #: blue
-# color4  #0d73cc
-# color12 #1a8fff
+color4  #567a6e
+color12 #567a6e
 
 #: magenta
-# color5  #cb1ed1
-# color13 #fd28ff
+color5  #b9924a
+color13 #d69d55
 
 #: cyan
-# color6  #0dcdcd
-# color14 #14ffff
+color6  #5d796a
+color14 #668574
 
 #: white
-# color7  #dddddd
-# color15 #ffffff
+color7  #977D5E
+color15 #ab9c71
 
 
 #: You can set the remaining 240 colors as color16 to color255.
