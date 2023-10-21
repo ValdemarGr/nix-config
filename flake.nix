@@ -107,7 +107,11 @@
 		    services.spotifyd.enable = true;
 		    programs.firefox.enable = true;
 		    wayland.windowManager.sway.enable = true;
-                    programs.git.enable = true;
+                    programs.git = {
+		      enable = true;
+		      userName = "Valdemar Grange";
+		      userEmail = "randomvald0069@gmail.com";
+		    };
                     programs.neovim = {
                       enable = true;
                       defaultEditor = true;
