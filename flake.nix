@@ -72,7 +72,39 @@
 		    wayland.windowManager.hyprland.xwayland.enable = true;
 		    wayland.windowManager.hyprland.extraConfig = ''
 		      $mod = SUPER
-		      bind = $mod, F, exec, kitty
+		      bind = $mod, F, fullscreen, 9
+		      bind = $mod, RETURN, exec, kitty
+		      bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
+		      bind = $mod SHIFT, Q, killactive,
+		      bind = $mod, D, exec, rofi -show drun -show-icons
+
+		      bind = $mod, right, movefocus, r
+		      bind = $mod, left, movefocus, l
+		      bind = $mod, up, movefocus, u
+		      bind = $mod, down, movefocus, d
+
+		      bind = $mod SHIFT, right, movewindow, r
+		      bind = $mod SHIFT, left, movewindow, l
+		      bind = $mod SHIFT, up, movewindow, u
+		      bind = $mod SHIFT, down, movewindow, d
+
+		      bind = $mod SHIFT CTRL, right, movecurrentworkspacetomonitor, r
+		      bind = $mod SHIFT CTRL, left, movecurrentworkspacetomonitor, l
+		      bind = $mod SHIFT CTRL, up, movecurrentworkspacetomonitor, r+1
+		      bind = $mod SHIFT CTRL, down, movecurrentworkspacetomonitor, r-1
+
+		      general {
+		        gaps_in = 0
+			gaps_out = 12
+		      }
+		      monitor = DP-2,3440x1440@100,0x0,1
+		      monitor = DP-3,3440x1440@100,3440x0,1
+		      monitor = DP-1,1920x1080@144,6880x0,1
+
+		      exec-once=swww init
+		      exec-once=waybar
+		      exec-once=swww img "/home/valde/Downloads/horse.jpg"
+		      exec-once=dunst
 		    '';
 		    home  = {
 		    	pointerCursor = {
@@ -101,8 +133,143 @@
 			};
 		    };
                     programs.home-manager.enable = true;
+		    xdg.enable = true;
                     programs.bash.enable = true;
+                    programs.zsh.enable = true;
 		    programs.kitty.enable = true;
+		    programs.waybar = {
+		    	enable = true;
+			settings = {
+				mainBar = {
+				    position = "top";
+    layer = "top";
+    height = 12;
+    margin-top = 0;
+    margin-bottom = 0;
+    margin-left = 0;
+    margin-right = 0;
+    modules-left = ["custom/launcher" "custom/playerctl" "custom/playerlabel"];
+    modules-center = [
+      "hyprland/workspaces"
+      # "cpu"
+      # "memory"
+      # "disk"
+    ];
+
+    modules-right = [
+      "tray"
+      "pulseaudio"
+      "clock"
+    ];
+
+    clock = {
+      format = "󱑍 {:%H:%M}";
+      tooltip = false;
+      tooltip-format = ''
+        <big>{:%Y %B}</big>
+        <tt><small>{calendar}</small></tt>'';
+      format-alt = " {:%d/%m}";
+    };
+
+    "hyprland/workspaces" = {
+      active-only = false;
+      all-outputs = true;
+      disable-scroll = false;
+      on-scroll-up = "hyprctl dispatch workspace e-1";
+      on-scroll-down = "hyprctl dispatch workspace e+1";
+      on-click = "activate";
+      show-special = "false";
+      sort-by-number = true;
+      persistent_workspaces = {
+        "*" = 10;
+      };
+    };
+
+    "image" = {
+      exec = "bash ~/.scripts/album_art.sh";
+      size = 18;
+      interval = 10;
+    };
+
+    "custom/playerctl" = {
+      format = "{icon}";
+      return-type = "json";
+      max-length = 25;
+      exec = ''
+        playerctl -a metadata --format '{"text": "{{artist}} - {{markup_escape(title)}}", "tooltip": "{{playerName}} : {{markup_escape(title)}}", "alt": "{{status}}", "class": "{{status}}"}' -F'';
+      on-click-middle = "playerctl play-pause";
+      on-click = "playerctl previous";
+      on-click-right = "playerctl next";
+      format-icons = {
+        Playing = "<span foreground='#6791eb'>󰓇 </span>";
+        Paused = "<span foreground='#cdd6f4'>󰓇 </span>";
+      };
+      tooltip = false;
+    };
+
+    "custom/playerlabel" = {
+      format = "<span>{}</span>";
+      return-type = "json";
+      max-length = 25;
+      exec = ''
+        playerctl -a metadata --format '{"text": "{{artist}} - {{markup_escape(title)}}", "tooltip": "{{playerName}} : {{markup_escape(title)}}", "alt": "{{status}}", "class": "{{status}}"}' -F'';
+      on-click-middle = "playerctl play-pause";
+      on-click = "playerctl previous";
+      on-click-right = "playerctl next";
+      format-icons = {
+        Playing = "<span foreground='#6791eb'>󰓇 </span>";
+        Paused = "<span foreground='#cdd6f4'>󰓇 </span>";
+      };
+      tooltip = false;
+    };
+
+    memory = {
+      format = "󰍛 {}%";
+      format-alt = "󰍛 {used}/{total} GiB";
+      interval = 30;
+    };
+
+    cpu = {
+      format = "󰻠 {usage}%";
+      format-alt = "󰻠 {avg_frequency} GHz";
+      interval = 10;
+    };
+
+    disk = {
+      format = "󰋊 {}%";
+      format-alt = "󰋊 {used}/{total} GiB";
+      interval = 30;
+      path = "/";
+    };
+
+    tray = {
+      icon-size = 18;
+      spacing = 10;
+      tooltip = false;
+    };
+
+    pulseaudio = {
+      format = "{icon} {volume}%";
+      format-muted = "";
+      format-icons = {default = ["" "" ""];};
+      on-click = "bash ~/.config/hypr/scripts/volume mute";
+      on-scroll-up = "bash ~/.config/hypr/scripts/volume up";
+      on-scroll-down = "bash ~/.config/hypr/scripts/volume down";
+      scroll-step = 5;
+      on-click-right = "pavucontrol";
+      tooltip = false;
+    };
+
+    "custom/launcher" = {
+      format = "{}";
+      size = 18;
+      # on-click = "notify-send -t 1 'swww' '1' & ~/.config/hypr/scripts/wall";
+      tooltip = false;
+    
+				};
+			};
+			};
+		    };
 		    programs.rofi.enable = true;
 		    services.spotifyd.enable = true;
 		    programs.firefox.enable = true;
@@ -126,7 +293,15 @@
                     };
                   };
                 };
-                environment.systemPackages = [pkgs.gh pkgs.spotify pkgs.dunst];
+                environment.systemPackages = [
+			pkgs.gh
+			pkgs.spotify
+			pkgs.dunst
+			pkgs.swww
+			pkgs.wl-clipboard
+		];
+		xdg.portal.enable = true;
+		xdg.portal.wlr.enable = true;
 		sound.enable = true;
 		security.rtkit.enable = true;
 		services.pipewire = {
