@@ -49,6 +49,12 @@
                   src = gruvbox-baby;
                   version = "0.1";
                 };
+		hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
+			swww init &
+			waybar &
+			swww img "/home/valde/Downloads/horse.jpg" &
+			dunst
+		'';
               in {
 	      nixpkgs.config.allowUnfree = true;
                 users.users.${machine} = {
@@ -77,6 +83,7 @@
 		      bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
 		      bind = $mod SHIFT, Q, killactive,
 		      bind = $mod, D, exec, rofi -show drun -show-icons
+		      bind = $mod SHIFT, S, exec, slurp | grim -g - - | wl-copy -t image/png
 
 		      bind = $mod, right, movefocus, r
 		      bind = $mod, left, movefocus, l
@@ -101,10 +108,7 @@
 		      monitor = DP-3,3440x1440@100,3440x0,1
 		      monitor = DP-1,1920x1080@144,6880x0,1
 
-		      exec-once=swww init
-		      exec-once=waybar
-		      exec-once=swww img "/home/valde/Downloads/horse.jpg"
-		      exec-once=dunst
+		      exec-once=bash ${hyprland-startup}
 		    '';
 		    home  = {
 		    	pointerCursor = {
@@ -298,6 +302,8 @@
 			pkgs.spotify
 			pkgs.dunst
 			pkgs.swww
+			pkgs.grim
+			pkgs.slurp
 			pkgs.wl-clipboard
 		];
 		xdg.portal.enable = true;
