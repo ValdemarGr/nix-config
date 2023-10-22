@@ -37,7 +37,7 @@
         modules = [
           ./system/machine/home
           home-manager.nixosModules.home-manager
-          ({ pkgs, ... }:
+          ({ pkgs, lib, ... }:
             let
               nvim-telescope-plugin = pkgs.vimUtils.buildVimPlugin {
                 pname = "telescope.nvim";
@@ -304,133 +304,108 @@
                   '';
                   programs.waybar = {
                     enable = true;
-                    settings = {
-                      mainBar = {
-                        position = "top";
-                        layer = "top";
-                        height = 42;
-                        margin-top = 0;
-                        margin-bottom = 0;
-                        margin-left = 0;
-                        margin-right = 0;
-                        modules-left = [ "custom/launcher" "custom/playerctl" "custom/playerlabel" ];
-                        modules-center = [
-                          "hyprland/workspaces"
-                          # "cpu"
-                          # "memory"
-                          # "disk"
-                        ];
+                    settings = 
+		    let 
+			base = {
+				position = "top";
+				layer = "top";
+				height = 42;
+				margin-top = 0;
+				margin-bottom = 0;
+				margin-left = 0;
+				margin-right = 0;
+				modules-center = [
+				  "hyprland/workspaces"
+				];
+				"hyprland/workspaces" = {
+				  active-only = true;
+				  all-outputs = false;
+				  disable-scroll = false;
+				  on-scroll-up = "hyprctl dispatch workspace e-1";
+				  on-scroll-down = "hyprctl dispatch workspace e+1";
+				  on-click = "activate";
+				  show-special = "false";
+				  sort-by-number = true;
+				  format= "{id}: {name}";
+				};
+		    };
+		    in
+		    [
+		    (lib.mkMerge [
+			base
+			({
+				output = ["DP-1" "DP-2"];
+			})
+		    ])
+		    (lib.mkMerge [
+		    base
+		    ({
+				output = [
+					"DP-3"
+				];
 
-                        modules-right = [
-                          "tray"
-                          "pulseaudio"
-                          "clock"
-                        ];
+				modules-right = [
+				  "cpu"
+				  "memory"
+				  "disk"
+				  "tray"
+				  "pulseaudio"
+				  "clock"
+				];
 
-                        clock = {
-                          format = "󱑍 {:%H:%M}";
-                          tooltip = false;
-                          tooltip-format = ''
-                            <big>{:%Y %B}</big>
-                            <tt><small>{calendar}</small></tt>'';
-                          format-alt = " {:%d/%m}";
-                        };
+				clock = {
+				  format = "󱑍 {:%H:%M}";
+				  tooltip = false;
+				  tooltip-format = ''
+				    <big>{:%Y %B}</big>
+				    <tt><small>{calendar}</small></tt>'';
+				  format-alt = " {:%d/%m}";
+				};
 
-                        "hyprland/workspaces" = {
-                          active-only = true;
-                          all-outputs = false;
-                          disable-scroll = false;
-                          on-scroll-up = "hyprctl dispatch workspace e-1";
-                          on-scroll-down = "hyprctl dispatch workspace e+1";
-                          on-click = "activate";
-                          show-special = "false";
-                          sort-by-number = true;
-  format= "{id}: {name}";
-                        };
+				memory = {
+				  format = "󰍛 {}%";
+				  format-alt = "󰍛 {used}/{total} GiB";
+				  interval = 30;
+				};
 
-                        "custom/playerctl" = {
-                          format = "{icon}";
-                          return-type = "json";
-                          max-length = 25;
-                          exec = ''
-                            playerctl -a metadata --format '{"text": "{{artist}} - {{markup_escape(title)}}", "tooltip": "{{playerName}} : {{markup_escape(title)}}", "alt": "{{status}}", "class": "{{status}}"}' -F'';
-                          on-click-middle = "playerctl play-pause";
-                          on-click = "playerctl previous";
-                          on-click-right = "playerctl next";
-                          format-icons = {
-                            Playing = "<span foreground='#6791eb'>󰓇 </span>";
-                            Paused = "<span foreground='#cdd6f4'>󰓇 </span>";
-                          };
-                          tooltip = false;
-                        };
+				cpu = {
+				  format = "󰻠 {usage}%";
+				  format-alt = "󰻠 {avg_frequency} GHz";
+				  interval = 10;
+				};
 
-                        "custom/playerlabel" = {
-                          format = "<span>{}</span>";
-                          return-type = "json";
-                          max-length = 25;
-                          exec = ''
-                            playerctl -a metadata --format '{"text": "{{artist}} - {{markup_escape(title)}}", "tooltip": "{{playerName}} : {{markup_escape(title)}}", "alt": "{{status}}", "class": "{{status}}"}' -F'';
-                          on-click-middle = "playerctl play-pause";
-                          on-click = "playerctl previous";
-                          on-click-right = "playerctl next";
-                          format-icons = {
-                            Playing = "<span foreground='#6791eb'>󰓇 </span>";
-                            Paused = "<span foreground='#cdd6f4'>󰓇 </span>";
-                          };
-                          tooltip = false;
-                        };
+				disk = {
+				  format = "󰋊 {}%";
+				  format-alt = "󰋊 {used}/{total} GiB";
+				  interval = 30;
+				  path = "/";
+				};
 
-                        memory = {
-                          format = "󰍛 {}%";
-                          format-alt = "󰍛 {used}/{total} GiB";
-                          interval = 30;
-                        };
+				tray = {
+				  icon-size = 18;
+				  spacing = 10;
+				  tooltip = false;
+				};
 
-                        cpu = {
-                          format = "󰻠 {usage}%";
-                          format-alt = "󰻠 {avg_frequency} GHz";
-                          interval = 10;
-                        };
-
-                        disk = {
-                          format = "󰋊 {}%";
-                          format-alt = "󰋊 {used}/{total} GiB";
-                          interval = 30;
-                          path = "/";
-                        };
-
-                        tray = {
-                          icon-size = 18;
-                          spacing = 10;
-                          tooltip = false;
-                        };
-
-                        pulseaudio = {
-                          format = "{icon} {volume}%";
-                          format-muted = "";
-                          format-icons = { default = [ "" "" "" ]; };
-                          on-click = "bash ~/.config/hypr/scripts/volume mute";
-                          on-scroll-up = "bash ~/.config/hypr/scripts/volume up";
-                          on-scroll-down = "bash ~/.config/hypr/scripts/volume down";
-                          scroll-step = 5;
-                          on-click-right = "pavucontrol";
-                          tooltip = false;
-                        };
-
-                        "custom/launcher" = {
-                          format = "{}";
-                          size = 18;
-                          # on-click = "notify-send -t 1 'swww' '1' & ~/.config/hypr/scripts/wall";
-                          tooltip = false;
-
-                        };
-                      };
-                    };
+				pulseaudio = {
+				  format = "{icon} {volume}%";
+				  format-muted = "";
+				  format-icons = { default = [ "" "" "" ]; };
+				  on-click = "bash ~/.config/hypr/scripts/volume mute";
+				  on-scroll-up = "bash ~/.config/hypr/scripts/volume up";
+				  on-scroll-down = "bash ~/.config/hypr/scripts/volume down";
+				  scroll-step = 5;
+				  on-click-right = "pavucontrol";
+				  tooltip = false;
+				};
+			    })
+			    ])
+		    ];
 		    style = ''
 		    	* {
 				border: none;
 				border-radius: 0;
-				font-size: 14px;
+				font-size: 18px;
 				min-height: 0;
 				font-family: "FiraCode Nerd Font", "Font Awesome 6 Free";
 			}
@@ -439,18 +414,13 @@
 				background: none;/*#211818;*/
 /*color: #e5e9f0;*/
 			}
-@define-color text       #BECBCB;
-
-@keyframes popout {
-  0% {
-  	background-color: #ffffff;
-  }
-  100% {
-  	background-color: #333333;
-  }
-}
-
-#workspaces button {
+#clock,
+#tray,
+#cpu,
+#memory,
+#disk,
+#workspaces button,
+#pulseaudio {
   background-color: #333333;/*transparent;*/
   color: @text;
   /* border: 1px solid @darkgray; */
@@ -467,6 +437,16 @@ background-clip: padding-box;
   /*border: 3px solid #ffffff;*/
 }
 
+@define-color text       #BECBCB;
+
+@keyframes popout {
+  0% {
+  	background-color: #ffffff;
+  }
+  100% {
+  	background-color: #333333;
+  }
+}
 
 #workspaces button.active {
 
