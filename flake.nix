@@ -12,29 +12,37 @@
       url = "github:akhiljalagam/rofi-fontawesome";
       flake = false;
     };
-    nvim-telescope = {
+    nvim-telescope-plugin = {
       url = "github:nvim-telescope/telescope.nvim/7011eaae0ac1afe036e30c95cf80200b8dc3f21a";
       flake = false;
     };
-    vim-fugitive = {
+    vim-fugitive-plugin = {
       url = "github:tpope/vim-fugitive/cbe9dfa162c178946afa689dd3f42d4ea8bf89c1";
       flake = false;
     };
-    gruvbox-baby = {
+    gruvbox-baby-plugin = {
       url = "github:valdemargr/gruvbox-baby/f65fe30691db64e8ca32aa6fba0cf07703adca28";
       flake = false;
     };
-    nvim-metals = {
+    nvim-metals-plugin = {
       url = "github:scalameta/nvim-metals/dfcb4f5d915fbc98e6b9b910fbe975b2fbda3227";
       flake = false;
     };
-    plenary = {
+    plenary-plugin = {
       url = "github:nvim-lua/plenary.nvim/50012918b2fc8357b87cff2a7f7f0446e47da174";
+      flake = false;
+    };
+    vim-rhubarb-plugin = {
+      url = "github:tpope/vim-rhubarb/ee69335de176d9325267b0fd2597a22901d927b1";
+      flake = false;
+    };
+    undotree-plugin = {
+      url = "github:mbbill/undotree/0e11ba7325efbbb3f3bebe06213afa3e7ec75131";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager, nvim-telescope, vim-fugitive, gruvbox-baby, rofi-unicode-list, nvim-metals, plenary }:
+  outputs = { self, nixpkgs, flake-utils, home-manager, rofi-unicode-list, ... }@inputs:
     let
       system = flake-utils.lib.system.x86_64-linux;
       machine = "valde";
@@ -67,31 +75,18 @@
                 extraJavaOpts = old.extraJavaOpts + " -Dmetals.client=nvim-lsp";
                 buildInputs = [ metals-deps ];
               });
-              nvim-telescope-plugin = pkgs.vimUtils.buildVimPlugin {
-                pname = "telescope.nvim";
-                src = nvim-telescope;
-                version = "0.1.4";
-              };
-              vim-fugitive-plugin = pkgs.vimUtils.buildVimPlugin {
-                pname = "vim-fugitive";
-                src = vim-fugitive;
-                version = "3.1";
-              };
-              gruvbox-baby-plugin = pkgs.vimUtils.buildVimPlugin {
-                pname = "gruvbox-baby";
-                src = gruvbox-baby;
-                version = "0.1";
-              };
-	      nvim-metals-plugin = pkgs.vimUtils.buildVimPlugin {
-	      	pname = "nvim-metals";
-		src = nvim-metals;
-		version = "0.1";
-	      };
-	      plenary-plugin = pkgs.vimUtils.buildVimPlugin {
-	      	pname = "plenary.nvim";
-		src = plenary;
-		version = "0.1";
-	      };
+	      vim-plugin-keys = lib.lists.filter
+	      	(key: lib.strings.hasSuffix "-plugin" key)
+		(lib.attrNames inputs)
+	      ;
+	      vim-plugins = lib.lists.map
+	        (key: (pkgs.vimUtils.buildVimPlugin {
+		  pname = key;
+		  src = inputs."${key}";
+		  version = "0.1";
+		}))
+		vim-plugin-keys
+	      ;
               hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
                 			swww init &
                 			waybar &
@@ -551,13 +546,13 @@
                     {
                       enable = true;
                       defaultEditor = true;
-                      plugins = [
+                      plugins = vim-plugins;/*[
                         nvim-telescope-plugin
                         vim-fugitive-plugin
                         gruvbox-baby-plugin
 			nvim-metals-plugin
 			plenary-plugin
-                      ];
+                      ];*/
 		      extraLuaConfig = ''
 
 		        vim.opt_global.shortmess:remove("F")
@@ -581,6 +576,12 @@
 		      '';
                       extraConfig = ''
                         set number relativenumber
+			syntax on
+			let g:gruvbox_termcolors = 256
+			set background=dark
+			let g:gruvbox_contrast_dark='hard'
+			colorscheme gruvbox-baby
+			highlight Pmenu ctermbg=black guibg=#222222
                       '';
                     };
                 };

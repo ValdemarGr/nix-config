@@ -18,7 +18,7 @@
         "type": "github"
       }
     },
-    "gruvbox-baby": {
+    "gruvbox-baby-plugin": {
       "flake": false,
       "locked": {
         "lastModified": 1695824412,
@@ -70,7 +70,7 @@
         "type": "indirect"
       }
     },
-    "nvim-metals": {
+    "nvim-metals-plugin": {
       "flake": false,
       "locked": {
         "lastModified": 1697807988,
@@ -87,7 +87,7 @@
         "type": "github"
       }
     },
-    "nvim-telescope": {
+    "nvim-telescope-plugin": {
       "flake": false,
       "locked": {
         "lastModified": 1697004956,
@@ -104,7 +104,7 @@
         "type": "github"
       }
     },
-    "plenary": {
+    "plenary-plugin": {
       "flake": false,
       "locked": {
         "lastModified": 1697031827,
@@ -140,14 +140,16 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "gruvbox-baby": "gruvbox-baby",
+        "gruvbox-baby-plugin": "gruvbox-baby-plugin",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "nvim-metals": "nvim-metals",
-        "nvim-telescope": "nvim-telescope",
-        "plenary": "plenary",
+        "nvim-metals-plugin": "nvim-metals-plugin",
+        "nvim-telescope-plugin": "nvim-telescope-plugin",
+        "plenary-plugin": "plenary-plugin",
         "rofi-unicode-list": "rofi-unicode-list",
-        "vim-fugitive": "vim-fugitive"
+        "undotree-plugin": "undotree-plugin",
+        "vim-fugitive-plugin": "vim-fugitive-plugin",
+        "vim-rhubarb-plugin": "vim-rhubarb-plugin"
       }
     },
     "systems": {
@@ -165,7 +167,24 @@
         "type": "github"
       }
     },
-    "vim-fugitive": {
+    "undotree-plugin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1688756648,
+        "narHash": "sha256-aB2ikgOVXGRGtBemNcrGwzH51Ab4DVjRUXpku7fepZc=",
+        "owner": "mbbill",
+        "repo": "undotree",
+        "rev": "0e11ba7325efbbb3f3bebe06213afa3e7ec75131",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mbbill",
+        "repo": "undotree",
+        "rev": "0e11ba7325efbbb3f3bebe06213afa3e7ec75131",
+        "type": "github"
+      }
+    },
+    "vim-fugitive-plugin": {
       "flake": false,
       "locked": {
         "lastModified": 1696899192,
@@ -179,6 +198,23 @@
         "owner": "tpope",
         "repo": "vim-fugitive",
         "rev": "cbe9dfa162c178946afa689dd3f42d4ea8bf89c1",
+        "type": "github"
+      }
+    },
+    "vim-rhubarb-plugin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1680085333,
+        "narHash": "sha256-8zeQMLzNBWmXZ5daCOmsHkw6MIwWislArYF5zDdrwOg=",
+        "owner": "tpope",
+        "repo": "vim-rhubarb",
+        "rev": "ee69335de176d9325267b0fd2597a22901d927b1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tpope",
+        "repo": "vim-rhubarb",
+        "rev": "ee69335de176d9325267b0fd2597a22901d927b1",
         "type": "github"
       }
     }
