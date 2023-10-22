@@ -24,12 +24,17 @@
       url = "github:valdemargr/gruvbox-baby/f65fe30691db64e8ca32aa6fba0cf07703adca28";
       flake = false;
     };
+    nvim-metals = {
+      url = "github:scalameta/nvim-metals/dfcb4f5d915fbc98e6b9b910fbe975b2fbda3227";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager, nvim-telescope, vim-fugitive, gruvbox-baby, rofi-unicode-list }:
+  outputs = { self, nixpkgs, flake-utils, home-manager, nvim-telescope, vim-fugitive, gruvbox-baby, rofi-unicode-list, nvim-metals }:
     let
       system = flake-utils.lib.system.x86_64-linux;
       machine = "valde";
+      metals-version = "1.1.0";
     in
     {
       nixosConfigurations.${machine} = nixpkgs.lib.nixosSystem {
@@ -39,6 +44,25 @@
           home-manager.nixosModules.home-manager
           ({ pkgs, lib, ... }:
             let
+              metals-deps = pkgs.stdenv.mkDerivation {
+                name = "metals-deps-${metals-version}";
+                buildCommand = ''
+                  		      export COURSIER_CACHE=$(pwd)
+                  		      ${pkgs.coursier}/bin/cs fetch org.scalameta:metals_2.13:${metals-version} \
+                  			-r bintray:scalacenter/releases \
+                  			-r sonatype:snapshots > deps
+                  		      mkdir -p $out/share/java
+                  		      cp -n $(< deps) $out/share/java/
+                  		    '';
+                outputHashMode = "recursive";
+                outputHashAlgo = "sha256";
+                outputHash = "sha256-9zigJM0xEJSYgohbjc9ZLBKbPa/WGVSv3KVFE3QUzWE=";
+              };
+              metals-pkg = pkgs.metals.overrideAttrs (old: {
+                version = metals-version;
+                extraJavaOpts = old.extraJavaOpts + " -Dmetals.client=nvim-lsp";
+                buildInputs = [ metals-deps ];
+              });
               nvim-telescope-plugin = pkgs.vimUtils.buildVimPlugin {
                 pname = "telescope.nvim";
                 src = nvim-telescope;
@@ -54,6 +78,11 @@
                 src = gruvbox-baby;
                 version = "0.1";
               };
+	      nvim-metals-plugin = pkgs.vimUtils.buildVimPlugin {
+	      	pname = "nvim-metals";
+		src = nvim-metals;
+		version = "0.1";
+	      };
               hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
                 			swww init &
                 			waybar &
@@ -91,53 +120,53 @@
                   wayland.windowManager.hyprland.enable = true;
                   wayland.windowManager.hyprland.xwayland.enable = true;
                   wayland.windowManager.hyprland.extraConfig = ''
-                    		      $mod = SUPER
-                    		      bind = $mod, F, fullscreen, 9
-                    		      bind = $mod, RETURN, exec, kitty
-                    		      bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
-                    		      bind = $mod SHIFT, Q, killactive,
-                    		      bind = $mod, D, exec, rofi -show drun -show-icons
-                    		      bind = $mod SHIFT, S, exec, slurp | grim -g - - | wl-copy -t image/png
-				      bind = $mod, N, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(rofi -dmenu -lines 0 -p 'Workspace name') && killall -SIGUSR2 waybar
-				      bind = $mod, I, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(cat ${rofi-unicode-list}/unicode-list.txt | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
+                                        		      $mod = SUPER
+                                        		      bind = $mod, F, fullscreen, 9
+                                        		      bind = $mod, RETURN, exec, kitty
+                                        		      bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
+                                        		      bind = $mod SHIFT, Q, killactive,
+                                        		      bind = $mod, D, exec, rofi -show drun -show-icons
+                                        		      bind = $mod SHIFT, S, exec, slurp | grim -g - - | wl-copy -t image/png
+                    				      bind = $mod, N, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(rofi -dmenu -lines 0 -p 'Workspace name') && killall -SIGUSR2 waybar
+                    				      bind = $mod, I, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(cat ${rofi-unicode-list}/unicode-list.txt | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
 
-                    		      bind = $mod, right, movefocus, r
-                    		      bind = $mod, left, movefocus, l
-                    		      bind = $mod, up, movefocus, u
-                    		      bind = $mod, down, movefocus, d
+                                        		      bind = $mod, right, movefocus, r
+                                        		      bind = $mod, left, movefocus, l
+                                        		      bind = $mod, up, movefocus, u
+                                        		      bind = $mod, down, movefocus, d
 
-                    		      bind = $mod SHIFT, right, movewindow, r
-                    		      bind = $mod SHIFT, left, movewindow, l
-                    		      bind = $mod SHIFT, up, movewindow, u
-                    		      bind = $mod SHIFT, down, movewindow, d
+                                        		      bind = $mod SHIFT, right, movewindow, r
+                                        		      bind = $mod SHIFT, left, movewindow, l
+                                        		      bind = $mod SHIFT, up, movewindow, u
+                                        		      bind = $mod SHIFT, down, movewindow, d
 
-                    		      bind = $mod SHIFT CTRL, right, movecurrentworkspacetomonitor, r
-                    		      bind = $mod SHIFT CTRL, left, movecurrentworkspacetomonitor, l
-                    		      bind = $mod SHIFT CTRL, up, workspace, m+1
-                    		      bind = $mod SHIFT CTRL, down, workspace, m-1
+                                        		      bind = $mod SHIFT CTRL, right, movecurrentworkspacetomonitor, r
+                                        		      bind = $mod SHIFT CTRL, left, movecurrentworkspacetomonitor, l
+                                        		      bind = $mod SHIFT CTRL, up, workspace, m+1
+                                        		      bind = $mod SHIFT CTRL, down, workspace, m-1
 
-                    		      bind = $mod, 0, workspace, 0
-                    		      bind = $mod, 1, workspace, 1
-                    		      bind = $mod, 2, workspace, 2
-                    		      bind = $mod, 3, workspace, 3
-                    		      bind = $mod, 4, workspace, 4
-                    		      bind = $mod, 5, workspace, 5
-                    		      bind = $mod, 6, workspace, 6
-                    		      bind = $mod, 7, workspace, 7
-                    		      bind = $mod, 8, workspace, 8
-                    		      bind = $mod, 9, workspace, 9
+                                        		      bind = $mod, 0, workspace, 0
+                                        		      bind = $mod, 1, workspace, 1
+                                        		      bind = $mod, 2, workspace, 2
+                                        		      bind = $mod, 3, workspace, 3
+                                        		      bind = $mod, 4, workspace, 4
+                                        		      bind = $mod, 5, workspace, 5
+                                        		      bind = $mod, 6, workspace, 6
+                                        		      bind = $mod, 7, workspace, 7
+                                        		      bind = $mod, 8, workspace, 8
+                                        		      bind = $mod, 9, workspace, 9
 
-                    		      general {
-                    		        gaps_in = 5
-                    			gaps_out = 12
-                    		      }
-                    		      monitor = DP-2,3440x1440@100,0x0,1
-                    		      monitor = DP-3,3440x1440@100,3440x0,1
-                    		      monitor = DP-1,1920x1080@144,6880x0,1
-                    		      monitor = ,addreserved,-12,0,0,0
+                                        		      general {
+                                        		        gaps_in = 5
+                                        			gaps_out = 12
+                                        		      }
+                                        		      monitor = DP-2,3440x1440@100,0x0,1
+                                        		      monitor = DP-3,3440x1440@100,3440x0,1
+                                        		      monitor = DP-1,1920x1080@144,6880x0,1
+                                        		      monitor = ,addreserved,-12,0,0,0
 
-                    		      exec-once=bash ${hyprland-startup}
-                    		    '';
+                                        		      exec-once=bash ${hyprland-startup}
+                                        		    '';
                   home = {
                     pointerCursor = {
                       gtk.enable = true;
@@ -304,220 +333,228 @@
                   '';
                   programs.waybar = {
                     enable = true;
-                    settings = 
-		    let 
-			base = {
-				position = "top";
-				layer = "top";
-				height = 42;
-				margin-top = 0;
-				margin-bottom = 0;
-				margin-left = 0;
-				margin-right = 0;
-				modules-center = [
-				  "hyprland/workspaces"
-				];
-				"hyprland/workspaces" = {
-				  active-only = true;
-				  all-outputs = false;
-				  disable-scroll = false;
-				  on-scroll-up = "hyprctl dispatch workspace e-1";
-				  on-scroll-down = "hyprctl dispatch workspace e+1";
-				  on-click = "activate";
-				  show-special = "false";
-				  sort-by-number = true;
-				  format= "{id}: {name}";
-				};
-		    };
-		    in
-		    [
-		    (lib.mkMerge [
-			base
-			({
-				output = ["DP-1" "DP-2"];
-			})
-		    ])
-		    (lib.mkMerge [
-		    base
-		    ({
-				output = [
-					"DP-3"
-				];
+                    settings =
+                      let
+                        base = {
+                          position = "top";
+                          layer = "top";
+                          height = 42;
+                          margin-top = 0;
+                          margin-bottom = 0;
+                          margin-left = 0;
+                          margin-right = 0;
+                          modules-center = [
+                            "hyprland/workspaces"
+                          ];
+                          "hyprland/workspaces" = {
+                            active-only = true;
+                            all-outputs = false;
+                            disable-scroll = false;
+                            on-scroll-up = "hyprctl dispatch workspace e-1";
+                            on-scroll-down = "hyprctl dispatch workspace e+1";
+                            on-click = "activate";
+                            show-special = "false";
+                            sort-by-number = true;
+                            format = "{id}: {name}";
+                          };
+                        };
+                      in
+                      [
+                        (lib.mkMerge [
+                          base
+                          ({
+                            output = [ "DP-1" "DP-2" ];
+                          })
+                        ])
+                        (lib.mkMerge [
+                          base
+                          ({
+                            output = [
+                              "DP-3"
+                            ];
 
-				modules-right = [
-				  "cpu"
-				  "memory"
-				  "disk"
-				  "tray"
-				  "pulseaudio"
-				  "clock"
-				];
+                            modules-right = [
+                              "cpu"
+                              "memory"
+                              "disk"
+                              "tray"
+                              "pulseaudio"
+                              "clock"
+                            ];
 
-				clock = {
-				  format = "󱑍 {:%H:%M}";
-				  tooltip = false;
-				  tooltip-format = ''
-				    <big>{:%Y %B}</big>
-				    <tt><small>{calendar}</small></tt>'';
-				  format-alt = " {:%d/%m}";
-				};
+                            clock = {
+                              format = "󱑍 {:%H:%M}";
+                              tooltip = false;
+                              tooltip-format = ''
+                                				    <big>{:%Y %B}</big>
+                                				    <tt><small>{calendar}</small></tt>'';
+                              format-alt = " {:%d/%m}";
+                            };
 
-				memory = {
-				  format = "󰍛 {}%";
-				  format-alt = "󰍛 {used}/{total} GiB";
-				  interval = 30;
-				};
+                            memory = {
+                              format = "󰍛 {}%";
+                              format-alt = "󰍛 {used}/{total} GiB";
+                              interval = 30;
+                            };
 
-				cpu = {
-				  format = "󰻠 {usage}%";
-				  format-alt = "󰻠 {avg_frequency} GHz";
-				  interval = 10;
-				};
+                            cpu = {
+                              format = "󰻠 {usage}%";
+                              format-alt = "󰻠 {avg_frequency} GHz";
+                              interval = 10;
+                            };
 
-				disk = {
-				  format = "󰋊 {}%";
-				  format-alt = "󰋊 {used}/{total} GiB";
-				  interval = 30;
-				  path = "/";
-				};
+                            disk = {
+                              format = "󰋊 {}%";
+                              format-alt = "󰋊 {used}/{total} GiB";
+                              interval = 30;
+                              path = "/";
+                            };
 
-				tray = {
-				  icon-size = 18;
-				  spacing = 10;
-				  tooltip = false;
-				};
+                            tray = {
+                              icon-size = 18;
+                              spacing = 10;
+                              tooltip = false;
+                            };
 
-				pulseaudio = {
-				  format = "{icon} {volume}%";
-				  format-muted = "";
-				  format-icons = { default = [ "" "" "" ]; };
-				  on-click = "bash ~/.config/hypr/scripts/volume mute";
-				  on-scroll-up = "bash ~/.config/hypr/scripts/volume up";
-				  on-scroll-down = "bash ~/.config/hypr/scripts/volume down";
-				  scroll-step = 5;
-				  on-click-right = "pavucontrol";
-				  tooltip = false;
-				};
-			    })
-			    ])
-		    ];
-		    style = ''
-		    	* {
-				border: none;
-				border-radius: 0;
-				font-size: 18px;
-				min-height: 0;
-				font-family: "FiraCode Nerd Font", "Font Awesome 6 Free";
-			}
+                            pulseaudio = {
+                              format = "{icon} {volume}%";
+                              format-muted = "";
+                              format-icons = { default = [ "" "" "" ]; };
+                              on-click = "bash ~/.config/hypr/scripts/volume mute";
+                              on-scroll-up = "bash ~/.config/hypr/scripts/volume up";
+                              on-scroll-down = "bash ~/.config/hypr/scripts/volume down";
+                              scroll-step = 5;
+                              on-click-right = "pavucontrol";
+                              tooltip = false;
+                            };
+                          })
+                        ])
+                      ];
+                    style = ''
+                      		    	* {
+                      				border: none;
+                      				border-radius: 0;
+                      				font-size: 18px;
+                      				min-height: 0;
+                      				font-family: "FiraCode Nerd Font", "Font Awesome 6 Free";
+                      			}
 
-			window#waybar {
-				background: none;/*#211818;*/
-/*color: #e5e9f0;*/
-			}
-#clock,
-#tray,
-#cpu,
-#memory,
-#disk,
-#workspaces button,
-#pulseaudio {
-  background-color: #333333;/*transparent;*/
-  color: @text;
-  /* border: 1px solid @darkgray; */
-  padding: 4px 15px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left: 1px;
-  margin-right: 1px;
-  border-radius: 15px;
-  transition: all 0.3s ease;
-background-clip: padding-box;
-  border: 3px solid transparent;
-  animation: popout 0.5s ease;
-  /*border: 3px solid #ffffff;*/
-}
+                      			window#waybar {
+                      				background: none;/*#211818;*/
+                      /*color: #e5e9f0;*/
+                      			}
+                      #clock,
+                      #tray,
+                      #cpu,
+                      #memory,
+                      #disk,
+                      #workspaces button,
+                      #pulseaudio {
+                        background-color: #333333;/*transparent;*/
+                        color: @text;
+                        /* border: 1px solid @darkgray; */
+                        padding: 4px 15px;
+                        margin-top: 5px;
+                        margin-bottom: 5px;
+                        margin-left: 1px;
+                        margin-right: 1px;
+                        border-radius: 15px;
+                        transition: all 0.3s ease;
+                      background-clip: padding-box;
+                        border: 3px solid transparent;
+                        animation: popout 0.5s ease;
+                        /*border: 3px solid #ffffff;*/
+                      }
 
-@define-color text       #BECBCB;
+                      @define-color text       #BECBCB;
 
-@keyframes popout {
-  0% {
-  	background-color: #ffffff;
-  }
-  100% {
-  	background-color: #333333;
-  }
-}
+                      @keyframes popout {
+                        0% {
+                        	background-color: #ffffff;
+                        }
+                        100% {
+                        	background-color: #333333;
+                        }
+                      }
 
-#workspaces button.active {
+                      #workspaces button.active {
 
-  border: 3px solid #7aa2f7;
+                        border: 3px solid #7aa2f7;
 
-  transition: all 0.3s ease-in-out;
+                        transition: all 0.3s ease-in-out;
 
-}
-/*
-			#workspaces {
-				  background: rgba(26, 27, 38, 1);
+                      }
+                      /*
+                      			#workspaces {
+                      				  background: rgba(26, 27, 38, 1);
 
-  padding: 0 10px;
+                        padding: 0 10px;
 
-  border: 0;
-			}*/
-		    '';
+                        border: 0;
+                      			}*/
+                      		    '';
                   };
                   programs.rofi = {
-		  	enable = true;
-			plugins = [ 
-				pkgs.rofi-emoji 
-			];
-		  };
+                    enable = true;
+                    plugins = [
+                      pkgs.rofi-emoji
+                    ];
+                  };
                   services.spotifyd.enable = true;
                   programs.firefox.enable = true;
                   wayland.windowManager.sway.enable = true;
-		  programs.tmux = {
-		  	enable = true;
-			clock24 = true;
-			shell = "${pkgs.zsh}/bin/zsh";
-			extraConfig = ''
-setw -g mode-keys vi
+                  programs.tmux = {
+                    enable = true;
+                    clock24 = true;
+                    shell = "${pkgs.zsh}/bin/zsh";
+                    extraConfig = ''
+                      setw -g mode-keys vi
 
-# set refresh interval for status bar
-set -g status-interval 30
+                      # set refresh interval for status bar
+                      set -g status-interval 30
 
-# center the status bar
-set -g status-justify left
+                      # center the status bar
+                      set -g status-justify left
 
-# show session, window, pane in left status bar
-set -g status-left-length 40
-set -g status-left '#I:#P #[default]'
+                      # show session, window, pane in left status bar
+                      set -g status-left-length 40
+                      set -g status-left '#I:#P #[default]'
 
-set-window-option -g xterm-keys on
-set -sg escape-time 0
-set -g history-limit 40000
+                      set-window-option -g xterm-keys on
+                      set -sg escape-time 0
+                      set -g history-limit 40000
 
-# Add truecolor support
-set -g default-terminal "kitty"
-set-option -g terminal-overrides ",kitty:Tc"
-set -g focus-events on
-			'';
-		  };
+                      # Add truecolor support
+                      set -g default-terminal "kitty"
+                      set-option -g terminal-overrides ",kitty:Tc"
+                      set -g focus-events on
+                      			'';
+                  };
                   programs.git = {
                     enable = true;
                     userName = "Valdemar Grange";
                     userEmail = "randomvald0069@gmail.com";
                   };
-                  programs.neovim = {
-                    enable = true;
-                    defaultEditor = true;
-                    plugins = [
-                      nvim-telescope-plugin
-                      vim-fugitive-plugin
-                      gruvbox-baby-plugin
-                    ];
-                    extraConfig = ''
-                      set number relativenumber
-                    '';
-                  };
+                  programs.neovim =
+                    let
+                      a = "a";
+                    in
+                    {
+                      enable = true;
+                      defaultEditor = true;
+                      plugins = [
+                        nvim-telescope-plugin
+                        vim-fugitive-plugin
+                        gruvbox-baby-plugin
+			nvim-metals-plugin
+                      ];
+		      extraLuaConfig = ''
+		        data = ${metals-pkg}/bin/metals
+		      '';
+                      extraConfig = ''
+                        set number relativenumber
+                      '';
+                    };
                 };
               };
               environment.systemPackages = [
@@ -530,7 +567,7 @@ set -g focus-events on
                 pkgs.slurp
                 pkgs.wl-clipboard
                 pkgs.discord
-		pkgs.busybox
+                pkgs.busybox
               ];
               programs.zsh.enable = true;
               xdg.portal.enable = true;

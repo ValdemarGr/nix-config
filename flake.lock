@@ -70,6 +70,23 @@
         "type": "indirect"
       }
     },
+    "nvim-metals": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697807988,
+        "narHash": "sha256-AdnMMwuiLMj2g0gRgqo4xHwkmwLqqyYgevE0de8nAeU=",
+        "owner": "scalameta",
+        "repo": "nvim-metals",
+        "rev": "dfcb4f5d915fbc98e6b9b910fbe975b2fbda3227",
+        "type": "github"
+      },
+      "original": {
+        "owner": "scalameta",
+        "repo": "nvim-metals",
+        "rev": "dfcb4f5d915fbc98e6b9b910fbe975b2fbda3227",
+        "type": "github"
+      }
+    },
     "nvim-telescope": {
       "flake": false,
       "locked": {
@@ -109,6 +126,7 @@
         "gruvbox-baby": "gruvbox-baby",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "nvim-metals": "nvim-metals",
         "nvim-telescope": "nvim-telescope",
         "rofi-unicode-list": "rofi-unicode-list",
         "vim-fugitive": "vim-fugitive"
