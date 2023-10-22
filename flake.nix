@@ -75,6 +75,9 @@
                     home.packages = [
 		    	pkgs.gh
 			pkgs.nerdfonts
+			#pkgs.powerline-fonts
+			#pkgs.powerline-symbols
+			#pkgs.font-awesome
 		    ];
 		    fonts.fontconfig.enable = true;
 #		  wayland.windowManager.sway.enable = true;
@@ -281,6 +284,10 @@ color14 #5da396
 color7  #977D5E
 color15 #ab9c71
 
+#font_family 3270 Nerd Font
+#font_family BlexMono Nerd Font
+font_family FiraCode Nerd Font
+font_size 15.0
 
 #: You can set the remaining 240 colors as color16 to color255.
 
