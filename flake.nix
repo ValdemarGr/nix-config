@@ -330,17 +330,14 @@
                         };
 
                         "hyprland/workspaces" = {
-                          active-only = false;
-                          all-outputs = true;
+                          active-only = true;
+                          all-outputs = false;
                           disable-scroll = false;
                           on-scroll-up = "hyprctl dispatch workspace e-1";
                           on-scroll-down = "hyprctl dispatch workspace e+1";
                           on-click = "activate";
                           show-special = "false";
                           sort-by-number = true;
-                          persistent_workspaces = {
-                            "*" = 10;
-                          };
                         };
 
                         "image" = {
@@ -461,6 +458,7 @@
                 pkgs.slurp
                 pkgs.wl-clipboard
                 pkgs.discord
+		pkgs.busybox
               ];
               programs.zsh.enable = true;
               xdg.portal.enable = true;
