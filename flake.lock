@@ -104,6 +104,23 @@
         "type": "github"
       }
     },
+    "plenary": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697031827,
+        "narHash": "sha256-zR44d9MowLG1lIbvrRaFTpO/HXKKrO6lbtZfvvTdx+o=",
+        "owner": "nvim-lua",
+        "repo": "plenary.nvim",
+        "rev": "50012918b2fc8357b87cff2a7f7f0446e47da174",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-lua",
+        "repo": "plenary.nvim",
+        "rev": "50012918b2fc8357b87cff2a7f7f0446e47da174",
+        "type": "github"
+      }
+    },
     "rofi-unicode-list": {
       "flake": false,
       "locked": {
@@ -128,6 +145,7 @@
         "nixpkgs": "nixpkgs",
         "nvim-metals": "nvim-metals",
         "nvim-telescope": "nvim-telescope",
+        "plenary": "plenary",
         "rofi-unicode-list": "rofi-unicode-list",
         "vim-fugitive": "vim-fugitive"
       }
