@@ -87,6 +87,22 @@
         "type": "github"
       }
     },
+    "rofi-unicode-list": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1612670013,
+        "narHash": "sha256-qmzMmf2vmsKmQR8Q7j3ede1vyhh30XIXx2URrblYz04=",
+        "owner": "akhiljalagam",
+        "repo": "rofi-fontawesome",
+        "rev": "a2b897207a18db1a86aa43278307e4bff4e6d958",
+        "type": "github"
+      },
+      "original": {
+        "owner": "akhiljalagam",
+        "repo": "rofi-fontawesome",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -94,6 +110,7 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nvim-telescope": "nvim-telescope",
+        "rofi-unicode-list": "rofi-unicode-list",
         "vim-fugitive": "vim-fugitive"
       }
     },

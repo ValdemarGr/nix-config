@@ -8,6 +8,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rofi-unicode-list = {
+      url = "github:akhiljalagam/rofi-fontawesome";
+      flake = false;
+    };
     nvim-telescope = {
       url = "github:nvim-telescope/telescope.nvim/7011eaae0ac1afe036e30c95cf80200b8dc3f21a";
       flake = false;
@@ -22,7 +26,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager, nvim-telescope, vim-fugitive, gruvbox-baby }:
+  outputs = { self, nixpkgs, flake-utils, home-manager, nvim-telescope, vim-fugitive, gruvbox-baby, rofi-unicode-list }:
     let
       system = flake-utils.lib.system.x86_64-linux;
       machine = "valde";
@@ -80,7 +84,7 @@
                     pkgs.nerdfonts
                     #pkgs.powerline-fonts
                     #pkgs.powerline-symbols
-                    #pkgs.font-awesome
+                    pkgs.font-awesome
                   ];
                   fonts.fontconfig.enable = true;
                   #		  wayland.windowManager.sway.enable = true;
@@ -94,6 +98,8 @@
                     		      bind = $mod SHIFT, Q, killactive,
                     		      bind = $mod, D, exec, rofi -show drun -show-icons
                     		      bind = $mod SHIFT, S, exec, slurp | grim -g - - | wl-copy -t image/png
+				      bind = $mod, N, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(rofi -dmenu -lines 0 -p 'Workspace name') && killall -SIGUSR2 waybar
+				      bind = $mod, I, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(cat ${rofi-unicode-list}/unicode-list.txt | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
 
                     		      bind = $mod, right, movefocus, r
                     		      bind = $mod, left, movefocus, l
@@ -339,7 +345,7 @@
                           on-click = "activate";
                           show-special = "false";
                           sort-by-number = true;
-  format= "{id}: {icon}";
+  format= "{id}: {name}";
                         };
 
                         "custom/playerctl" = {
@@ -426,6 +432,7 @@
 				border-radius: 0;
 				font-size: 14px;
 				min-height: 0;
+				font-family: "FiraCode Nerd Font", "Font Awesome 6 Free";
 			}
 
 			window#waybar {
@@ -452,7 +459,7 @@
   margin-bottom: 5px;
   margin-left: 1px;
   margin-right: 1px;
-  border-radius: 20px;
+  border-radius: 15px;
   transition: all 0.3s ease;
 background-clip: padding-box;
   border: 3px solid transparent;
@@ -478,7 +485,12 @@ background-clip: padding-box;
 			}*/
 		    '';
                   };
-                  programs.rofi.enable = true;
+                  programs.rofi = {
+		  	enable = true;
+			plugins = [ 
+				pkgs.rofi-emoji 
+			];
+		  };
                   services.spotifyd.enable = true;
                   programs.firefox.enable = true;
                   wayland.windowManager.sway.enable = true;
