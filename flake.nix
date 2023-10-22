@@ -122,12 +122,13 @@
                     		      bind = $mod, 9, workspace, 9
 
                     		      general {
-                    		        gaps_in = 0
+                    		        gaps_in = 5
                     			gaps_out = 12
                     		      }
                     		      monitor = DP-2,3440x1440@100,0x0,1
                     		      monitor = DP-3,3440x1440@100,3440x0,1
                     		      monitor = DP-1,1920x1080@144,6880x0,1
+                    		      monitor = ,addreserved,-12,0,0,0
 
                     		      exec-once=bash ${hyprland-startup}
                     		    '';
@@ -301,7 +302,7 @@
                       mainBar = {
                         position = "top";
                         layer = "top";
-                        height = 12;
+                        height = 42;
                         margin-top = 0;
                         margin-bottom = 0;
                         margin-left = 0;
@@ -338,12 +339,7 @@
                           on-click = "activate";
                           show-special = "false";
                           sort-by-number = true;
-                        };
-
-                        "image" = {
-                          exec = "bash ~/.scripts/album_art.sh";
-                          size = 18;
-                          interval = 10;
+  format= "{id}: {icon}";
                         };
 
                         "custom/playerctl" = {
@@ -424,11 +420,95 @@
                         };
                       };
                     };
+		    style = ''
+		    	* {
+				border: none;
+				border-radius: 0;
+				font-size: 14px;
+				min-height: 0;
+			}
+
+			window#waybar {
+				background: none;/*#211818;*/
+/*color: #e5e9f0;*/
+			}
+@define-color text       #BECBCB;
+
+@keyframes popout {
+  0% {
+  	background-color: #ffffff;
+  }
+  100% {
+  	background-color: #333333;
+  }
+}
+
+#workspaces button {
+  background-color: #333333;/*transparent;*/
+  color: @text;
+  /* border: 1px solid @darkgray; */
+  padding: 4px 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 1px;
+  margin-right: 1px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+background-clip: padding-box;
+  border: 3px solid transparent;
+  animation: popout 0.5s ease;
+  /*border: 3px solid #ffffff;*/
+}
+
+
+#workspaces button.active {
+
+  border: 3px solid #7aa2f7;
+
+  transition: all 0.3s ease-in-out;
+
+}
+/*
+			#workspaces {
+				  background: rgba(26, 27, 38, 1);
+
+  padding: 0 10px;
+
+  border: 0;
+			}*/
+		    '';
                   };
                   programs.rofi.enable = true;
                   services.spotifyd.enable = true;
                   programs.firefox.enable = true;
                   wayland.windowManager.sway.enable = true;
+		  programs.tmux = {
+		  	enable = true;
+			clock24 = true;
+			shell = "${pkgs.zsh}/bin/zsh";
+			extraConfig = ''
+setw -g mode-keys vi
+
+# set refresh interval for status bar
+set -g status-interval 30
+
+# center the status bar
+set -g status-justify left
+
+# show session, window, pane in left status bar
+set -g status-left-length 40
+set -g status-left '#I:#P #[default]'
+
+set-window-option -g xterm-keys on
+set -sg escape-time 0
+set -g history-limit 40000
+
+# Add truecolor support
+set -g default-terminal "kitty"
+set-option -g terminal-overrides ",kitty:Tc"
+set -g focus-events on
+			'';
+		  };
                   programs.git = {
                     enable = true;
                     userName = "Valdemar Grange";
