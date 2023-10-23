@@ -38,4 +38,15 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.opengl = {
+  	enable = true;
+	driSupport = true;
+	driSupport32Bit = true;
+  };
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware.nvidia = {
+  	modesetting.enable = true;
+	nvidiaSettings = true;
+	package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 }

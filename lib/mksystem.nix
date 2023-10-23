@@ -3,6 +3,7 @@
 let
   machine = "valde";
   metals-version = "1.1.0";
+  monitors = import ../system/machine/${name}/monitors.nix;
 in
 nixpkgs.lib.nixosSystem {
   system = inputs.flake-utils.lib.system.x86_64-linux;
@@ -76,13 +77,14 @@ nixpkgs.lib.nixosSystem {
             ];
             fonts.fontconfig.enable = true;
             #		  wayland.windowManager.sway.enable = true;
+	    wayland.windowManager.hyprland.enableNvidiaPatches = true;
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
             wayland.windowManager.hyprland.extraConfig = ''
                               $mod = SUPER
                               bind = $mod, F, fullscreen, 9
                               bind = $mod, RETURN, exec, kitty
-                              bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
+                              # bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
                               bind = $mod SHIFT, Q, killactive,
                               bind = $mod, D, exec, rofi -show drun -show-icons
                               bind = $mod SHIFT, S, exec, slurp | grim -g - - | wl-copy -t image/png
@@ -93,6 +95,11 @@ nixpkgs.lib.nixosSystem {
                               bind = $mod, left, movefocus, l
                               bind = $mod, up, movefocus, u
                               bind = $mod, down, movefocus, d
+
+                              bind = $mod, l, movefocus, r
+                              bind = $mod, h, movefocus, l
+                              bind = $mod, k, movefocus, u
+                              bind = $mod, j, movefocus, d
 
                               bind = $mod SHIFT, right, movewindow, r
                               bind = $mod SHIFT, left, movewindow, l
@@ -119,9 +126,7 @@ nixpkgs.lib.nixosSystem {
                                 gaps_in = 5
                           gaps_out = 12
                               }
-                              monitor = DP-2,3440x1440@100,0x0,1
-                              monitor = DP-3,3440x1440@100,3440x0,1
-                              monitor = DP-1,1920x1080@144,6880x0,1
+			      ${monitors.monitor-config}
                               monitor = ,addreserved,-12,0,0,0
 
                               exec-once=bash ${hyprland-startup}
@@ -322,15 +327,13 @@ nixpkgs.lib.nixosSystem {
                   (lib.mkMerge [
                     base
                     ({
-                      output = [ "DP-1" "DP-2" ];
+                      output = monitors.other;
                     })
                   ])
                   (lib.mkMerge [
                     base
                     ({
-                      output = [
-                        "DP-3"
-                      ];
+                      output = [monitors.primary];
 
                       modules-right = [
                         "cpu"
