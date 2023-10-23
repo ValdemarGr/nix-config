@@ -46,7 +46,6 @@
     let
       system = flake-utils.lib.system.x86_64-linux;
       machine = "valde";
-      metals-version = "1.1.0";
       mkSystem = name: import ./lib/mksystem.nix {
         inherit nixpkgs inputs name;
       };
