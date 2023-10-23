@@ -40,6 +40,14 @@
       url = "github:mbbill/undotree/0e11ba7325efbbb3f3bebe06213afa3e7ec75131";
       flake = false;
     };
+    sql-plugin = {
+     url = "github:tami5/sql.nvim";
+     flake = false;
+    };
+    telescope-nvim-plugin = {
+	    url = "github:nvim-telescope/telescope.nvim";
+	    flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, home-manager, rofi-unicode-list, ... }@inputs:
