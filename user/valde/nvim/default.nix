@@ -7,6 +7,7 @@ let
   vim-init = builtins.readFile ./init.vim;
   lua-files = [
     ./telescope.lua
+    ./cmp.lua
     ./metals.lua
     ./tree.lua
   ];
@@ -62,8 +63,35 @@ in
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-    plugins = vim-plugins;
-    extraConfig = vim-init;
-    extraLuaConfig = lib.strings.concatLines lua-file-contents;
+    plugins = vim-plugins ++ [
+      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+    ];
+    extraConfig = vim-init + ''
+
+    let g:copilot_node_command = "${pkgs.nodejs_18}/bin/node"
+    '';
+    extraLuaConfig = (lib.strings.concatLines lua-file-contents) + ''
+
+    require('harpoon').setup()
+    require('hop').setup()
+    require('octo').setup()
+    require('lspconfig').terraformls.setup{}
+    require('lspconfig').graphql.setup{}
+
+    require("nvim-treesitter.configs").setup{
+      highlight = {
+        enable = true
+      }
+    }
+
+    require('lspconfig').rescriptls.setup{
+      capabilities = require('cmp_nvim_lsp').default_capabilities(),
+      cmd = {
+        '${pkgs.nodejs_18}/bin/node',
+        '${inputs.vim-rescript-plugin}/server/out/server.js',
+        '--stdio'
+      }
+    }
+    '';
   };
 }

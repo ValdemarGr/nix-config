@@ -279,23 +279,6 @@
         "type": "github"
       }
     },
-    "nvim-telescope-plugin": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1697004956,
-        "narHash": "sha256-7SqYFnfCjotOBhuX6Wx1IOhgMKoxaoI1a4SKz1d5RVM=",
-        "owner": "nvim-telescope",
-        "repo": "telescope.nvim",
-        "rev": "7011eaae0ac1afe036e30c95cf80200b8dc3f21a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvim-telescope",
-        "repo": "telescope.nvim",
-        "rev": "7011eaae0ac1afe036e30c95cf80200b8dc3f21a",
-        "type": "github"
-      }
-    },
     "nvim-tree-plugin": {
       "flake": false,
       "locked": {
@@ -312,22 +295,6 @@
         "type": "github"
       }
     },
-    "nvim-treesitter-plugin": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1698133910,
-        "narHash": "sha256-17qXo+aekrtAfJhNX840esXgK9CvqH1RZwvkDbEokkE=",
-        "owner": "nvim-treesitter",
-        "repo": "nvim-treesitter",
-        "rev": "4199be485cd85662d8ff1dc8c4cc78d819fad6cd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvim-treesitter",
-        "repo": "nvim-treesitter",
-        "type": "github"
-      }
-    },
     "nvim-web-devicons-plugin": {
       "flake": false,
       "locked": {
@@ -341,6 +308,22 @@
       "original": {
         "owner": "kyazdani42",
         "repo": "nvim-web-devicons",
+        "type": "github"
+      }
+    },
+    "octo-plugin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697536185,
+        "narHash": "sha256-tT+jn26TKZA3OrWAqyJwm0CWtLLS3By1vvNsAq0bNxs=",
+        "owner": "pwntester",
+        "repo": "octo.nvim",
+        "rev": "e933611c74cb735c00d0db8ca94533bec1444bf0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pwntester",
+        "repo": "octo.nvim",
         "type": "github"
       }
     },
@@ -444,10 +427,9 @@
         "nvim-cmp-plugin": "nvim-cmp-plugin",
         "nvim-lspconfig-plugin": "nvim-lspconfig-plugin",
         "nvim-metals-plugin": "nvim-metals-plugin",
-        "nvim-telescope-plugin": "nvim-telescope-plugin",
         "nvim-tree-plugin": "nvim-tree-plugin",
-        "nvim-treesitter-plugin": "nvim-treesitter-plugin",
         "nvim-web-devicons-plugin": "nvim-web-devicons-plugin",
+        "octo-plugin": "octo-plugin",
         "pgsql-plugin": "pgsql-plugin",
         "playground-plugin": "playground-plugin",
         "plenary-plugin": "plenary-plugin",
@@ -455,6 +437,7 @@
         "rofi-unicode-list": "rofi-unicode-list",
         "sql-plugin": "sql-plugin",
         "telescope-fzf-native": "telescope-fzf-native",
+        "telescope-live-grep-args-plugin": "telescope-live-grep-args-plugin",
         "telescope-nvim-plugin": "telescope-nvim-plugin",
         "undotree-plugin": "undotree-plugin",
         "vim-commentary-plugin": "vim-commentary-plugin",
@@ -512,6 +495,22 @@
       "original": {
         "owner": "nvim-telescope",
         "repo": "telescope-fzf-native.nvim",
+        "type": "github"
+      }
+    },
+    "telescope-live-grep-args-plugin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1693245982,
+        "narHash": "sha256-L2STMQude8DalHF4fYaJZNjvQHB1UtnQx8Gx2fPKcDA=",
+        "owner": "nvim-telescope",
+        "repo": "telescope-live-grep-args.nvim",
+        "rev": "851c0997d55601f2afd7290db0f90dc364e29f58",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-telescope",
+        "repo": "telescope-live-grep-args.nvim",
         "type": "github"
       }
     },

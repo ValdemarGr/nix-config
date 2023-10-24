@@ -64,10 +64,6 @@ nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 
-"NT
-nnoremap <leader>nt <cmd>lua require('valde').nvimtree.toggle()<CR>
-nnoremap <leader>nf <cmd>lua require('valde').nvimtree.find_file()<CR>
-
 "Fug
 nnoremap <silent> <leader>gs :G<CR>
 nnoremap <silent> <leader>gp :G push<CR>

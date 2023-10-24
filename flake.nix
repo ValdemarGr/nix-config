@@ -12,10 +12,6 @@
       url = "github:akhiljalagam/rofi-fontawesome";
       flake = false;
     };
-    nvim-telescope-plugin = {
-      url = "github:nvim-telescope/telescope.nvim/7011eaae0ac1afe036e30c95cf80200b8dc3f21a";
-      flake = false;
-    };
     vim-fugitive-plugin = {
       url = "github:tpope/vim-fugitive/cbe9dfa162c178946afa689dd3f42d4ea8bf89c1";
       flake = false;
@@ -46,6 +42,10 @@
     };
     telescope-nvim-plugin = {
       url = "github:nvim-telescope/telescope.nvim";
+      flake = false;
+    };
+    telescope-live-grep-args-plugin = {
+      url = "github:nvim-telescope/telescope-live-grep-args.nvim";
       flake = false;
     };
     vim-surround-plugin = {
@@ -132,10 +132,10 @@
       url = "github:ray-x/cmp-treesitter";
       flake = false;
     };
-    nvim-treesitter-plugin = {
-      url = "github:nvim-treesitter/nvim-treesitter";
-      flake = false;
-    };
+    #nvim-treesitter-plugin = {
+    #  url = "github:nvim-treesitter/nvim-treesitter";
+    #  flake = false;
+    #};
     playground-plugin = {
       url = "github:nvim-treesitter/playground";
       flake = false;
@@ -150,6 +150,10 @@
     };
     copilot-vim-plugin = {
       url = "github:github/copilot.vim";
+      flake = false;
+    };
+    octo-plugin = {
+      url = "github:pwntester/octo.nvim";
       flake = false;
     };
   };

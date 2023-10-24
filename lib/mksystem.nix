@@ -38,6 +38,7 @@ nixpkgs.lib.nixosSystem {
           users.${machine} = {
             home.packages = [
               pkgs.gh
+              pkgs.ripgrep
               pkgs.nerdfonts
               #pkgs.powerline-fonts
               #pkgs.powerline-symbols
