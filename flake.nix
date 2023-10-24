@@ -41,116 +41,116 @@
       flake = false;
     };
     sql-plugin = {
-     url = "github:tami5/sql.nvim";
-     flake = false;
+      url = "github:tami5/sql.nvim";
+      flake = false;
     };
     telescope-nvim-plugin = {
-	    url = "github:nvim-telescope/telescope.nvim";
-	    flake = false;
+      url = "github:nvim-telescope/telescope.nvim";
+      flake = false;
     };
     vim-surround-plugin = {
-	    url = "github:tpope/vim-surround";
-	    flake = false;
+      url = "github:tpope/vim-surround";
+      flake = false;
     };
     vim-commentary-plugin = {
-	    url = "github:tpope/vim-commentary";
-	    flake = false;
+      url = "github:tpope/vim-commentary";
+      flake = false;
     };
     nvim-tree-plugin = {
-	    url = "github:kyazdani42/nvim-tree.lua";
-	    flake = false;
+      url = "github:kyazdani42/nvim-tree.lua";
+      flake = false;
     };
     pgsql-plugin = {
-	    url = "github:lifepillar/pgsql.vim";
-	    flake = false;
+      url = "github:lifepillar/pgsql.vim";
+      flake = false;
     };
     vim-terraform-plugin = {
-	    url = "github:hashivim/vim-terraform";
-	    flake = false;
+      url = "github:hashivim/vim-terraform";
+      flake = false;
     };
     vim-lastplace-plugin = {
-	    url = "github:farmergreg/vim-lastplace";
-	    flake = false;
+      url = "github:farmergreg/vim-lastplace";
+      flake = false;
     };
     vim-devicons-plugin = {
-	    url = "github:ryanoasis/vim-devicons";
-	    flake = false;
+      url = "github:ryanoasis/vim-devicons";
+      flake = false;
     };
     popup-plugin = {
-	    url = "github:nvim-lua/popup.nvim";
-	    flake = false;
+      url = "github:nvim-lua/popup.nvim";
+      flake = false;
     };
     telescope-fzf-native = {
-	    url = "github:nvim-telescope/telescope-fzf-native.nvim";
-	    flake = false;
+      url = "github:nvim-telescope/telescope-fzf-native.nvim";
+      flake = false;
     };
     nvim-web-devicons-plugin = {
-	    url = "github:kyazdani42/nvim-web-devicons";
-	    flake = false;
+      url = "github:kyazdani42/nvim-web-devicons";
+      flake = false;
     };
     nvim-lspconfig-plugin = {
-	    url = "github:neovim/nvim-lspconfig";
-	    flake = false;
+      url = "github:neovim/nvim-lspconfig";
+      flake = false;
     };
     hop-plugin = {
-	    url = "github:phaazon/hop.nvim";
-	    flake = false;
+      url = "github:phaazon/hop.nvim";
+      flake = false;
     };
     nvim-cmp-plugin = {
-	    url = "github:hrsh7th/nvim-cmp";
-	    flake = false;
+      url = "github:hrsh7th/nvim-cmp";
+      flake = false;
     };
     cmp-buffer-plugin = {
-	    url = "github:hrsh7th/cmp-buffer";
-	    flake = false;
+      url = "github:hrsh7th/cmp-buffer";
+      flake = false;
     };
     cmp-path-plugin = {
-	    url = "github:hrsh7th/cmp-path";
-	    flake = false;
+      url = "github:hrsh7th/cmp-path";
+      flake = false;
     };
     cmp-git-plugin = {
-	    url = "github:petertriho/cmp-git";
-	    flake = false;
+      url = "github:petertriho/cmp-git";
+      flake = false;
     };
     cmp-nvim-lsp-plugin = {
-	    url = "github:hrsh7th/cmp-nvim-lsp";
-	    flake = false;
+      url = "github:hrsh7th/cmp-nvim-lsp";
+      flake = false;
     };
     cmp-nvim-lsp-signature-help-plugin = {
-	    url = "github:hrsh7th/cmp-nvim-lsp-signature-help";
-	    flake = false;
+      url = "github:hrsh7th/cmp-nvim-lsp-signature-help";
+      flake = false;
     };
     cmp-calc-plugin = {
-	    url = "github:hrsh7th/cmp-calc";
-	    flake = false;
+      url = "github:hrsh7th/cmp-calc";
+      flake = false;
     };
     cmp-copilot-plugin = {
-	    url = "github:hrsh7th/cmp-copilot";
-	    flake = false;
+      url = "github:hrsh7th/cmp-copilot";
+      flake = false;
     };
     cmp-treesitter-plugin = {
-	    url = "github:ray-x/cmp-treesitter";
-	    flake = false;
+      url = "github:ray-x/cmp-treesitter";
+      flake = false;
     };
     nvim-treesitter-plugin = {
-	    url = "github:nvim-treesitter/nvim-treesitter";
-	    flake = false;
+      url = "github:nvim-treesitter/nvim-treesitter";
+      flake = false;
     };
     playground-plugin = {
-	    url = "github:nvim-treesitter/playground";
-	    flake = false;
+      url = "github:nvim-treesitter/playground";
+      flake = false;
     };
     vim-rescript-plugin = {
-	    url = "github:rescript-lang/vim-rescript";
-	    flake = false;
+      url = "github:rescript-lang/vim-rescript";
+      flake = false;
     };
     vim-harpoon-plugin = {
-	    url = "github:ThePrimeagen/harpoon";
-	    flake = false;
+      url = "github:ThePrimeagen/harpoon";
+      flake = false;
     };
     copilot-vim-plugin = {
-	    url = "github:github/copilot.vim";
-	    flake = false;
+      url = "github:github/copilot.vim";
+      flake = false;
     };
   };
 

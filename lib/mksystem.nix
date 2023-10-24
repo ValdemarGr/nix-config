@@ -48,59 +48,59 @@ nixpkgs.lib.nixosSystem {
             ];
             fonts.fontconfig.enable = true;
             #		  wayland.windowManager.sway.enable = true;
-	    wayland.windowManager.hyprland.enableNvidiaPatches = true;
+            wayland.windowManager.hyprland.enableNvidiaPatches = true;
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
             wayland.windowManager.hyprland.extraConfig = ''
-                              $mod = SUPER
-                              bind = $mod, F, fullscreen, 9
-                              bind = $mod, RETURN, exec, kitty
-                              # bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
-                              bind = $mod SHIFT, Q, killactive,
-                              bind = $mod, D, exec, rofi -show drun -show-icons
-                              bind = $mod SHIFT, S, exec, slurp | grim -g - - | wl-copy -t image/png
-              bind = $mod, N, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(rofi -dmenu -lines 0 -p 'Workspace name') && killall -SIGUSR2 waybar
-              bind = $mod, I, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(cat ${inputs.rofi-unicode-list}/unicode-list.txt | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
+                                            $mod = SUPER
+                                            bind = $mod, F, fullscreen, 9
+                                            bind = $mod, RETURN, exec, kitty
+                                            # bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
+                                            bind = $mod SHIFT, Q, killactive,
+                                            bind = $mod, D, exec, rofi -show drun -show-icons
+                                            bind = $mod SHIFT, S, exec, slurp | grim -g - - | wl-copy -t image/png
+                            bind = $mod, N, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(rofi -dmenu -lines 0 -p 'Workspace name') && killall -SIGUSR2 waybar
+                            bind = $mod, I, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(cat ${inputs.rofi-unicode-list}/unicode-list.txt | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
 
-                              bind = $mod, right, movefocus, r
-                              bind = $mod, left, movefocus, l
-                              bind = $mod, up, movefocus, u
-                              bind = $mod, down, movefocus, d
+                                            bind = $mod, right, movefocus, r
+                                            bind = $mod, left, movefocus, l
+                                            bind = $mod, up, movefocus, u
+                                            bind = $mod, down, movefocus, d
 
-                              bind = $mod, l, movefocus, r
-                              bind = $mod, h, movefocus, l
-                              bind = $mod, k, movefocus, u
-                              bind = $mod, j, movefocus, d
+                                            bind = $mod, l, movefocus, r
+                                            bind = $mod, h, movefocus, l
+                                            bind = $mod, k, movefocus, u
+                                            bind = $mod, j, movefocus, d
 
-                              bind = $mod SHIFT, right, movewindow, r
-                              bind = $mod SHIFT, left, movewindow, l
-                              bind = $mod SHIFT, up, movewindow, u
-                              bind = $mod SHIFT, down, movewindow, d
+                                            bind = $mod SHIFT, right, movewindow, r
+                                            bind = $mod SHIFT, left, movewindow, l
+                                            bind = $mod SHIFT, up, movewindow, u
+                                            bind = $mod SHIFT, down, movewindow, d
 
-                              bind = $mod SHIFT CTRL, right, movecurrentworkspacetomonitor, r
-                              bind = $mod SHIFT CTRL, left, movecurrentworkspacetomonitor, l
-                              bind = $mod SHIFT CTRL, up, workspace, m+1
-                              bind = $mod SHIFT CTRL, down, workspace, m-1
+                                            bind = $mod SHIFT CTRL, right, movecurrentworkspacetomonitor, r
+                                            bind = $mod SHIFT CTRL, left, movecurrentworkspacetomonitor, l
+                                            bind = $mod SHIFT CTRL, up, workspace, m+1
+                                            bind = $mod SHIFT CTRL, down, workspace, m-1
 
-                              bind = $mod, 0, workspace, 0
-                              bind = $mod, 1, workspace, 1
-                              bind = $mod, 2, workspace, 2
-                              bind = $mod, 3, workspace, 3
-                              bind = $mod, 4, workspace, 4
-                              bind = $mod, 5, workspace, 5
-                              bind = $mod, 6, workspace, 6
-                              bind = $mod, 7, workspace, 7
-                              bind = $mod, 8, workspace, 8
-                              bind = $mod, 9, workspace, 9
+                                            bind = $mod, 0, workspace, 0
+                                            bind = $mod, 1, workspace, 1
+                                            bind = $mod, 2, workspace, 2
+                                            bind = $mod, 3, workspace, 3
+                                            bind = $mod, 4, workspace, 4
+                                            bind = $mod, 5, workspace, 5
+                                            bind = $mod, 6, workspace, 6
+                                            bind = $mod, 7, workspace, 7
+                                            bind = $mod, 8, workspace, 8
+                                            bind = $mod, 9, workspace, 9
 
-                              general {
-                                gaps_in = 5
-                          gaps_out = 12
-                              }
-			      ${monitors.monitor-config}
-                              monitor = ,addreserved,-12,0,0,0
+                                            general {
+                                              gaps_in = 5
+                                        gaps_out = 12
+                                            }
+              			      ${monitors.monitor-config}
+                                            monitor = ,addreserved,-12,0,0,0
 
-                              exec-once=bash ${hyprland-startup}
+                                            exec-once=bash ${hyprland-startup}
             '';
             home = {
               pointerCursor = {
@@ -304,7 +304,7 @@ nixpkgs.lib.nixosSystem {
                   (lib.mkMerge [
                     base
                     ({
-                      output = [monitors.primary];
+                      output = [ monitors.primary ];
 
                       modules-right = [
                         "cpu"
