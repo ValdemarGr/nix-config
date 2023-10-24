@@ -22,7 +22,7 @@ nixpkgs.lib.nixosSystem {
         nixpkgs.config.allowUnfree = true;
         users.users.${machine} = {
           isNormalUser = true;
-          extraGroups = [ "wheel" "video" "audio" ];
+          extraGroups = [ "wheel" "docker" "video" "audio" ];
           shell = pkgs.zsh;
         };
         hardware.opengl = {
@@ -38,6 +38,17 @@ nixpkgs.lib.nixosSystem {
           users.${machine} = {
             home.packages = [
               pkgs.gh
+              pkgs.yarn
+              pkgs.python311
+              pkgs.nodejs_18
+              pkgs.gnat
+              #pkgs.ocaml
+              #pkgs.opam
+              #pkgs.ninja
+              #pkgs.dune_3
+              #pkgs.glibc
+              pkgs.gnumake
+              pkgs.watchman
               pkgs.ripgrep
               pkgs.nerdfonts
               #pkgs.powerline-fonts
@@ -479,11 +490,13 @@ nixpkgs.lib.nixosSystem {
           pkgs.swww
           pkgs.grim
           pkgs.slurp
+          pkgs.bazel
           pkgs.wl-clipboard
           pkgs.discord
           pkgs.busybox
         ];
         programs.zsh.enable = true;
+        virtualisation.docker.enable = true;
         xdg.portal.enable = true;
         xdg.portal.wlr.enable = true;
         sound.enable = true;
