@@ -87,7 +87,7 @@ in
     require('lspconfig').rescriptls.setup{
       capabilities = require('cmp_nvim_lsp').default_capabilities(),
       cmd = {
-        '${pkgs.nodejs_18}/bin/node',
+        '${pkgs.nodejs_17}/bin/node',
         '${inputs.vim-rescript-plugin}/server/out/server.js',
         '--stdio'
       }

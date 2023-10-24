@@ -31,7 +31,7 @@ nixpkgs.lib.nixosSystem {
           driSupport32Bit = true;
         };
         security.polkit.enable = true;
-        programs.sway.enable = true;
+        #programs.sway.enable = true;
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -436,7 +436,7 @@ nixpkgs.lib.nixosSystem {
             };
             services.spotifyd.enable = true;
             programs.firefox.enable = true;
-            wayland.windowManager.sway.enable = true;
+            #wayland.windowManager.sway.enable = true;
             programs.tmux = {
               enable = true;
               clock24 = true;
