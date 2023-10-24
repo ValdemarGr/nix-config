@@ -1,18 +1,19 @@
 inputs:
 
-{ lib, ...}:
+{ lib, pkgs, ...}:
 
 let
-  vim_init = builtins.readFile ./init.vim
-  lua_files = [
+  metals-version = "1.1.0";
+  vim-init = builtins.readFile ./init.vim;
+  lua-files = [
     ./telescope.lua
     ./metals.lua
     ./tree.lua
   ];
-  lue_file_contents = 
+  lua-file-contents = 
     lib.lists.map
-    (x: builtins.readfile x)
-    lua_files
+    (x: builtins.readFile x)
+    lua-files
   ;
         metals-deps = pkgs.stdenv.mkDerivation {
           name = "metals-deps-${metals-version}";
@@ -62,7 +63,7 @@ in
     enable = true;
     defaultEditor = true;
     plugins = vim-plugins;
-    extraConfig = vim_init;
-    extraLuaConfig = lib.strings.concatLins lua_file_contents;
+    extraConfig = vim-init;
+    extraLuaConfig = lib.strings.concatLines lua-file-contents;
   };
 }
