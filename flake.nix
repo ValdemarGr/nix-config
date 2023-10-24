@@ -80,7 +80,7 @@
 	    url = "github:nvim-lua/popup.nvim";
 	    flake = false;
     };
-    telescope-fzf-native-plugin = {
+    telescope-fzf-native = {
 	    url = "github:nvim-telescope/telescope-fzf-native.nvim";
 	    flake = false;
     };

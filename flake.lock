@@ -454,7 +454,7 @@
         "popup-plugin": "popup-plugin",
         "rofi-unicode-list": "rofi-unicode-list",
         "sql-plugin": "sql-plugin",
-        "telescope-fzf-native-plugin": "telescope-fzf-native-plugin",
+        "telescope-fzf-native": "telescope-fzf-native",
         "telescope-nvim-plugin": "telescope-nvim-plugin",
         "undotree-plugin": "undotree-plugin",
         "vim-commentary-plugin": "vim-commentary-plugin",
@@ -499,7 +499,7 @@
         "type": "github"
       }
     },
-    "telescope-fzf-native-plugin": {
+    "telescope-fzf-native": {
       "flake": false,
       "locked": {
         "lastModified": 1694359266,
