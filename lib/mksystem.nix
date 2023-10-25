@@ -31,7 +31,7 @@ nixpkgs.lib.nixosSystem {
           driSupport32Bit = true;
         };
         security.polkit.enable = true;
-        #programs.sway.enable = true;
+        programs.dconf.enable = true;
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -42,24 +42,16 @@ nixpkgs.lib.nixosSystem {
               pkgs.python311
               pkgs.nodejs_18
               pkgs.gnat
-              #pkgs.ocaml
-              #pkgs.opam
-              #pkgs.ninja
-              #pkgs.dune_3
-              #pkgs.glibc
               pkgs.gnumake
               pkgs.watchman
               pkgs.ripgrep
               pkgs.nerdfonts
-              #pkgs.powerline-fonts
-              #pkgs.powerline-symbols
               pkgs.font-awesome
             ];
             imports = [
               ((import ../user/valde/nvim) inputs)
             ];
             fonts.fontconfig.enable = true;
-            #		  wayland.windowManager.sway.enable = true;
             wayland.windowManager.hyprland.enableNvidiaPatches = true;
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
@@ -447,7 +439,6 @@ nixpkgs.lib.nixosSystem {
             };
             services.spotifyd.enable = true;
             programs.firefox.enable = true;
-            #wayland.windowManager.sway.enable = true;
             programs.tmux = {
               enable = true;
               clock24 = true;
@@ -491,6 +482,7 @@ nixpkgs.lib.nixosSystem {
           pkgs.grim
           pkgs.slurp
           pkgs.bazel
+          pkgs.docker-compose
           pkgs.wl-clipboard
           pkgs.discord
           pkgs.busybox
@@ -508,7 +500,6 @@ nixpkgs.lib.nixosSystem {
           pulse.enable = true;
           jack.enable = true;
         };
-        #programs.hyprland.enable = true;
         programs.git.enable = true;
         programs.neovim.enable = true;
       })
