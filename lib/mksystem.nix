@@ -32,6 +32,7 @@ nixpkgs.lib.nixosSystem {
         };
         security.polkit.enable = true;
         programs.dconf.enable = true;
+        nix.settings.experimental-features = [ "nix-command" "flakes" ];
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -481,7 +482,8 @@ nixpkgs.lib.nixosSystem {
           pkgs.swww
           pkgs.grim
           pkgs.slurp
-          pkgs.bazel
+          pkgs.jdk11
+          pkgs.bazel-buildtools
           pkgs.docker-compose
           pkgs.wl-clipboard
           pkgs.discord
