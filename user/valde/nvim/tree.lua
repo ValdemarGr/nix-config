@@ -24,4 +24,4 @@ function find_file()
 end
 
 vim.keymap.set('n', '<leader>nt', toggle, { noremap = true })
-vim.keymap.set('n', '<leader>nt', toggle, { noremap = true })
+vim.keymap.set('n', '<leader>nf', find_file, { noremap = true })
