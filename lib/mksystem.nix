@@ -22,7 +22,7 @@ nixpkgs.lib.nixosSystem {
         nixpkgs.config.allowUnfree = true;
         users.users.${machine} = {
           isNormalUser = true;
-          extraGroups = [ "wheel" "docker" "video" "audio" ];
+          extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" ];
           shell = pkgs.zsh;
         };
         hardware.opengl = {
