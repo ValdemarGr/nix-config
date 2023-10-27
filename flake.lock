@@ -327,6 +327,22 @@
         "type": "github"
       }
     },
+    "oil-nvim-plugin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697591007,
+        "narHash": "sha256-Ex+Jl/STTc0+2Z9J8kIiqxH//xKoE+1lyCKBVSn3TzM=",
+        "owner": "stevearc",
+        "repo": "oil.nvim",
+        "rev": "4088efb8ff664b6f1624aab5dac6c3fe11d3962c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "stevearc",
+        "repo": "oil.nvim",
+        "type": "github"
+      }
+    },
     "pgsql-plugin": {
       "flake": false,
       "locked": {
@@ -430,6 +446,7 @@
         "nvim-tree-plugin": "nvim-tree-plugin",
         "nvim-web-devicons-plugin": "nvim-web-devicons-plugin",
         "octo-plugin": "octo-plugin",
+        "oil-nvim-plugin": "oil-nvim-plugin",
         "pgsql-plugin": "pgsql-plugin",
         "playground-plugin": "playground-plugin",
         "plenary-plugin": "plenary-plugin",

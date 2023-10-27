@@ -488,6 +488,7 @@ nixpkgs.lib.nixosSystem {
           pkgs.wl-clipboard
           pkgs.discord
           pkgs.busybox
+          pkgs.kubectl
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;

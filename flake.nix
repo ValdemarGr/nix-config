@@ -156,6 +156,10 @@
       url = "github:pwntester/octo.nvim";
       flake = false;
     };
+    oil-nvim-plugin = {
+      url = "github:stevearc/oil.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, home-manager, rofi-unicode-list, ... }@inputs:

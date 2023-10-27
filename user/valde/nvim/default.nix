@@ -8,7 +8,8 @@ let
   lua-files = [
     ./telescope.lua
     ./cmp.lua
-    ./tree.lua
+    #./tree.lua
+    ./oil.lua
   ];
   lua-file-contents =
     lib.lists.map
