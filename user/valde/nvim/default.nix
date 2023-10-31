@@ -46,6 +46,16 @@ let
     extraJavaOpts = old.extraJavaOpts + " -Dmetals.client=nvim-lsp";
     buildInputs = [ metals-deps ];
   });
+  rescript-lsp-start = pkgs.writeShellScriptBin "rescript-lsp-start" ''
+    ${pkgs.nodejs_18}/bin/node ${inputs.vim-rescript-plugin}/server/out/server.js --stdio
+  '';
+  rescript-lsp-fhs = pkgs.buildFHSEnv {
+    name = "rescript-lsp-fhs";
+    runScript = "rescript-lsp-start";
+    targetPkgs = pkgs: [
+      rescript-lsp-start
+    ];
+  };
   vim-plugin-keys = lib.lists.filter
     (key: lib.strings.hasSuffix "-plugin" key)
     (lib.attrNames inputs)
@@ -106,9 +116,7 @@ in
     require('lspconfig').rescriptls.setup{
       capabilities = require('cmp_nvim_lsp').default_capabilities(),
       cmd = {
-        '${pkgs.nodejs_20}/bin/node',
-        '${inputs.vim-rescript-plugin}/server/out/server.js',
-        '--stdio'
+        '${rescript-lsp-fhs}/bin/rescript-lsp-fhs'
       }
     }
     '';
