@@ -11,10 +11,11 @@ nixpkgs.lib.nixosSystem {
     inputs.home-manager.nixosModules.home-manager
     ({ pkgs, lib, ... }:
       let
+        wallpaper = ../wallpaper/wp.webp;
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
           swww init &
           waybar &
-          swww img "/home/valde/Downloads/horse.jpg" &
+          swww img "${wallpaper}" &
           dunst
         '';
       in
@@ -32,6 +33,7 @@ nixpkgs.lib.nixosSystem {
         };
         security.polkit.enable = true;
         programs.dconf.enable = true;
+        programs.steam.enable = true;
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
         home-manager = {
           useGlobalPkgs = true;
