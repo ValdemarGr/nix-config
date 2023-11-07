@@ -100,6 +100,17 @@ nixpkgs.lib.nixosSystem {
                                             bind = $mod, 8, workspace, 8
                                             bind = $mod, 9, workspace, 9
 
+                                            bind = $mod SHIFT, 0, movetoworkspacesilent, 0
+                                            bind = $mod SHIFT, 1, movetoworkspacesilent, 1
+                                            bind = $mod SHIFT, 2, movetoworkspacesilent, 2
+                                            bind = $mod SHIFT, 3, movetoworkspacesilent, 3
+                                            bind = $mod SHIFT, 4, movetoworkspacesilent, 4
+                                            bind = $mod SHIFT, 5, movetoworkspacesilent, 5
+                                            bind = $mod SHIFT, 6, movetoworkspacesilent, 6
+                                            bind = $mod SHIFT, 7, movetoworkspacesilent, 7
+                                            bind = $mod SHIFT, 8, movetoworkspacesilent, 8
+                                            bind = $mod SHIFT, 9, movetoworkspacesilent, 9
+
                                             general {
                                               gaps_in = 5
                                         gaps_out = 12
