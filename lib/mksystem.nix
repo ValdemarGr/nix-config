@@ -51,6 +51,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.nerdfonts
               pkgs.font-awesome
               pkgs.lato
+              pkgs.noto-fonts
               pkgs.r2modman
             ];
             imports = [
