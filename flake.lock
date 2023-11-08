@@ -1,17 +1,5 @@
 {
   "nodes": {
-    "bruno-srcs": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-OPaKvmhwJ1ude+JMkKyRLGkbajyiR5GftGWXAnaCLcA=",
-        "type": "file",
-        "url": "https://github.com/usebruno/bruno/releases/download/v1.1.0/bruno_1.1.0_amd64_linux.deb"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/usebruno/bruno/releases/download/v1.1.0/bruno_1.1.0_amd64_linux.deb"
-      }
-    },
     "cmp-buffer-plugin": {
       "flake": false,
       "locked": {
@@ -438,7 +426,6 @@
     },
     "root": {
       "inputs": {
-        "bruno-srcs": "bruno-srcs",
         "cmp-buffer-plugin": "cmp-buffer-plugin",
         "cmp-calc-plugin": "cmp-calc-plugin",
         "cmp-copilot-plugin": "cmp-copilot-plugin",
