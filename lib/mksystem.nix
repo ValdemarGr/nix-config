@@ -50,6 +50,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.ripgrep
               pkgs.nerdfonts
               pkgs.font-awesome
+              pkgs.r2modman
             ];
             imports = [
               ((import ../user/valde/nvim) inputs)
