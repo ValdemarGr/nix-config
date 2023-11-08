@@ -18,6 +18,13 @@ nixpkgs.lib.nixosSystem {
           swww img "${wallpaper}" &
           dunst
         '';
+        bruno-pkg = (pkgs.bruno.overrideAttrs rec { 
+          version = "1.1.0"; 
+          src = pkgs.fetchurl {
+            url = "https://github.com/usebruno/bruno/releases/download/v${version}/bruno_${version}_amd64_linux.deb";
+            hash = "sha256-ExOeEWqCJEaZ65JiRMwuoQyHpy0lUJhQ428z78p7s7c=";
+          };
+        });
       in
       {
         nixpkgs.config.allowUnfree = true;
@@ -52,6 +59,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.font-awesome
               pkgs.lato
               pkgs.noto-fonts
+              bruno-pkg
               pkgs.r2modman
             ];
             imports = [
