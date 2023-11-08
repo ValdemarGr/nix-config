@@ -496,6 +496,7 @@ nixpkgs.lib.nixosSystem {
           pkgs.swww
           pkgs.grim
           pkgs.slurp
+          pkgs.lato
           pkgs.jdk11
           pkgs.bazel-buildtools
           pkgs.docker-compose
