@@ -50,6 +50,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.ripgrep
               pkgs.nerdfonts
               pkgs.font-awesome
+              pkgs.lato
               pkgs.r2modman
             ];
             imports = [
@@ -496,7 +497,6 @@ nixpkgs.lib.nixosSystem {
           pkgs.swww
           pkgs.grim
           pkgs.slurp
-          pkgs.lato
           pkgs.jdk11
           pkgs.bazel-buildtools
           pkgs.docker-compose
