@@ -113,6 +113,13 @@ in
       }
     }
 
+    vim.cmd [[augroup Authzed]]
+    vim.cmd [[au!]]
+    vim.cmd [[autocmd BufNewFile,BufRead *.authzed set filetype=authzed]]
+    vim.cmd [[autocmd BufNewFile,BufRead *.zed set filetype=authzed]]
+    vim.cmd [[autocmd BufNewFile,BufRead *.azd set filetype=authzed]]
+    vim.cmd [[augroup end]]
+
     require('lspconfig').rescriptls.setup{
       capabilities = require('cmp_nvim_lsp').default_capabilities(),
       cmd = {
