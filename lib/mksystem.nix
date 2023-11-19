@@ -13,10 +13,10 @@ nixpkgs.lib.nixosSystem {
       let
         wallpaper = ../wallpaper/wp.webp;
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
-          sleep 1
+          sleep 0.8
           swww init &
           waybar &
-          swww img "${wallpaper}" &
+          swww img "${wallpaper}" --transition-type none &
           dunst
         '';
       in
