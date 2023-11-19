@@ -13,6 +13,7 @@ nixpkgs.lib.nixosSystem {
       let
         wallpaper = ../wallpaper/wp.webp;
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
+          sleep 1
           swww init &
           waybar &
           swww img "${wallpaper}" &
@@ -116,9 +117,14 @@ nixpkgs.lib.nixosSystem {
 
                                             general {
                                               gaps_in = 5
-                                        gaps_out = 12
+                                              gaps_out = 12
                                             }
-              			      ${monitors.monitor-config}
+
+                                            input {
+                                              follow_mouse = 0
+                                            }
+
+                                            ${monitors.monitor-config}
                                             monitor = ,addreserved,-12,0,0,0
 
                                             exec-once=bash ${hyprland-startup}
