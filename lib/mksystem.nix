@@ -199,6 +199,7 @@ nixpkgs.lib.nixosSystem {
               #: Cursor colors
 
               cursor                          #BE5E1E
+              cursor_blink_interval           0
               # cursor_text_color               #111111
 
 
@@ -303,7 +304,7 @@ nixpkgs.lib.nixosSystem {
                       "hyprland/workspaces"
                     ];
                     "hyprland/workspaces" = {
-                      active-only = true;
+                      active-only = false;
                       all-outputs = false;
                       disable-scroll = false;
                       on-scroll-up = "hyprctl dispatch workspace e-1";
