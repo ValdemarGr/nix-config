@@ -123,9 +123,9 @@ nixpkgs.lib.nixosSystem {
                                               gaps_out = 12
                                             }
 
-                                            input {
-                                              follow_mouse = 0
-                                            }
+                                            #input {
+                                            #  follow_mouse = 0
+                                            #}
 
                                             ${monitors.monitor-config}
                                             monitor = ,addreserved,-12,0,0,0
