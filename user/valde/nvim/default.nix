@@ -79,6 +79,9 @@ in
     extraConfig = vim-init + ''
 
     let g:copilot_node_command = "${pkgs.nodejs_18}/bin/node"
+    let g:copilot_filetypes = {
+      \ '*': v:true
+    }
     '';
     extraLuaConfig = (lib.strings.concatLines lua-file-contents) + ''
 
