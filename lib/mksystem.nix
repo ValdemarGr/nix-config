@@ -6,6 +6,9 @@ let
 in
 nixpkgs.lib.nixosSystem {
   system = inputs.flake-utils.lib.system.x86_64-linux;
+  specialArgs = {
+    inherit inputs;
+  };
   modules = [
     ../system/machine/${name}
     inputs.home-manager.nixosModules.home-manager

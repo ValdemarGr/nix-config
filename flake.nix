@@ -160,6 +160,11 @@
       url = "github:stevearc/oil.nvim";
       flake = false;
     };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, home-manager, rofi-unicode-list, ... }@inputs:
@@ -173,6 +178,7 @@
     {
       nixosConfigurations.home = mkSystem "home";
       nixosConfigurations.work = mkSystem "work";
+      nixosConfigurations.home-wsl = mkSystem "home-wsl";
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
       # use mkShell
       devShells.${system}.${machine} = nixpkgs.legacyPackages.${system}.pkgs.mkShell {
