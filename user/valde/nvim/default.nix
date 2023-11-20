@@ -80,8 +80,8 @@ in
 
     let g:copilot_node_command = "${pkgs.nodejs_18}/bin/node"
     let g:copilot_filetypes = {
-      \ '*': v:true
-    }
+      \ '*': v:true,
+    \ }
     '';
     extraLuaConfig = (lib.strings.concatLines lua-file-contents) + ''
 
