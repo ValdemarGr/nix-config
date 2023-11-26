@@ -231,6 +231,22 @@
         "type": "github"
       }
     },
+    "leap-nvim-plugin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697971449,
+        "narHash": "sha256-4QOppFXF/XfmVcRoC3Z8fr2lksYQBC2fdph+Vp1zzqY=",
+        "owner": "ggandor",
+        "repo": "leap.nvim",
+        "rev": "b6ae80f8fc9993638608fc1a51c6ab0eeb12618c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ggandor",
+        "repo": "leap.nvim",
+        "type": "github"
+      }
+    },
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -479,6 +495,7 @@
         "gruvbox-baby-plugin": "gruvbox-baby-plugin",
         "home-manager": "home-manager",
         "hop-plugin": "hop-plugin",
+        "leap-nvim-plugin": "leap-nvim-plugin",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
         "nvim-cmp-plugin": "nvim-cmp-plugin",

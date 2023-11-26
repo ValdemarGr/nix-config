@@ -73,10 +73,10 @@ nmap <leader>gu :diffget //2<CR>
 "nnoremap <silent> <leader>db :DBUI<CR>
 
 "hop
-map <silent><leader>m1 <cmd>HopChar1<CR>
-map <silent><leader>m2 <cmd>HopChar2<CR>
-map <silent><leader>mp <cmd>HopPattern<CR>
-map <silent><leader>mw <cmd>HopWord<CR>
+" map <silent><leader>m1 <cmd>HopChar1<CR>
+" map <silent><leader>m2 <cmd>HopChar2<CR>
+" map <silent><leader>mp <cmd>HopPattern<CR>
+" map <silent><leader>mw <cmd>HopWord<CR>
 
 "lsp
 " inoremap <silent><expr> <C-Space> compe#complete()

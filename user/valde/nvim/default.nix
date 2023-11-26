@@ -86,7 +86,13 @@ in
     extraLuaConfig = (lib.strings.concatLines lua-file-contents) + ''
 
     require('harpoon').setup()
-    require('hop').setup()
+
+    -- require('hop').setup()
+    require('leap')
+    -- require('leap').add_default_mappings()
+    vim.keymap.set({ "n" }, "<leader>M", "<Plug>(leap-backward-to)")
+    vim.keymap.set({ "n" }, "<leader>m", "<Plug>(leap-forward-to)")
+
     require('octo').setup()
     require('lspconfig').terraformls.setup{}
     require('lspconfig').graphql.setup{}

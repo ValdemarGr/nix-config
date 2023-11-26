@@ -160,6 +160,10 @@
       url = "github:stevearc/oil.nvim";
       flake = false;
     };
+    leap-nvim-plugin = {
+      url = "github:ggandor/leap.nvim";
+      flake = false;
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
