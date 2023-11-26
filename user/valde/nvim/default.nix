@@ -93,6 +93,9 @@ in
     vim.keymap.set({ "n" }, "<leader>M", "<Plug>(leap-backward-to)")
     vim.keymap.set({ "n" }, "<leader>m", "<Plug>(leap-forward-to)")
 
+    vim.keymap.set({ "n" }, "`", "'", { noremap = true })
+    vim.keymap.set({ "n" }, "'", "`", { noremap = true })
+
     require('octo').setup()
     require('lspconfig').terraformls.setup{}
     require('lspconfig').graphql.setup{}
