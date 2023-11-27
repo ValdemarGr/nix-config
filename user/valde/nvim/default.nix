@@ -97,7 +97,9 @@ in
     vim.keymap.set({ "n" }, "'", "`", { noremap = true })
 
     require('octo').setup()
-    require('lspconfig').terraformls.setup{}
+    require('lspconfig').terraformls.setup{
+      cmd = { "${pkgs.terraform-ls}/bin/terraform-ls", "serve" }
+    }
     require('lspconfig').graphql.setup{}
 
     vim.opt_global.shortmess:remove("F")
