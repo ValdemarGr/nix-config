@@ -157,3 +157,5 @@ nnoremap <silent><leader>cp <cmd>let @" = expand("%:~:.")<cr>
 let g:copilot_assume_mapped = v:true
 let g:copilot_no_tab_map = v:true
 imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")
+
+autocmd FileType rescript setlocal commentstring=//\ %s
