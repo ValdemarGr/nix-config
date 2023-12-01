@@ -55,6 +55,7 @@ nixpkgs.lib.nixosSystem {
             home.packages = [
               #gke-auth-module
               set-gke-commands
+              pkgs.spicedb-zed
               pkgs.gh
               pkgs.yarn
               pkgs.python311
