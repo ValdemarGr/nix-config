@@ -169,6 +169,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    gke-auth-module = {
+      flake = false;
+      url = "github:traviswt/gke-auth-plugin";
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, home-manager, rofi-unicode-list, ... }@inputs:

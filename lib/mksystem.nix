@@ -15,8 +15,17 @@ nixpkgs.lib.nixosSystem {
     ({ pkgs, lib, ... }:
       let
         wallpaper = ../wallpaper/wp.webp;
+        gke-auth-module = pkgs.buildGoModule {
+          name = "gke-auth-module";
+          vendorHash = "sha256-wp5+Ab6fchuVQ47SuMH40WmlGbbN2EUCj7LkcJ0q5hs=";
+          src = "${inputs.gke-auth-module}";
+        };
+        set-gke-commands = pkgs.writeShellScriptBin "fix-gke-auth-commands" ''
+        kubectl config get-users | xargs -I {} kubectl config set-credentials {} --exec-command=${gke-auth-module}/bin/gke-auth-plugin
+        '';
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
           sleep 0.8
+          echo ${gke-auth-module}/bin/gke-auth-plugin
           swww init &
           waybar &
           swww img "${wallpaper}" --transition-type none &
@@ -44,6 +53,8 @@ nixpkgs.lib.nixosSystem {
           useUserPackages = true;
           users.${machine} = {
             home.packages = [
+              #gke-auth-module
+              set-gke-commands
               pkgs.gh
               pkgs.yarn
               pkgs.python311

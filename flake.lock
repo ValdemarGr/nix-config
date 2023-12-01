@@ -178,6 +178,22 @@
         "type": "github"
       }
     },
+    "gke-auth-module": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1687561662,
+        "narHash": "sha256-AAtWPABAy1u3g+KeJHaTD/BzXxR5rS/w3GLVrw3auDQ=",
+        "owner": "traviswt",
+        "repo": "gke-auth-plugin",
+        "rev": "7b40450b6d499424b0180a692659c4923d82ce51",
+        "type": "github"
+      },
+      "original": {
+        "owner": "traviswt",
+        "repo": "gke-auth-plugin",
+        "type": "github"
+      }
+    },
     "gruvbox-baby-plugin": {
       "flake": false,
       "locked": {
@@ -492,6 +508,7 @@
         "cmp-treesitter-plugin": "cmp-treesitter-plugin",
         "copilot-vim-plugin": "copilot-vim-plugin",
         "flake-utils": "flake-utils",
+        "gke-auth-module": "gke-auth-module",
         "gruvbox-baby-plugin": "gruvbox-baby-plugin",
         "home-manager": "home-manager",
         "hop-plugin": "hop-plugin",
