@@ -85,8 +85,6 @@ in
     '';
     extraLuaConfig = (lib.strings.concatLines lua-file-contents) + ''
 
-    require('harpoon').setup()
-
     -- require('hop').setup()
     require('leap')
     -- require('leap').add_default_mappings()
@@ -133,6 +131,14 @@ in
     vim.cmd [[autocmd BufNewFile,BufRead *.zed set filetype=authzed]]
     vim.cmd [[autocmd BufNewFile,BufRead *.azd set filetype=authzed]]
     vim.cmd [[augroup end]]
+
+    vim.keymap.set("n", "<leader>.", function() require("harpoon.mark").add_file() end)
+    vim.keymap.set("n", "<leader>,", function() require("harpoon.ui").toggle_quick_menu() end)
+
+    vim.keymap.set("n", "<C-h>", function() require("harpoon.ui").nav_file(1) end)
+    vim.keymap.set("n", "<C-t>", function() require("harpoon.ui").nav_file(2) end)
+    vim.keymap.set("n", "<C-n>", function() require("harpoon.ui").nav_file(3) end)
+    vim.keymap.set("n", "<C-s>", function() require("harpoon.ui").nav_file(4) end)
 
     require('lspconfig').rescriptls.setup{
       capabilities = require('cmp_nvim_lsp').default_capabilities(),

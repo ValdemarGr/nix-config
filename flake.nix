@@ -145,7 +145,7 @@
       flake = false;
     };
     vim-harpoon-plugin = {
-      url = "github:ThePrimeagen/harpoon";
+      url = "github:ThePrimeagen/harpoon/master";
       flake = false;
     };
     copilot-vim-plugin = {

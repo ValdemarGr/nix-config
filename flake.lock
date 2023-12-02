@@ -691,15 +691,16 @@
     "vim-harpoon-plugin": {
       "flake": false,
       "locked": {
-        "lastModified": 1696945578,
-        "narHash": "sha256-pSnFx5fg1llNlpTCV4hoo3Pf1KWnAJDRVSe+88N4HXM=",
+        "lastModified": 1701464561,
+        "narHash": "sha256-No26U/bpSzc4GACxNr33aAZoebcWUHx4BNWFQXvlikY=",
         "owner": "ThePrimeagen",
         "repo": "harpoon",
-        "rev": "c1aebbad9e3d13f20bedb8f2ce8b3a94e39e424a",
+        "rev": "867e212ac153e793f95b316d1731f3ca1894625e",
         "type": "github"
       },
       "original": {
         "owner": "ThePrimeagen",
+        "ref": "master",
         "repo": "harpoon",
         "type": "github"
       }
