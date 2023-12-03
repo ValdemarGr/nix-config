@@ -70,6 +70,12 @@ let
   ;
 in
 {
+  home.file.".vimtmp" = {
+    recursive = true;
+    target = ".vimtmp/keep";
+    source = builtins.toFile "keep" ""; 
+  };
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;

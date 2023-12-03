@@ -530,6 +530,7 @@ nixpkgs.lib.nixosSystem {
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;
+        xdg.portal.config.common.default = "*";
         xdg.portal.enable = true;
         xdg.portal.wlr.enable = true;
         sound.enable = true;

@@ -14,7 +14,7 @@ set smartindent
 set nowrap
 set smartcase
 set noswapfile
-set nobackup
+" set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
@@ -32,6 +32,9 @@ set ttimeoutlen=0
 
 set colorcolumn=120
 set diffopt+=vertical
+
+set backupdir=~/.vimtmp/
+set directory=~/.vimtmp/
 
 let mapleader = " "
 
