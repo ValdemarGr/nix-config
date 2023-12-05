@@ -65,6 +65,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.watchman
               pkgs.ripgrep
               pkgs.nerdfonts
+              pkgs.webcord
               pkgs.font-awesome
               pkgs.lato
               pkgs.noto-fonts
