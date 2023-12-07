@@ -724,17 +724,17 @@
     "vim-rescript-plugin": {
       "flake": false,
       "locked": {
-        "lastModified": 1699629843,
-        "narHash": "sha256-3T0vNwyQugKb0aIT0tz5AD0PzkQWLOKKXXCpSnUKT68=",
+        "lastModified": 1699629016,
+        "narHash": "sha256-hVS94T+eWj09pw0mHdSEmYXaGifM6rqPKgxWMKBb8z8=",
         "owner": "rescript-lang",
         "repo": "vim-rescript",
-        "rev": "7690aa058de6193eb1a71411b9c48514c7e58286",
+        "rev": "da094085a22b1bcf14a96077cad03647edbe0f60",
         "type": "github"
       },
       "original": {
         "owner": "rescript-lang",
         "repo": "vim-rescript",
-        "rev": "7690aa058de6193eb1a71411b9c48514c7e58286",
+        "rev": "da094085a22b1bcf14a96077cad03647edbe0f60",
         "type": "github"
       }
     },
