@@ -43,8 +43,19 @@ let
   };
   metals-pkg = pkgs.metals.overrideAttrs (old: {
     version = metals-version;
-    extraJavaOpts = old.extraJavaOpts + " -Dmetals.client=nvim-lsp";
+    extraJavaOpts = old.extraJavaOpts + 
+      " -Dmetals.client=nvim-lsp" +
+      " -Dmetals.verbose=true" +
+      " -Dmetals.askToReconnect=false" +
+      " -Dmetals.loglevel=debug" +
+      " -Dmetals.build-server-ping-interval=10h";
     buildInputs = [ metals-deps ];
+    installPhase = ''
+      mkdir -p $out/bin
+
+      makeWrapper ${pkgs.jdk11}/bin/java $out/bin/metals \
+        --add-flags "$extraJavaOpts -cp $CLASSPATH scala.meta.metals.Main"
+    '';
   });
   rescript-lsp-start = pkgs.writeShellScriptBin "rescript-lsp-start" ''
     ${pkgs.nodejs_18}/bin/node ${inputs.vim-rescript-plugin}/server/out/server.js --stdio
