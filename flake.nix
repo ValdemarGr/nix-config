@@ -21,7 +21,7 @@
       flake = false;
     };
     nvim-metals-plugin = {
-      url = "github:scalameta/nvim-metals/dfcb4f5d915fbc98e6b9b910fbe975b2fbda3227";
+      url = "github:scalameta/nvim-metals/1e269f1f01e6b970603d51e9e044824d9d8114e7";
       flake = false;
     };
     plenary-plugin = {
