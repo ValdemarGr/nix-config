@@ -75,7 +75,6 @@ nixpkgs.lib.nixosSystem {
               ((import ../user/valde/nvim) inputs)
             ];
             fonts.fontconfig.enable = true;
-            wayland.windowManager.hyprland.enableNvidiaPatches = true;
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
             wayland.windowManager.hyprland.extraConfig = ''
