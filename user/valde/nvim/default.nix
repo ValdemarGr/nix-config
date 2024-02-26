@@ -3,7 +3,7 @@ inputs:
 { lib, pkgs, ... }:
 
 let
-  metals-version = "1.2.0";
+  metals-version = "1.2.2";
   vim-init = builtins.readFile ./init.vim;
   lua-files = [
     ./telescope.lua
@@ -28,7 +28,7 @@ let
     '';
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-nikQ/GFRWmYYzboc9TWIi9gd5kwgCxOLhvIEQWusFik=";
+    outputHash = "sha256-xk2ionn/lBV8AR7n7OR03UuRCoP1/K6KuohhpRwFock=";
   };
   telescope-fzf-native-plugin = pkgs.stdenv.mkDerivation {
     name = "telescope-fzf-native-plugin";
