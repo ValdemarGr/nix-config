@@ -131,11 +131,11 @@
     "copilot-vim-plugin": {
       "flake": false,
       "locked": {
-        "lastModified": 1704902483,
-        "narHash": "sha256-n1ZgH/KN3u+pQNuQeouS5S0LYB7d061jNyBsXJKxdtc=",
+        "lastModified": 1708730510,
+        "narHash": "sha256-1rggVN+fFSA4kepOnAAJh+nQOCJIFcziayx/1r4hAuY=",
         "owner": "github",
         "repo": "copilot.vim",
-        "rev": "1a55183ef9347d6f420406a3746474b6b9fb9ef5",
+        "rev": "4d32b064fedbdbf8f3fa83afa1b19ebafd3a035c",
         "type": "github"
       },
       "original": {
@@ -218,11 +218,19 @@
         ]
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705408632,
         "narHash": "sha256-/AhkReVocTli5BLWA5WXxUlGYXn3Agi/uzX76TNrsbo=",
         "owner": "nix-community",
         "repo": "home-manager",
         "rev": "37d6eeceee464adc03585404eebd68765b3c8615",
+=======
+        "lastModified": 1708806879,
+        "narHash": "sha256-MSbxtF3RThI8ANs/G4o1zIqF5/XlShHvwjl9Ws0QAbI=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "4ee704cb13a5a7645436f400b9acc89a67b9c08a",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -250,11 +258,19 @@
     "leap-nvim-plugin": {
       "flake": false,
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705408497,
         "narHash": "sha256-wiH7N9bIf2d6aHEWxU7Y9kqdO3to995FxF8e+kQlwSs=",
         "owner": "ggandor",
         "repo": "leap.nvim",
         "rev": "c00f809a7dc2cbe2316913f0dacce3c8dfd396a8",
+=======
+        "lastModified": 1708948083,
+        "narHash": "sha256-mbCDI0WUxAyw7d/flAJ6omw+/ea8Mk6rpc3uPK8ARWA=",
+        "owner": "ggandor",
+        "repo": "leap.nvim",
+        "rev": "90ca1ded0608c891ba7a63de059ce5bc8533f060",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -274,11 +290,19 @@
         ]
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705359964,
         "narHash": "sha256-ys1MDjIH6z5UP7gAciRfUAlf2FJV0t3yFib965N/S+I=",
         "owner": "nix-community",
         "repo": "NixOS-WSL",
         "rev": "bb3eeeb96ce059ae29309138874ccf58e796f4b1",
+=======
+        "lastModified": 1708788887,
+        "narHash": "sha256-4HprTKLKiY8rXmthsuRAwXHW7hGaXsSlzmbXSWdOa7g=",
+        "owner": "nix-community",
+        "repo": "NixOS-WSL",
+        "rev": "7e3fc6a99a2c9e6701e2e0d37f1755e29a798b91",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -289,11 +313,19 @@
     },
     "nixpkgs": {
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705316053,
         "narHash": "sha256-J2Ey5mPFT8gdfL2XC0JTZvKaBw/b2pnyudEXFvl+dQM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "c3e128f3c0ecc1fb04aef9f72b3dcc2f6cecf370",
+=======
+        "lastModified": 1708807242,
+        "narHash": "sha256-sRTRkhMD4delO/hPxxi+XwLqPn8BuUq6nnj4JqLwOu0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "73de017ef2d18a04ac4bfd0c02650007ccb31c2a",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -305,11 +337,19 @@
     "nvim-cmp-plugin": {
       "flake": false,
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1702541213,
         "narHash": "sha256-BtAYRYn6m788zAq/mNnbAzAxp1TGf9QkRE0hSOp9sdc=",
         "owner": "hrsh7th",
         "repo": "nvim-cmp",
         "rev": "538e37ba87284942c1d76ed38dd497e54e65b891",
+=======
+        "lastModified": 1706857187,
+        "narHash": "sha256-FF7OHYUC4VFwFvqWKI/R5BSAC0JL6qFKUS6/XRSd9H8=",
+        "owner": "hrsh7th",
+        "repo": "nvim-cmp",
+        "rev": "04e0ca376d6abdbfc8b52180f8ea236cbfddf782",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -321,11 +361,19 @@
     "nvim-lspconfig-plugin": {
       "flake": false,
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705229581,
         "narHash": "sha256-RncyCU0iqSp7oT5MK95S4eLXD8PxT8LMS1tJSjpZNRM=",
         "owner": "neovim",
         "repo": "nvim-lspconfig",
         "rev": "7eed8b2150192e5ad05e1886fdf133493ddf2928",
+=======
+        "lastModified": 1708843529,
+        "narHash": "sha256-k+/bpb+rrmZF9a+E95202OVcKcG5QGbExm6xPUli0VA=",
+        "owner": "neovim",
+        "repo": "nvim-lspconfig",
+        "rev": "ec7d51a619049c7c597f469f81ea199db6794651",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -353,11 +401,19 @@
     "nvim-tree-plugin": {
       "flake": false,
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705190895,
         "narHash": "sha256-BfB4q4nRBotjopq/35rI2jXrNub2uriZIPznMPGq2lc=",
         "owner": "kyazdani42",
         "repo": "nvim-tree.lua",
         "rev": "f24afa2cef551122b8bd53bb2e4a7df42343ce2e",
+=======
+        "lastModified": 1708757605,
+        "narHash": "sha256-8aupc1ZQys6AxWa2XoB0Zobx+liEmxuqlumbgeO2zzY=",
+        "owner": "kyazdani42",
+        "repo": "nvim-tree.lua",
+        "rev": "d52fdeb0a300ac42b9cfa65ae0600a299f8e8677",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -369,11 +425,19 @@
     "nvim-web-devicons-plugin": {
       "flake": false,
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705292513,
         "narHash": "sha256-xuHIdvezGH04X+B+x4MjaUFOAZkR2Qc19ErZaeUJ7W0=",
         "owner": "kyazdani42",
         "repo": "nvim-web-devicons",
         "rev": "140edfcf25093e8b321d13e154cbce89ee868ca0",
+=======
+        "lastModified": 1708837217,
+        "narHash": "sha256-66BJaZJdxtfcXPU4pDVvG2RrTg+1E4YA4SGE7e9X02c=",
+        "owner": "kyazdani42",
+        "repo": "nvim-web-devicons",
+        "rev": "0bb67ef952ea3eb7b1bac9c011281471d99a27bc",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -385,11 +449,19 @@
     "octo-plugin": {
       "flake": false,
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705418344,
         "narHash": "sha256-rK8wkEywDqrcJn4x2fZl/gepxX+/WkpOYa+Dozoj4jI=",
         "owner": "pwntester",
         "repo": "octo.nvim",
         "rev": "613d73a4b00c365f5a9744fc7e9549cd646291fe",
+=======
+        "lastModified": 1708099850,
+        "narHash": "sha256-jqfxkXCBwB4V5D4RaumYRvkzVzI40HUgBmK/ROtIbVs=",
+        "owner": "pwntester",
+        "repo": "octo.nvim",
+        "rev": "feae1e5519deebad3c59ee1d57d28aa22822f7c8",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -401,11 +473,19 @@
     "oil-nvim-plugin": {
       "flake": false,
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705384883,
         "narHash": "sha256-2gEqQqrjJ9gRYX77eT74X2dqJdI+1IvsfR6jfaXnUbc=",
         "owner": "stevearc",
         "repo": "oil.nvim",
         "rev": "dd432e76d01eda08b8658415588d011009478469",
+=======
+        "lastModified": 1708668692,
+        "narHash": "sha256-stG9T3MOqW6ihe6fWseBYwACUKP/8jAc+fWBrV0VtiA=",
+        "owner": "stevearc",
+        "repo": "oil.nvim",
+        "rev": "132b4ea0740c417b9d717411cab4cf187e1fd095",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -545,11 +625,11 @@
     "sql-plugin": {
       "flake": false,
       "locked": {
-        "lastModified": 1681923697,
-        "narHash": "sha256-XElCJGganIIh4T5K5kKZTbVYwVOXCtLF1fdc95NopDc=",
+        "lastModified": 1708356747,
+        "narHash": "sha256-UIEeScaagqHLWppm9E5kguF9W5ciZjMvyPKkrP8P0oA=",
         "owner": "tami5",
         "repo": "sql.nvim",
-        "rev": "b7e28c8463254c46a8e61c52d27d6a2040492fc3",
+        "rev": "40701b6151f8883980c1548647116de39b763540",
         "type": "github"
       },
       "original": {
@@ -608,11 +688,19 @@
     "telescope-nvim-plugin": {
       "flake": false,
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1705031611,
         "narHash": "sha256-krsJJPNMtylBYyBJE29LodQAHyJc0fpeglZ6qFOtJVQ=",
         "owner": "nvim-telescope",
         "repo": "telescope.nvim",
         "rev": "da8b3d485975a8727bea127518b65c980521ae22",
+=======
+        "lastModified": 1708784664,
+        "narHash": "sha256-PpUWXgzwUeSZVJg4invL4hk+EAQbxH7+4p8Qo1dUl7g=",
+        "owner": "nvim-telescope",
+        "repo": "telescope.nvim",
+        "rev": "2e1e382df42467029b493c143c2e727028140214",
+>>>>>>> 58d4431 (upgrade flake)
         "type": "github"
       },
       "original": {
@@ -773,11 +861,11 @@
     "vim-terraform-plugin": {
       "flake": false,
       "locked": {
-        "lastModified": 1696238836,
-        "narHash": "sha256-UGpgRqvmxsAbGF0yAKWaW0wbdxwzETlns6Y1peTRYBg=",
+        "lastModified": 1707849495,
+        "narHash": "sha256-uva6NXM/u0n0LARJqfEOWVYLiD3KCl88jAMm2zS25q4=",
         "owner": "hashivim",
         "repo": "vim-terraform",
-        "rev": "d37ae7e7828aa167877e338dea5d4e1653ed3eb1",
+        "rev": "21f756b933cd11ac5990a6046fdc7c4e2a6c0aee",
         "type": "github"
       },
       "original": {
