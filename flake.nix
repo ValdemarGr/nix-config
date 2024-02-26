@@ -17,7 +17,7 @@
       flake = false;
     };
     gruvbox-baby-plugin = {
-      url = "github:valdemargr/gruvbox-baby/f65fe30691db64e8ca32aa6fba0cf07703adca28";
+      url = "github:valdemargr/gruvbox-baby/d005d431de5343ea7640d1c3b57570c89f992ac4";
       flake = false;
     };
     nvim-metals-plugin = {
