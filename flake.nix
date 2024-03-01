@@ -132,10 +132,6 @@
       url = "github:ray-x/cmp-treesitter";
       flake = false;
     };
-    #nvim-treesitter-plugin = {
-    #  url = "github:nvim-treesitter/nvim-treesitter";
-    #  flake = false;
-    #};
     playground-plugin = {
       url = "github:nvim-treesitter/playground";
       flake = false;
