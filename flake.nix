@@ -164,11 +164,6 @@
       url = "github:ggandor/leap.nvim";
       flake = false;
     };
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
     gke-auth-module = {
       flake = false;
       url = "github:traviswt/gke-auth-plugin";
