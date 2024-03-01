@@ -1,0 +1,59 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-size: 18px;
+  min-height: 0;
+  font-family: "FiraCode Nerd Font", "Font Awesome 6 Free";
+}
+
+window#waybar {
+  background: none;/*#211818;*/
+  /*color: #e5e9f0;*/
+}
+
+#clock,
+#tray,
+#cpu,
+#memory,
+#disk,
+#workspaces button,
+#pulseaudio {
+  background-color: #333333;/*transparent;*/
+  color: @text;
+  /* border: 1px solid @darkgray; */
+  padding: 4px 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 1px;
+  margin-right: 1px;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  animation: popout 0.5s ease;
+  /*border: 3px solid #ffffff;*/
+}
+
+@define-color text       #BECBCB;
+
+@keyframes popout {
+  0% {
+    background-color: #ffffff;
+  }
+  100% {
+    background-color: #333333;
+  }
+}
+
+#workspaces button.active {
+  border: 3px solid #7aa2f7;
+  transition: all 0.3s ease-in-out;
+}
+/*
+#workspaces {
+background: rgba(26, 27, 38, 1);
+
+padding: 0 10px;
+
+border: 0;
+}*/

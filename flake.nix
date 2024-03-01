@@ -186,17 +186,6 @@
     {
       nixosConfigurations.home = mkSystem "home";
       nixosConfigurations.work = mkSystem "work";
-      nixosConfigurations.home-wsl = mkSystem "home-wsl";
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
-      # use mkShell
-      devShells.${system}.${machine} = nixpkgs.legacyPackages.${system}.pkgs.mkShell {
-        name = "hoy";
-        buildInputs = [
-          nixpkgs.legacyPackages.${system}.pkgs.curl
-        ];
-        shellHook = ''
-          echo "Ohoy!"
-        '';
-      };
     };
 }

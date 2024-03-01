@@ -12,7 +12,7 @@ nixpkgs.lib.nixosSystem {
   modules = [
     ../system/machine/${name}
     inputs.home-manager.nixosModules.home-manager
-    ({ pkgs, lib, ... }:
+    (deps@{ pkgs, lib, ... }:
       let
         wallpaper = ../wallpaper/wp.webp;
         gke-auth-module = pkgs.buildGoModule {
@@ -23,6 +23,10 @@ nixpkgs.lib.nixosSystem {
         set-gke-commands = pkgs.writeShellScriptBin "fix-gke-auth-commands" ''
         kubectl config get-users | xargs -I {} kubectl config set-credentials {} --exec-command=${gke-auth-module}/bin/gke-auth-plugin
         '';
+        get-unicode-list = pkgs.writeShellScriptBin "rofi-get-unicode-list" ''
+        cat ${inputs.rofi-unicode-list}/unicode-list.txt
+        '';
+        hypr-config = builtins.readFile ./hyprland.conf;
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
           sleep 0.8
           echo ${gke-auth-module}/bin/gke-auth-plugin
@@ -34,56 +38,7 @@ nixpkgs.lib.nixosSystem {
       in
       {
         nixpkgs.overlays = [
-          (final: prev: {
-            swww = pkgs.rustPlatform.buildRustPackage rec {
-              pname = "swww";
-              version = "0.8.1";
-
-              src = pkgs.fetchFromGitHub {
-                owner = "Horus645";
-                repo = pname;
-                rev = "refs/tags/v${version}";
-                hash = "sha256-9c/qBmk//NpfvPYjK2QscubFneiQYBU/7PLtTvVRmTA=";
-              };
-
-              cargoSha256 = "sha256-AE9bQtW5r1cjIsXA7YEP8TR94wBjaM7emOroVFq9ldE=";
-
-              buildInputs = [
-                pkgs.lz4
-                pkgs.libxkbcommon
-              ];
-
-              doCheck = false; # Integration tests do not work in sandbox environment
-
-              nativeBuildInputs = [
-                pkgs.pkg-config
-                pkgs.installShellFiles
-                pkgs.scdoc
-              ];
-
-              postInstall = ''
-                for f in doc/*.scd; do
-                  local page="doc/$(basename "$f" .scd)"
-                  scdoc < "$f" > "$page"
-                  installManPage "$page"
-                done
-
-                installShellCompletion --cmd swww \
-                  --bash <(cat completions/swww.bash) \
-                  --fish <(cat completions/swww.fish) \
-                  --zsh <(cat completions/_swww)
-              '';
-
-              meta = with lib; {
-                description = "Efficient animated wallpaper daemon for wayland, controlled at runtime";
-                homepage = "https://github.com/Horus645/swww";
-                license = licenses.gpl3;
-                maintainers = with maintainers; [ mateodd25 donovanglover ];
-                platforms = platforms.linux;
-                mainProgram = "swww";
-              };
-            };
-          })
+          (import ../overlays/swww.nix deps)
         ];
         nixpkgs.config.allowUnfree = true;
         users.users.${machine} = {
@@ -131,72 +86,10 @@ nixpkgs.lib.nixosSystem {
             fonts.fontconfig.enable = true;
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
-            wayland.windowManager.hyprland.extraConfig = ''
-                                            $mod = SUPER
-                                            bind = $mod, F, fullscreen, 9
-                                            bind = $mod, RETURN, exec, kitty
-                                            # bind = $mod, L, exec, hyprctl keyword input:kb_layout dk
-                                            bind = $mod SHIFT, Q, killactive,
-                                            bind = $mod, D, exec, rofi -show drun -show-icons
-                                            bind = $mod SHIFT, S, exec, slurp | grim -g - - | wl-copy -t image/png
-                            bind = $mod, N, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(rofi -dmenu -lines 0 -p 'Workspace name') && killall -SIGUSR2 waybar
-                            bind = $mod, I, exec, hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(cat ${inputs.rofi-unicode-list}/unicode-list.txt | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
-
-                                            bind = $mod, right, movefocus, r
-                                            bind = $mod, left, movefocus, l
-                                            bind = $mod, up, movefocus, u
-                                            bind = $mod, down, movefocus, d
-
-                                            bind = $mod, l, movefocus, r
-                                            bind = $mod, h, movefocus, l
-                                            bind = $mod, k, movefocus, u
-                                            bind = $mod, j, movefocus, d
-
-                                            bind = $mod SHIFT, right, movewindow, r
-                                            bind = $mod SHIFT, left, movewindow, l
-                                            bind = $mod SHIFT, up, movewindow, u
-                                            bind = $mod SHIFT, down, movewindow, d
-
-                                            bind = $mod SHIFT CTRL, right, movecurrentworkspacetomonitor, r
-                                            bind = $mod SHIFT CTRL, left, movecurrentworkspacetomonitor, l
-                                            bind = $mod SHIFT CTRL, up, workspace, m+1
-                                            bind = $mod SHIFT CTRL, down, workspace, m-1
-
-                                            bind = $mod, 0, workspace, 0
-                                            bind = $mod, 1, workspace, 1
-                                            bind = $mod, 2, workspace, 2
-                                            bind = $mod, 3, workspace, 3
-                                            bind = $mod, 4, workspace, 4
-                                            bind = $mod, 5, workspace, 5
-                                            bind = $mod, 6, workspace, 6
-                                            bind = $mod, 7, workspace, 7
-                                            bind = $mod, 8, workspace, 8
-                                            bind = $mod, 9, workspace, 9
-
-                                            bind = $mod SHIFT, 0, movetoworkspacesilent, 0
-                                            bind = $mod SHIFT, 1, movetoworkspacesilent, 1
-                                            bind = $mod SHIFT, 2, movetoworkspacesilent, 2
-                                            bind = $mod SHIFT, 3, movetoworkspacesilent, 3
-                                            bind = $mod SHIFT, 4, movetoworkspacesilent, 4
-                                            bind = $mod SHIFT, 5, movetoworkspacesilent, 5
-                                            bind = $mod SHIFT, 6, movetoworkspacesilent, 6
-                                            bind = $mod SHIFT, 7, movetoworkspacesilent, 7
-                                            bind = $mod SHIFT, 8, movetoworkspacesilent, 8
-                                            bind = $mod SHIFT, 9, movetoworkspacesilent, 9
-
-                                            general {
-                                              gaps_in = 5
-                                              gaps_out = 12
-                                            }
-
-                                            #input {
-                                            #  follow_mouse = 0
-                                            #}
-
-                                            ${monitors.monitor-config}
-                                            monitor = ,addreserved,-12,0,0,0
-
-                                            exec-once=bash ${hyprland-startup}
+            wayland.windowManager.hyprland.extraConfig = hypr-config + ''
+              ${monitors.monitor-config}
+              monitor = ,addreserved,-12,0,0,0
+              exec-once=bash ${hyprland-startup}
             '';
             home = {
               pointerCursor = {
@@ -246,124 +139,7 @@ nixpkgs.lib.nixosSystem {
             };
             programs.kitty.enable = true;
             programs.kitty.shellIntegration.enableZshIntegration = true;
-            programs.kitty.extraConfig = ''
-              # vim:ft=kitty
-              #: This is a template that can be used to create new kitty themes.
-              #: Theme files should start with a metadata block consisting of
-              #: lines beginning with ##. All metadata fields are optional.
-
-              ## name: The name of the theme (if not present, derived from filename)
-              ## author: The name of the theme author
-              ## license: The license information
-              ## upstream: A URL pointing to the location of this file upstream for auto-updates
-              ## blurb: A description of this theme. This must be the
-              ## last item in the metadata and can continue over multiple lines.
-
-              #: All the settings below are colors, which you can choose to modify, or use the
-              #: defaults. You can also add non-color based settings if needed but note that
-              #: these will not work with using kitty @ set-colors with this theme. For a
-              #: reference on what these settings do see https://sw.kovidgoyal.net/kitty/conf/
-
-              #: The basic colors
-
-              background                      #1D2426
-              foreground                      #AB9C71
-              # selection_foreground            #000000
-              # selection_background            #fffacd
-
-
-              #: Cursor colors
-
-              cursor                          #BE5E1E
-              cursor_blink_interval           0
-              # cursor_text_color               #111111
-
-
-              #: URL underline color when hovering with mouse
-
-              # url_color                       #0087bd
-
-
-              #: kitty window border colors and terminal bell colors
-
-              # active_border_color             #00ff00
-              # inactive_border_color           #cccccc
-              # bell_border_color               #ff5a00
-              # visual_bell_color               none
-
-
-              #: OS Window titlebar colors
-
-              # wayland_titlebar_color          system
-              # macos_titlebar_color            system
-
-
-              #: Tab bar colors
-
-              # active_tab_foreground           #000
-              # active_tab_background           #eee
-              # inactive_tab_foreground         #444
-              # inactive_tab_background         #999
-              # tab_bar_background              none
-              # tab_bar_margin_color            none
-
-
-              #: Colors for marks (marked text in the terminal)
-
-              # mark1_foreground black
-              # mark1_background #98d3cb
-              # mark2_foreground black
-              # mark2_background #f2dcd3
-              # mark3_foreground black
-              # mark3_background #f274bc
-
-
-              #: The basic 16 colors
-
-              #: black
-              color0 #39474A
-              color8 #4C5F63
-
-              #: red
-              color1 #986345
-              color9 #B07350
-
-              #: green
-              color2  #788249
-              # color10 #AF6B42
-              color10 #85914a
-
-              #: yellow
-              color3  #9a8518
-              #color11 #869151
-              color11 #a18b1a
-
-              #: blue
-              color4  #567a6e
-              color12 #567a6e
-
-              #: magenta
-              color5  #b9924a
-              color13 #d69d55
-
-              #: cyan
-              # color6  #5d796a
-              # color14 #668574
-              color6  #569186
-              color14 #5da396
-
-              #: white
-              color7  #977D5E
-              color15 #ab9c71
-
-              #font_family 3270 Nerd Font
-              #font_family BlexMono Nerd Font
-              font_family FiraCode Nerd Font
-              font_size 15.0
-
-              #: You can set the remaining 240 colors as color16 to color255.
-
-            '';
+            programs.kitty.extraConfig = builtins.readFile ./kitty.conf;
             programs.waybar = {
               enable = true;
               settings =
@@ -461,69 +237,7 @@ nixpkgs.lib.nixosSystem {
                     })
                   ])
                 ];
-              style = ''
-                          * {
-                        border: none;
-                        border-radius: 0;
-                        font-size: 18px;
-                        min-height: 0;
-                        font-family: "FiraCode Nerd Font", "Font Awesome 6 Free";
-                      }
-
-                      window#waybar {
-                        background: none;/*#211818;*/
-                /*color: #e5e9f0;*/
-                      }
-                #clock,
-                #tray,
-                #cpu,
-                #memory,
-                #disk,
-                #workspaces button,
-                #pulseaudio {
-                  background-color: #333333;/*transparent;*/
-                  color: @text;
-                  /* border: 1px solid @darkgray; */
-                  padding: 4px 15px;
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                  margin-left: 1px;
-                  margin-right: 1px;
-                  border-radius: 15px;
-                  transition: all 0.3s ease;
-                background-clip: padding-box;
-                  border: 3px solid transparent;
-                  animation: popout 0.5s ease;
-                  /*border: 3px solid #ffffff;*/
-                }
-
-                @define-color text       #BECBCB;
-
-                @keyframes popout {
-                  0% {
-                    background-color: #ffffff;
-                  }
-                  100% {
-                    background-color: #333333;
-                  }
-                }
-
-                #workspaces button.active {
-
-                  border: 3px solid #7aa2f7;
-
-                  transition: all 0.3s ease-in-out;
-
-                }
-                /*
-                      #workspaces {
-                          background: rgba(26, 27, 38, 1);
-
-                  padding: 0 10px;
-
-                  border: 0;
-                      }*/
-              '';
+              style = builtins.readFile ./waybar.css;
             };
             programs.rofi = {
               enable = true;
@@ -537,28 +251,7 @@ nixpkgs.lib.nixosSystem {
               enable = true;
               clock24 = true;
               shell = "${pkgs.zsh}/bin/zsh";
-              extraConfig = ''
-                setw -g mode-keys vi
-
-                # set refresh interval for status bar
-                set -g status-interval 30
-
-                # center the status bar
-                set -g status-justify left
-
-                # show session, window, pane in left status bar
-                set -g status-left-length 40
-                set -g status-left '#I:#P #[default]'
-
-                set-window-option -g xterm-keys on
-                set -sg escape-time 0
-                set -g history-limit 40000
-
-                # Add truecolor support
-                set -g default-terminal "kitty"
-                set-option -g terminal-overrides ",kitty:Tc"
-                set -g focus-events on
-              '';
+              extraConfig = builtins.readFile ./tmux.conf;
             };
             programs.git = {
               enable = true;
@@ -582,6 +275,7 @@ nixpkgs.lib.nixosSystem {
           pkgs.discord
           pkgs.busybox
           pkgs.kubectl
+          get-unicode-list
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;
