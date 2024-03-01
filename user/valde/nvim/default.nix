@@ -31,7 +31,7 @@ let
   };
   metals-pkg = pkgs.metals.overrideAttrs (old: {
     version = metals-version;
-    extraJavaOpts = old.extraJavaOpts + 
+    extraJavaOpts = old.extraJavaOpts +
       " -Dmetals.client=nvim-lsp" +
       " -Dmetals.verbose=true" +
       " -Dmetals.askToReconnect=false" +
@@ -72,7 +72,7 @@ in
   home.file.".vimtmp" = {
     recursive = true;
     target = ".vimtmp/keep";
-    source = builtins.toFile "keep" ""; 
+    source = builtins.toFile "keep" "";
   };
 
   programs.neovim = {

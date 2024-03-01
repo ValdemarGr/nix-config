@@ -21,10 +21,10 @@ nixpkgs.lib.nixosSystem {
           src = "${inputs.gke-auth-module}";
         };
         set-gke-commands = pkgs.writeShellScriptBin "fix-gke-auth-commands" ''
-        kubectl config get-users | xargs -I {} kubectl config set-credentials {} --exec-command=${gke-auth-module}/bin/gke-auth-plugin
+          kubectl config get-users | xargs -I {} kubectl config set-credentials {} --exec-command=${gke-auth-module}/bin/gke-auth-plugin
         '';
         get-unicode-list = pkgs.writeShellScriptBin "rofi-get-unicode-list" ''
-        cat ${inputs.rofi-unicode-list}/unicode-list.txt
+          cat ${inputs.rofi-unicode-list}/unicode-list.txt
         '';
         hypr-config = builtins.readFile ./hyprland.conf;
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
