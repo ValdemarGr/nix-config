@@ -99,6 +99,7 @@ nixpkgs.lib.nixosSystem {
         security.polkit.enable = true;
         programs.dconf.enable = true;
         programs.steam.enable = true;
+        programs.nix-ld.enable = true;
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
         home-manager = {
           useGlobalPkgs = true;
@@ -230,6 +231,7 @@ nixpkgs.lib.nixosSystem {
               enable = true;
               enableZshIntegration = true;
             };
+            programs.btop.enable = true;
             programs.zsh = {
               enable = true;
               oh-my-zsh = {

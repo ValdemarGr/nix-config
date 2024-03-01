@@ -4,18 +4,6 @@ inputs:
 
 let
   metals-version = "1.2.2";
-  vim-init = builtins.readFile ./init.vim;
-  lua-files = [
-    ./telescope.lua
-    ./cmp.lua
-    #./tree.lua
-    ./oil.lua
-  ];
-  lua-file-contents =
-    lib.lists.map
-      (x: builtins.readFile x)
-      lua-files
-  ;
   metals-deps = pkgs.stdenv.mkDerivation {
     name = "metals-deps-${metals-version}";
     buildCommand = ''
@@ -93,75 +81,15 @@ in
     plugins = vim-plugins ++ [
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
     ];
-    extraConfig = vim-init + ''
+    extraLuaConfig = ''
 
-    let g:copilot_node_command = "${pkgs.nodejs_18}/bin/node"
-    let g:copilot_filetypes = {
-      \ '*': v:true,
-    \ }
-    '';
-    extraLuaConfig = (lib.strings.concatLines lua-file-contents) + ''
-
-    -- require('hop').setup()
-    require('leap')
-    -- require('leap').add_default_mappings()
-    vim.keymap.set({ "n" }, "<leader>M", "<Plug>(leap-backward-to)")
-    vim.keymap.set({ "n" }, "<leader>m", "<Plug>(leap-forward-to)")
-
-    vim.keymap.set({ "n" }, "`", "'", { noremap = true })
-    vim.keymap.set({ "n" }, "'", "`", { noremap = true })
-
-    require('octo').setup()
-    require('lspconfig').terraformls.setup{
-      cmd = { "${pkgs.terraform-ls}/bin/terraform-ls", "serve" }
-    }
-    require('lspconfig').graphql.setup{}
-
-    vim.opt_global.shortmess:remove("F")
-
-    metals_config = require('metals').bare_config()
-    metals_config.init_options.statusBarProvider = "on"
-    metals_config.settings = {
-      showImplicitArguments = true,
-      enableSemanticHighlighting = false,
-      metalsBinaryPath = "${metals-pkg}/bin/metals"
-    }
-
-    vim.cmd [[augroup lsp]]
-    vim.cmd [[au!]]
-    vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach(metals_config)]]
-    vim.cmd [[augroup end]]
-
-    vim.cmd([[hi! link LspReferenceText CursorColumn]])
-    vim.cmd([[hi! link LspReferenceRead CursorColumn]])
-    vim.cmd([[hi! link LspReferenceWrite CursorColumn]])
-
-    require("nvim-treesitter.configs").setup{
-      highlight = {
-        enable = true
-      }
-    }
-
-    vim.cmd [[augroup Authzed]]
-    vim.cmd [[au!]]
-    vim.cmd [[autocmd BufNewFile,BufRead *.authzed set filetype=authzed]]
-    vim.cmd [[autocmd BufNewFile,BufRead *.zed set filetype=authzed]]
-    vim.cmd [[autocmd BufNewFile,BufRead *.azd set filetype=authzed]]
-    vim.cmd [[augroup end]]
-
-    vim.keymap.set("n", "<leader>.", function() require("harpoon.mark").add_file() end)
-    vim.keymap.set("n", "<leader>,", function() require("harpoon.ui").toggle_quick_menu() end)
-
-    vim.keymap.set("n", "<C-h>", function() require("harpoon.ui").nav_file(1) end)
-    vim.keymap.set("n", "<C-t>", function() require("harpoon.ui").nav_file(2) end)
-    vim.keymap.set("n", "<C-n>", function() require("harpoon.ui").nav_file(3) end)
-    vim.keymap.set("n", "<C-s>", function() require("harpoon.ui").nav_file(4) end)
-
-    require('lspconfig').rescriptls.setup{
-      capabilities = require('cmp_nvim_lsp').default_capabilities(),
-      cmd = {
-        '${rescript-lsp-fhs}/bin/rescript-lsp-fhs'
-      }
+    package.path = package.path .. ";${./lua}/?.lua"
+    setup = require("config/main")
+    setup{
+      terraform_ls = '${pkgs.terraform-ls}/bin/terraform-ls',
+      metals = '${metals-pkg}/bin/metals',
+      rescript_lsp = '${rescript-lsp-fhs}/bin/rescript-lsp-fhs',
+      node = '${pkgs.nodejs_18}/bin/node'
     }
     '';
   };
