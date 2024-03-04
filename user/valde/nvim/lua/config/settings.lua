@@ -57,3 +57,5 @@ vim.cmd([[hi! link LspReferenceText CursorColumn]])
 vim.cmd([[hi! link LspReferenceRead CursorColumn]])
 vim.cmd([[hi! link LspReferenceWrite CursorColumn]])
 
+vim.cmd [[let g:sql_type_default = 'pgsql']]
+vim.cmd [[let g:ftplugin_sql_omni_key = '<C-j>']]
