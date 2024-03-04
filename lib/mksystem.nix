@@ -260,6 +260,11 @@ nixpkgs.lib.nixosSystem {
             };
           };
         };
+        networking.firewall = {
+          enable = true;
+          allowedTCPPorts = [ 8080 8081 8082 ] ;
+          allowedUDPPorts = [ 8080 8081 8082 ] ;
+        };
         environment.systemPackages = [
           pkgs.gh
           pkgs.google-cloud-sdk
