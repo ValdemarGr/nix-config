@@ -28,11 +28,8 @@ nixpkgs.lib.nixosSystem {
         '';
         hypr-config = builtins.readFile ./hyprland.conf;
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
-          sleep 0.8
-          echo ${gke-auth-module}/bin/gke-auth-plugin
-          swww init &
+          swww init && swww img "${wallpaper}" --transition-type none &
           waybar &
-          swww img "${wallpaper}" --transition-type none &
           dunst
         '';
       in
