@@ -28,7 +28,7 @@ nixpkgs.lib.nixosSystem {
         '';
         hypr-config = builtins.readFile ./hyprland.conf;
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
-          swww init && swww img "${wallpaper}" --transition-type none &
+          swww init && sleep 1.5 && swww img "${wallpaper}" --transition-type none &
           waybar &
           dunst
         '';
