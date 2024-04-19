@@ -52,15 +52,16 @@ let
       sha256 = "sha256-YK+i8Fay54uhEpRWaOwyxXTgeuSFntKjicMHTlyR6Uc=";
     };
     installPhase = ''
-      cp -r out/cli.js $out
+      mkdir -p $out
+      cp -r * $out/
     '';
   };
-  rescript-npm-pkg-fhs = pkgs.buildFHSEnv {
-    name = "rescript-npm-pkg-fhs";
-    runScript = "${pkgs.nodejs_18}/bin/node ${rescript-npm-pkg} --stdio";
-  };
+  #rescript-npm-pkg-fhs = pkgs.buildFHSEnv {
+  #  name = "rescript-npm-pkg-fhs";
+  #  runScript = "${pkgs.nodejs_18}/bin/node ${rescript-npm-pkg} --stdio";
+  #};
   rescript-lsp-start = pkgs.writeShellScriptBin "rescript-lsp-start" ''
-    ${pkgs.nodejs_18}/bin/node ${inputs.vim-rescript-plugin}/server/out/server.js --stdio
+    ${pkgs.nodejs_18}/bin/node ${rescript-npm-pkg}/out/cli.js --stdio
   '';
   rescript-lsp-fhs = pkgs.buildFHSEnv {
     name = "rescript-lsp-fhs";
@@ -102,7 +103,7 @@ in
     setup{
       terraform_ls = '${pkgs.terraform-ls}/bin/terraform-ls',
       metals = '${metals-pkg}/bin/metals',
-      rescript_lsp = '${rescript-npm-pkg-fhs}/bin/rescript-npm-pkg-fhs',
+      rescript_lsp = '${rescript-lsp-fhs}/bin/rescript-lsp-fhs',
       node = '${pkgs.nodejs_18}/bin/node'
     }
     '';
