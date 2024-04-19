@@ -137,7 +137,7 @@
       flake = false;
     };
     vim-rescript-plugin = {
-      url = "github:rescript-lang/vim-rescript/da094085a22b1bcf14a96077cad03647edbe0f60";
+      url = "github:rescript-lang/vim-rescript/2065f4e1d319ffd4ff7046879f270ebbadda873e";
       flake = false;
     };
     vim-harpoon-plugin = {

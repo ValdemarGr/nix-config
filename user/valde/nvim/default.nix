@@ -45,6 +45,20 @@ let
         --add-flags "$extraJavaOpts -cp $CLASSPATH scala.meta.metals.Main"
     '';
   });
+  rescript-npm-pkg = pkgs.stdenv.mkDerivation {
+    name = "rescript-npm-pkg";
+    src = pkgs.fetchurl {
+      url = "https://registry.npmjs.org/@rescript/language-server/-/language-server-1.50.0.tgz";
+      sha256 = "sha256-YK+i8Fay54uhEpRWaOwyxXTgeuSFntKjicMHTlyR6Uc=";
+    };
+    installPhase = ''
+      cp -r out/cli.js $out
+    '';
+  };
+  rescript-npm-pkg-fhs = pkgs.buildFHSEnv {
+    name = "rescript-npm-pkg-fhs";
+    runScript = "${pkgs.nodejs_18}/bin/node ${rescript-npm-pkg} --stdio";
+  };
   rescript-lsp-start = pkgs.writeShellScriptBin "rescript-lsp-start" ''
     ${pkgs.nodejs_18}/bin/node ${inputs.vim-rescript-plugin}/server/out/server.js --stdio
   '';
@@ -88,7 +102,7 @@ in
     setup{
       terraform_ls = '${pkgs.terraform-ls}/bin/terraform-ls',
       metals = '${metals-pkg}/bin/metals',
-      rescript_lsp = '${rescript-lsp-fhs}/bin/rescript-lsp-fhs',
+      rescript_lsp = '${rescript-npm-pkg-fhs}/bin/rescript-npm-pkg-fhs',
       node = '${pkgs.nodejs_18}/bin/node'
     }
     '';
