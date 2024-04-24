@@ -32,11 +32,34 @@ nixpkgs.lib.nixosSystem {
           waybar &
           dunst
         '';
+        rofi-focus = pkgs.writeShellScriptBin "rofi-focus" ''
+        for i in {1..20}
+        do
+          sleep 0.1
+          W=$(hyprctl clients | grep " *class: Rofi$")
+          if [ -n "$W" ]; then
+            hyprctl dispatch focuswindow Rofi
+            break
+          fi
+        done
+        '';
+        hypr-rofi = pkgs.writeShellScriptBin "hypr-rofi" ''
+        ${rofi-focus}/bin/rofi-focus &
+        rofi -show drun -show-icons
+        '';
+        hypr-rofi-workspace-name = pkgs.writeShellScriptBin "hypr-rofi-workspace-name" ''
+        ${rofi-focus}/bin/rofi-focus &
+        hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(rofi -dmenu -lines 0 -p 'Workspace name') && killall -SIGUSR2 waybar
+        '';
+        hypr-rofi-workspace-icon = pkgs.writeShellScriptBin "hypr-rofi-workspace-icon" ''
+        ${rofi-focus}/bin/rofi-focus &
+        hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(rofi-get-unicode-list | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
+        '';
       in
       {
-        nixpkgs.overlays = [
-          (import ../overlays/swww.nix deps)
-        ];
+        #nixpkgs.overlays = [
+        #  (import ../overlays/swww.nix deps)
+        #];
         nixpkgs.config.allowUnfree = true;
         users.users.${machine} = {
           isNormalUser = true;
@@ -53,6 +76,9 @@ nixpkgs.lib.nixosSystem {
         programs.steam.enable = true;
         programs.nix-ld.enable = true;
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
+        nix.extraOptions = ''
+        !include /home/${machine}/nix.conf
+        '';
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -84,6 +110,9 @@ nixpkgs.lib.nixosSystem {
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
             wayland.windowManager.hyprland.extraConfig = hypr-config + ''
+              bind = $mod, D, exec, ${hypr-rofi}/bin/hypr-rofi
+              bind = $mod, N, exec, ${hypr-rofi-workspace-name}/bin/hypr-rofi-workspace-name
+              bind = $mod, I, exec, ${hypr-rofi-workspace-icon}/bin/hypr-rofi-workspace-icon
               ${monitors.monitor-config}
               monitor = ,addreserved,-12,0,0,0
               exec-once=bash ${hyprland-startup}
@@ -278,6 +307,9 @@ nixpkgs.lib.nixosSystem {
           pkgs.busybox
           pkgs.kubectl
           get-unicode-list
+          hypr-rofi
+          hypr-rofi-workspace-name
+          hypr-rofi-workspace-icon
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;
