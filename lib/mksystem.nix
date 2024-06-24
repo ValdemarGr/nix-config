@@ -66,14 +66,17 @@ nixpkgs.lib.nixosSystem {
           extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" ];
           shell = pkgs.zsh;
         };
-        hardware.opengl = {
+        hardware.graphics = {
           enable = true;
-          driSupport = true;
-          driSupport32Bit = true;
+          #driSupport = true;
+          #driSupport32Bit = true;
         };
         security.polkit.enable = true;
         programs.dconf.enable = true;
-        programs.steam.enable = true;
+        programs.steam = {
+          enable = true;
+          extraCompatPackages = [ pkgs.proton-ge-bin ];
+        };
         programs.nix-ld.enable = true;
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
         nix.extraOptions = ''
@@ -102,6 +105,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.lato
               pkgs.noto-fonts
               pkgs.r2modman
+              pkgs.vesktop
             ];
             imports = [
               ((import ../user/valde/nvim) inputs)
