@@ -82,6 +82,7 @@ nixpkgs.lib.nixosSystem {
         nix.extraOptions = ''
         !include /home/${machine}/nix.conf
         '';
+        boot.kernelModules = [ "v4l2loopback" ];
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -110,6 +111,7 @@ nixpkgs.lib.nixosSystem {
             imports = [
               ((import ../user/valde/nvim) inputs)
             ];
+            programs.obs-studio.enable = true;
             fonts.fontconfig.enable = true;
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
