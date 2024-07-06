@@ -12,7 +12,7 @@ nixpkgs.lib.nixosSystem {
   modules = [
     ../system/machine/${name}
     inputs.home-manager.nixosModules.home-manager
-    (deps@{ pkgs, lib, ... }:
+    (deps@{ pkgs, lib, config, ... }:
       let
         wallpaper = ../wallpaper/wp.webp;
         gke-auth-module = pkgs.buildGoModule {
@@ -83,6 +83,10 @@ nixpkgs.lib.nixosSystem {
         !include /home/${machine}/nix.conf
         '';
         boot.kernelModules = [ "v4l2loopback" ];
+        boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+        boot.extraModprobeConfig = ''
+          options v4l2loopback devices=1 exclusive_caps=1 video_nr=5 card_label="Virt"
+        '';
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -111,7 +115,13 @@ nixpkgs.lib.nixosSystem {
             imports = [
               ((import ../user/valde/nvim) inputs)
             ];
-            programs.obs-studio.enable = true;
+            programs.obs-studio = {
+              enable = true;
+              plugins = with pkgs.obs-studio-plugins; [
+                wlrobs
+                obs-pipewire-audio-capture
+              ];
+            };
             fonts.fontconfig.enable = true;
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
@@ -316,6 +326,7 @@ nixpkgs.lib.nixosSystem {
           hypr-rofi
           hypr-rofi-workspace-name
           hypr-rofi-workspace-icon
+          pkgs.xwaylandvideobridge
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;
