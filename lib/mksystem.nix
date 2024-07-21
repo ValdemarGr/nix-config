@@ -55,12 +55,29 @@ nixpkgs.lib.nixosSystem {
         ${rofi-focus}/bin/rofi-focus &
         hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(rofi-get-unicode-list | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
         '';
+        poedc = pkgs.writeShellScriptBin "poedc" ''
+        iptables -I INPUT -p tcp --sport 6112 --tcp-flags PSH,ACK PSH,ACK -j REJECT --reject-with tcp-reset
+        sleep 2
+        iptables -D INPUT -p tcp --sport 6112 --tcp-flags PSH,ACK PSH,ACK -j REJECT --reject-with tcp-reset
+        '';
       in
       {
         #nixpkgs.overlays = [
         #  (import ../overlays/swww.nix deps)
         #];
         nixpkgs.config.allowUnfree = true;
+        security.sudo = {
+          enable = true;
+          extraRules = [{
+            groups = [ "wheel" ];
+            commands = [
+              {
+                command = "${poedc}/bin/poedc";
+                options = [ "NOPASSWD" ];
+              }
+            ];
+          }];
+        };
         users.users.${machine} = {
           isNormalUser = true;
           extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" ];
@@ -131,6 +148,7 @@ nixpkgs.lib.nixosSystem {
               bind = $mod, I, exec, ${hypr-rofi-workspace-icon}/bin/hypr-rofi-workspace-icon
               ${monitors.monitor-config}
               monitor = ,addreserved,-12,0,0,0
+              bind = ,F1, exec, sudo ${poedc}/bin/poedc
               exec-once=bash ${hyprland-startup}
             '';
             home = {
