@@ -12,7 +12,7 @@ nixpkgs.lib.nixosSystem {
   modules = [
     ../system/machine/${name}
     inputs.home-manager.nixosModules.home-manager
-    (deps@{ pkgs, lib, config, ... }:
+    ({ pkgs, lib, config, ... }@deps:
       let
         wallpaper = ../wallpaper/wp.webp;
         gke-auth-module = pkgs.buildGoModule {
@@ -62,9 +62,6 @@ nixpkgs.lib.nixosSystem {
         '';
       in
       {
-        #nixpkgs.overlays = [
-        #  (import ../overlays/swww.nix deps)
-        #];
         nixpkgs.config.allowUnfree = true;
         security.sudo = {
           enable = true;
@@ -345,13 +342,15 @@ nixpkgs.lib.nixosSystem {
           hypr-rofi-workspace-name
           hypr-rofi-workspace-icon
           pkgs.xwaylandvideobridge
+          # pkgs.path-of-building
+          (pkgs.callPackage ../modules/path-of-building.nix {})
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;
         xdg.portal.config.common.default = "*";
         xdg.portal.enable = true;
         xdg.portal.wlr.enable = true;
-        sound.enable = true;
+        #sound.enable = true;
         security.rtkit.enable = true;
         services.ratbagd.enable = true;
         services.pipewire = {
