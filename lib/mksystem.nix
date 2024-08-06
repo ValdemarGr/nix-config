@@ -27,6 +27,18 @@ nixpkgs.lib.nixosSystem {
           cat ${inputs.rofi-unicode-list}/unicode-list.txt
         '';
         hypr-config = builtins.readFile ./hyprland.conf;
+        # start-analyser = pkgs.writeShellScriptBin "start-analyser" ''
+        #   rm /tmp/poefifo
+        #   mkfifo /tmp/poefifo
+        #   cat poefifo | ${pkgs.jdk21}/bin/java -jar /home/valde/git/detector/target/detector.jar
+        # '';
+        send-refresh = pkgs.writeShellScriptBin "send-refresh" ''
+          cat /tmp/poeslurp | grim -g - - > /tmp/poess.png
+          echo '{"type":"refresh"}' >> /tmp/poefifo
+        '';
+        send-adjust = pkgs.writeShellScriptBin "send-adjust" ''
+          slurp > /tmp/poeslurp
+        '';
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
           swww init && sleep 1.5 && swww img "${wallpaper}" --transition-type none &
           waybar &
@@ -147,6 +159,8 @@ nixpkgs.lib.nixosSystem {
               monitor = ,addreserved,-12,0,0,0
               bind = ,F1, exec, sudo ${poedc}/bin/poedc
               exec-once=bash ${hyprland-startup}
+              bind = $mod, A, exec, ${send-adjust}/bin/send-adjust
+              bind = $mod, R, exec, ${send-refresh}/bin/send-refresh
             '';
             home = {
               pointerCursor = {
@@ -330,7 +344,7 @@ nixpkgs.lib.nixosSystem {
           pkgs.swww
           pkgs.grim
           pkgs.slurp
-          pkgs.jdk11
+          pkgs.jdk21
           pkgs.bazel-buildtools
           pkgs.docker-compose
           pkgs.wl-clipboard

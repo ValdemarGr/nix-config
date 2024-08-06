@@ -41,7 +41,7 @@ let
     installPhase = ''
       mkdir -p $out/bin
 
-      makeWrapper ${pkgs.jdk11}/bin/java $out/bin/metals \
+      makeWrapper ${pkgs.jdk21}/bin/java $out/bin/metals \
         --add-flags "$extraJavaOpts -cp $CLASSPATH scala.meta.metals.Main"
     '';
   });
