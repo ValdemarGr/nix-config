@@ -50,7 +50,7 @@ vim.cmd [[autocmd FileType rescript setlocal commentstring=//\ %s]]
 
 vim.cmd [[augroup lsp]]
 vim.cmd [[au!]]
-vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach(metals_config)]]
+-- vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach(metals_config)]]
 vim.cmd [[augroup end]]
 
 vim.cmd([[hi! link LspReferenceText CursorColumn]])

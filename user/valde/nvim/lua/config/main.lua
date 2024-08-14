@@ -28,6 +28,10 @@ function main_config(terraform_ls, metals, rescript_lsp, node)
     enableSemanticHighlighting = false,
     metalsBinaryPath = metals
   }
+  metals_config.find_root_dir = function ()
+    return vim.fn.getcwd()
+  end
+  vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach(metals_config)]]
 
   require("nvim-treesitter.configs").setup{
     highlight = {
