@@ -105,7 +105,7 @@ in
       metals = '${metals-pkg}/bin/metals',
       rescript_lsp = '${rescript-lsp-fhs}/bin/rescript-lsp-fhs',
       node = '${pkgs.nodejs_18}/bin/node',
-      rust_analyzer = '${pkgs.rust-analyzer-unwrapped}/bin/rust-analyzer'
+      rust_analyzer = 'rust-analyzer'
     }
     '';
   };
