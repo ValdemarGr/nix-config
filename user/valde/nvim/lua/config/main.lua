@@ -1,4 +1,4 @@
-function main_config(terraform_ls, metals, rescript_lsp, node)
+function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer)
   require('config/settings')
   require('config/keymaps')
   require('config/cmp')
@@ -32,6 +32,10 @@ function main_config(terraform_ls, metals, rescript_lsp, node)
     return vim.fn.getcwd()
   end
   vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach(metals_config)]]
+
+  require('lspconfig').rust_analyzer.setup{
+    cmd = { rust_analyzer }
+  }
 
   require("nvim-treesitter.configs").setup{
     highlight = {
@@ -75,8 +79,9 @@ function setup(m)
   local metals = must("metals")
   local rescript_lsp = must("rescript_lsp")
   local node = must("node")
+  local rust_analyzer = must("rust_analyzer")
 
-  main_config(terraform_ls, metals, rescript_lsp, node)
+  main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer)
 end
 
 return setup

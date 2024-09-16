@@ -104,7 +104,8 @@ in
       terraform_ls = '${pkgs.terraform-ls}/bin/terraform-ls',
       metals = '${metals-pkg}/bin/metals',
       rescript_lsp = '${rescript-lsp-fhs}/bin/rescript-lsp-fhs',
-      node = '${pkgs.nodejs_18}/bin/node'
+      node = '${pkgs.nodejs_18}/bin/node',
+      rust_analyzer = '${pkgs.rust-analyzer-unwrapped}/bin/rust-analyzer'
     }
     '';
   };

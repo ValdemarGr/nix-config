@@ -74,6 +74,7 @@ nixpkgs.lib.nixosSystem {
         '';
       in
       {
+        nixpkgs.overlays = [ inputs.fenix.overlays.default ];
         nixpkgs.config.allowUnfree = true;
         security.sudo = {
           enable = true;
@@ -358,6 +359,14 @@ nixpkgs.lib.nixosSystem {
           pkgs.xwaylandvideobridge
           # pkgs.path-of-building
           (pkgs.callPackage ../modules/path-of-building.nix {})
+          (pkgs.fenix.complete.withComponents [
+            "cargo"
+            "clippy"
+            "rust-src"
+            "rustc"
+            "rustfmt"
+          ])
+          pkgs.rust-analyzer-nightly
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;
