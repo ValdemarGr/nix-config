@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -170,7 +174,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager, rofi-unicode-list, ... }@inputs:
+  outputs = { self, nixpkgs, flake-utils, home-manager, rofi-unicode-list, fenix, ... }@inputs:
     let
       system = flake-utils.lib.system.x86_64-linux;
       machine = "valde";
@@ -179,6 +183,7 @@
       };
     in
     {
+      packages.x86_64-linux.default = fenix.packages.x86_64-linux.minimal.toolchain;
       nixosConfigurations.home = mkSystem "home";
       nixosConfigurations.work = mkSystem "work";
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;

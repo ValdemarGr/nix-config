@@ -18,6 +18,12 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer)
     cmd = { terraform_ls, "serve" }
   }
   require('lspconfig').graphql.setup{}
+  
+  require('lspconfig').rust_analyzer.setup{
+    cmd = {
+      rust_analyzer
+    }
+  }
 
   vim.opt_global.shortmess:remove("F")
 

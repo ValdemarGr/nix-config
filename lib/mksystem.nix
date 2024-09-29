@@ -93,11 +93,11 @@ nixpkgs.lib.nixosSystem {
           extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" ];
           shell = pkgs.zsh;
         };
-        hardware.graphics = {
-          enable = true;
-          #driSupport = true;
-          #driSupport32Bit = true;
-        };
+        #hardware.graphics = {
+        #  enable = true;
+        #  #driSupport = true;
+        #  #driSupport32Bit = true;
+        #};
         security.polkit.enable = true;
         programs.dconf.enable = true;
         programs.steam = {
@@ -109,11 +109,13 @@ nixpkgs.lib.nixosSystem {
         nix.extraOptions = ''
         !include /home/${machine}/nix.conf
         '';
-        boot.kernelModules = [ "v4l2loopback" ];
-        boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
-        boot.extraModprobeConfig = ''
-          options v4l2loopback devices=1 exclusive_caps=1 video_nr=5 card_label="Virt"
-        '';
+        #boot.kernelModules = [ "v4l2loopback" ];
+        #boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+        #boot.extraModprobeConfig = ''
+        #  options v4l2loopback devices=1 exclusive_caps=1 video_nr=5 card_label="Virt"
+        #'';
+        boot.tmp.cleanOnBoot = true;
+        environment.sessionVariables.NIXOS_OZONE_WL = "1";
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -138,6 +140,14 @@ nixpkgs.lib.nixosSystem {
               pkgs.noto-fonts
               pkgs.r2modman
               pkgs.vesktop
+              (pkgs.fenix.complete.withComponents [
+                "cargo"
+                "clippy"
+                "rust-src"
+                "rustc"
+                "rustfmt"
+              ])
+              pkgs.rust-analyzer-nightly
             ];
             imports = [
               ((import ../user/valde/nvim) inputs)
@@ -171,7 +181,7 @@ nixpkgs.lib.nixosSystem {
                 size = 32;
               };
             };
-            home.stateVersion = "23.05";
+            home.stateVersion = "24.05";
             home.username = "${machine}";
             home.homeDirectory = "/home/${machine}";
             gtk = {
@@ -356,7 +366,7 @@ nixpkgs.lib.nixosSystem {
           hypr-rofi
           hypr-rofi-workspace-name
           hypr-rofi-workspace-icon
-          pkgs.xwaylandvideobridge
+          #pkgs.xwaylandvideobridge
           # pkgs.path-of-building
           (pkgs.callPackage ../modules/path-of-building.nix {})
           (pkgs.fenix.complete.withComponents [
