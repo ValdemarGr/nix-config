@@ -100,9 +100,27 @@ nixpkgs.lib.nixosSystem {
         #};
         security.polkit.enable = true;
         programs.dconf.enable = true;
+        # programs.gamescope = {
+        #   enable = true;
+        #   capSysNice = true;
+        # };
         programs.steam = {
           enable = true;
+          # gamescopeSession.enable = true;
           extraCompatPackages = [ pkgs.proton-ge-bin ];
+          # extraPackages = with pkgs; [
+          #   gamescope
+          #   xorg.libXcursor
+          #   xorg.libXi
+          #   xorg.libXinerama
+          #   xorg.libXScrnSaver
+          #   libpng
+          #   libpulseaudio
+          #   libvorbis
+          #   stdenv.cc.cc.lib
+          #   libkrb5
+          #   keyutils
+          # ];
         };
         programs.nix-ld.enable = true;
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -346,6 +364,12 @@ nixpkgs.lib.nixosSystem {
           enable = true;
           allowedTCPPorts = [ 8080 8081 8082 ] ;
           allowedUDPPorts = [ 8080 8081 8082 ] ;
+        };
+        services.sunshine = {
+          autoStart = false;
+          enable = true;
+          capSysAdmin = true;
+          openFirewall = true;
         };
         environment.systemPackages = [
           pkgs.gh
