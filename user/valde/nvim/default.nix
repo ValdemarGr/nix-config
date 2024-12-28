@@ -3,7 +3,7 @@ inputs:
 { lib, pkgs, ... }:
 
 let
-  metals-version = "1.3.5";
+  metals-version = "1.4.1";
   metals-deps = pkgs.stdenv.mkDerivation {
     name = "metals-deps-${metals-version}";
     buildCommand = ''
@@ -16,7 +16,7 @@ let
     '';
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-86/zeoOO5kSAwh7uQTV7nGUGQoIux1rlH5eUgvn3kvY=";
+    outputHash = "sha256-86AqsfNQEuZrjrPVBFEwNjx2mCV689SwOAIkwxPSMKQ=";
   };
   telescope-fzf-native-plugin = pkgs.stdenv.mkDerivation {
     name = "telescope-fzf-native-plugin";
@@ -79,6 +79,7 @@ let
       pname = key;
       src = inputs."${key}";
       version = "0.1";
+      doCheck = false;
     }))
     vim-plugin-keys)
   ;

@@ -17,7 +17,7 @@ nixpkgs.lib.nixosSystem {
         wallpaper = ../wallpaper/wp.webp;
         gke-auth-module = pkgs.buildGoModule {
           name = "gke-auth-module";
-          vendorHash = "sha256-wp5+Ab6fchuVQ47SuMH40WmlGbbN2EUCj7LkcJ0q5hs=";
+          vendorHash = "sha256-IHdKj8qQP8/Hw+eljpHvBQhJV4E9+PyRluXQRl6sRaQ=";
           src = "${inputs.gke-auth-module}";
         };
         set-gke-commands = pkgs.writeShellScriptBin "fix-gke-auth-commands" ''
