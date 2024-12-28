@@ -1,4 +1,4 @@
-function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer)
+function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts_ls)
   require('config/settings')
   require('config/keymaps')
   require('config/cmp')
@@ -18,6 +18,13 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer)
     cmd = { terraform_ls, "serve" }
   }
   require('lspconfig').graphql.setup{}
+
+  require('lspconfig').ts_ls.setup{
+    cmd = {
+      ts_ls,
+      "--stdio"
+    }
+  }
   
   require('lspconfig').rust_analyzer.setup{
     cmd = {
@@ -86,8 +93,9 @@ function setup(m)
   local rescript_lsp = must("rescript_lsp")
   local node = must("node")
   local rust_analyzer = must("rust_analyzer")
+  local ts_ls = must("ts_ls")
 
-  main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer)
+  main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts_ls)
 end
 
 return setup

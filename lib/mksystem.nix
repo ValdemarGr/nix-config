@@ -76,6 +76,11 @@ nixpkgs.lib.nixosSystem {
       {
         nixpkgs.overlays = [ inputs.fenix.overlays.default ];
         nixpkgs.config.allowUnfree = true;
+        services.xserver.enable = true;
+        services.displayManager.sddm.enable = true;
+        services.desktopManager.plasma6.enable = true;
+        services.displayManager.defaultSession = "plasma";
+        services.displayManager.sddm.wayland.enable = true;
         security.sudo = {
           enable = true;
           extraRules = [{
@@ -138,7 +143,7 @@ nixpkgs.lib.nixosSystem {
           useGlobalPkgs = true;
           useUserPackages = true;
           users.${machine} = {
-            home.packages = [
+            home.packages = (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)) ++ [
               #gke-auth-module
               set-gke-commands
               pkgs.spicedb-zed
@@ -150,9 +155,8 @@ nixpkgs.lib.nixosSystem {
               pkgs.gnumake
               pkgs.watchman
               pkgs.ripgrep
-              pkgs.nerdfonts
               pkgs.webcord
-              pkgs.armcord
+              # pkgs.armcord
               pkgs.font-awesome
               pkgs.lato
               pkgs.noto-fonts
