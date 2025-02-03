@@ -60,4 +60,5 @@ vim.cmd [[let g:copilot_no_tab_map = v:true]]
 vim.cmd [[imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")]]
 
 vim.cmd [[autocmd FileType rescript setlocal commentstring=//\ %s]]
+vim.cmd [[autocmd FileType proto setlocal commentstring=//\ %s]]
 vim.cmd [[autocmd FileType sql setlocal commentstring=--\ %s]]
