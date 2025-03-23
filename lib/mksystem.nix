@@ -129,6 +129,10 @@ nixpkgs.lib.nixosSystem {
         };
         programs.nix-ld.enable = true;
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
+        nix.settings = {
+          substituters = ["https://nix-gaming.cachix.org"];
+          trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
+        };
         nix.extraOptions = ''
         !include /home/${machine}/nix.conf
         '';
@@ -377,6 +381,7 @@ nixpkgs.lib.nixosSystem {
         };
         environment.systemPackages = [
           pkgs.gh
+          inputs.nix-gaming.packages.${pkgs.system}.faf-client
           pkgs.google-cloud-sdk
           pkgs.spotify
           pkgs.dunst
