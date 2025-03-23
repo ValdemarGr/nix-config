@@ -244,6 +244,9 @@ nixpkgs.lib.nixosSystem {
                 export CLOUD_SDK_HOME="${pkgs.google-cloud-sdk}"
                 source "$CLOUD_SDK_HOME/google-cloud-sdk/completion.zsh.inc"
               '';
+              initExtra  = ''
+              source <(${pkgs.fzf}/bin/fzf --zsh)
+              '';
             };
             programs.kitty.enable = true;
             programs.kitty.shellIntegration.enableZshIntegration = true;
@@ -381,7 +384,6 @@ nixpkgs.lib.nixosSystem {
         };
         environment.systemPackages = [
           pkgs.gh
-          inputs.nix-gaming.packages.${pkgs.system}.faf-client
           pkgs.google-cloud-sdk
           pkgs.spotify
           pkgs.dunst
