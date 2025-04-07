@@ -147,7 +147,8 @@ nixpkgs.lib.nixosSystem {
           useGlobalPkgs = true;
           useUserPackages = true;
           users.${machine} = {
-            home.packages = (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)) ++ [
+            home.packages = [
+              pkgs.nerdfonts
               #gke-auth-module
               set-gke-commands
               pkgs.spicedb-zed
@@ -166,14 +167,14 @@ nixpkgs.lib.nixosSystem {
               pkgs.noto-fonts
               pkgs.r2modman
               pkgs.vesktop
-              (pkgs.fenix.complete.withComponents [
-                "cargo"
-                "clippy"
-                "rust-src"
-                "rustc"
-                "rustfmt"
-              ])
-              pkgs.rust-analyzer-nightly
+              # (pkgs.fenix.complete.withComponents [
+              #   "cargo"
+              #   "clippy"
+              #   "rust-src"
+              #   "rustc"
+              #   "rustfmt"
+              # ])
+              # pkgs.rust-analyzer-nightly
             ];
             imports = [
               ((import ../user/valde/nvim) inputs)
@@ -207,7 +208,7 @@ nixpkgs.lib.nixosSystem {
                 size = 32;
               };
             };
-            home.stateVersion = "24.05";
+            home.stateVersion = "24.11";
             home.username = "${machine}";
             home.homeDirectory = "/home/${machine}";
             gtk = {
@@ -404,14 +405,14 @@ nixpkgs.lib.nixosSystem {
           #pkgs.xwaylandvideobridge
           # pkgs.path-of-building
           (pkgs.callPackage ../modules/path-of-building.nix {})
-          (pkgs.fenix.complete.withComponents [
-            "cargo"
-            "clippy"
-            "rust-src"
-            "rustc"
-            "rustfmt"
-          ])
-          pkgs.rust-analyzer-nightly
+          # (pkgs.fenix.complete.withComponents [
+          #   "cargo"
+          #   "clippy"
+          #   "rust-src"
+          #   "rustc"
+          #   "rustfmt"
+          # ])
+          # pkgs.rust-analyzer-nightly
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;

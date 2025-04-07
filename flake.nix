@@ -2,10 +2,10 @@
   description = "Valde's nixos configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager?ref=release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fenix = {

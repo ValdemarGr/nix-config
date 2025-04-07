@@ -3,7 +3,7 @@ inputs:
 { lib, pkgs, ... }:
 
 let
-  metals-version = "1.4.1";
+  metals-version = "1.5.2";
   metals-deps = pkgs.stdenv.mkDerivation {
     name = "metals-deps-${metals-version}";
     buildCommand = ''
@@ -16,7 +16,7 @@ let
     '';
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-86AqsfNQEuZrjrPVBFEwNjx2mCV689SwOAIkwxPSMKQ=";
+    outputHash = "sha256-2pDZ6jSp8RLGyXmsxaMrtJYMaf8dF5YrG2RZk78Zxzo=";
   };
   telescope-fzf-native-plugin = pkgs.stdenv.mkDerivation {
     name = "telescope-fzf-native-plugin";
