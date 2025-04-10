@@ -77,9 +77,9 @@ nixpkgs.lib.nixosSystem {
         nixpkgs.overlays = [ inputs.fenix.overlays.default ];
         nixpkgs.config.allowUnfree = true;
         services.xserver.enable = true;
-        services.displayManager.sddm.enable = true;
-        services.desktopManager.plasma6.enable = true;
-        services.displayManager.defaultSession = "plasma";
+        # services.displayManager.sddm.enable = true;
+        # services.desktopManager.plasma6.enable = true;
+        # services.displayManager.defaultSession = "plasma";
         services.displayManager.sddm.wayland.enable = true;
         security.sudo = {
           enable = true;
@@ -143,12 +143,12 @@ nixpkgs.lib.nixosSystem {
         #'';
         boot.tmp.cleanOnBoot = true;
         environment.sessionVariables.NIXOS_OZONE_WL = "1";
+        fonts.packages = builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
           users.${machine} = {
             home.packages = [
-              pkgs.nerdfonts
               #gke-auth-module
               set-gke-commands
               pkgs.spicedb-zed

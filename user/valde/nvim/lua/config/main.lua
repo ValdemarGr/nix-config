@@ -63,6 +63,9 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
   vim.cmd [[autocmd BufNewFile,BufRead *.azd set filetype=authzed]]
   vim.cmd [[augroup end]]
 
+  vim.cmd [[ autocmd BufNewFile,BufRead *.frag set filetype=glsl ]]
+  vim.cmd [[ autocmd BufNewFile,BufRead *.vert set filetype=glsl ]]
+
   vim.keymap.set("n", "<leader>.", function() require("harpoon.mark").add_file() end)
   vim.keymap.set("n", "<leader>,", function() require("harpoon.ui").toggle_quick_menu() end)
 
