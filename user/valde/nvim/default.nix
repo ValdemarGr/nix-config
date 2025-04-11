@@ -61,7 +61,7 @@ let
   #  runScript = "${pkgs.nodejs_18}/bin/node ${rescript-npm-pkg} --stdio";
   #};
   rescript-lsp-start = pkgs.writeShellScriptBin "rescript-lsp-start" ''
-    ${pkgs.nodejs_18}/bin/node ${rescript-npm-pkg}/out/cli.js --stdio
+    ${pkgs.nodejs_20}/bin/node ${rescript-npm-pkg}/out/cli.js --stdio
   '';
   rescript-lsp-fhs = pkgs.buildFHSEnv {
     name = "rescript-lsp-fhs";
@@ -105,7 +105,7 @@ in
       terraform_ls = '${pkgs.terraform-ls}/bin/terraform-ls',
       metals = '${metals-pkg}/bin/metals',
       rescript_lsp = '${rescript-lsp-fhs}/bin/rescript-lsp-fhs',
-      node = '${pkgs.nodejs_18}/bin/node',
+      node = '${pkgs.nodejs_20}/bin/node',
       rust_analyzer = 'rust-analyzer',
       ts_ls = '${pkgs.typescript-language-server}/bin/typescript-language-server',
     }

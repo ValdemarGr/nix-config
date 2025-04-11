@@ -155,7 +155,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.gh
               pkgs.yarn
               pkgs.python311
-              pkgs.nodejs_18
+              pkgs.nodejs_20
               pkgs.gnat
               pkgs.gnumake
               pkgs.watchman
