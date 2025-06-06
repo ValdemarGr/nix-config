@@ -413,6 +413,8 @@ nixpkgs.lib.nixosSystem {
           #   "rustfmt"
           # ])
           # pkgs.rust-analyzer-nightly
+          pkgs.vaapi-intel-hybrid
+          pkgs.libva-vdpau-driver
         ];
         programs.zsh.enable = true;
         virtualisation.docker.enable = true;
