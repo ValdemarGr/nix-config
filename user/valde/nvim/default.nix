@@ -3,20 +3,22 @@ inputs:
 { lib, pkgs, ... }:
 
 let
-  metals-version = "1.5.3";
+  metals-version = "1.6.0+29-89aca320-SNAPSHOT";
   metals-deps = pkgs.stdenv.mkDerivation {
     name = "metals-deps-${metals-version}";
+    version = metals-version;
     buildCommand = ''
-          export COURSIER_CACHE=$(pwd)
-          ${pkgs.coursier}/bin/cs fetch org.scalameta:metals_2.13:${metals-version} \
-      -r bintray:scalacenter/releases \
-      -r sonatype:snapshots > deps
-          mkdir -p $out/share/java
-          cp -n $(< deps) $out/share/java/
+      export COURSIER_CACHE=$(pwd)
+      ${pkgs.coursier}/bin/cs fetch org.scalameta:metals_2.13:${metals-version} \
+        -r bintray:scalacenter/releases \
+        -r sonatype:snapshots \
+        --repository "https://central.sonatype.com/repository/maven-snapshots" > deps
+            mkdir -p $out/share/java
+            cp -n $(< deps) $out/share/java/
     '';
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-jxrAtlD+s3yjcDWYLoN7mr8RozutItCv8dt28/UoVjk=";
+    outputHash = "sha256-kMTm9vjBRiCAIjQydbfaybxESCXaxQQY30ol0fRslj4=";
   };
   telescope-fzf-native-plugin = pkgs.stdenv.mkDerivation {
     name = "telescope-fzf-native-plugin";
@@ -37,13 +39,7 @@ let
       " -Dmetals.askToReconnect=false" +
       " -Dmetals.loglevel=debug" +
       " -Dmetals.build-server-ping-interval=10h";
-    buildInputs = [ metals-deps ];
-    installPhase = ''
-      mkdir -p $out/bin
-
-      makeWrapper ${pkgs.jdk21}/bin/java $out/bin/metals \
-        --add-flags "$extraJavaOpts -cp $CLASSPATH scala.meta.metals.Main"
-    '';
+    deps = metals-deps;
   });
   rescript-npm-pkg = pkgs.stdenv.mkDerivation {
     name = "rescript-npm-pkg";
