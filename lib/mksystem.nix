@@ -167,6 +167,10 @@ nixpkgs.lib.nixosSystem {
               pkgs.noto-fonts
               pkgs.r2modman
               pkgs.vesktop
+              pkgs.dejavu_fonts
+              pkgs.fontconfig
+              pkgs.corefonts
+              pkgs.vistafonts
               # (pkgs.fenix.complete.withComponents [
               #   "cargo"
               #   "clippy"
