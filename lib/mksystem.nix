@@ -11,6 +11,7 @@ nixpkgs.lib.nixosSystem {
   };
   modules = [
     ../system/machine/${name}
+    ./nord.nix
     inputs.home-manager.nixosModules.home-manager
     ({ pkgs, lib, config, ... }@deps:
       let
@@ -77,6 +78,7 @@ nixpkgs.lib.nixosSystem {
         nixpkgs.overlays = [ inputs.fenix.overlays.default ];
         nixpkgs.config.allowUnfree = true;
         services.xserver.enable = true;
+        services.custom.nordvpn.enable = true;
         # services.displayManager.sddm.enable = true;
         # services.desktopManager.plasma6.enable = true;
         # services.displayManager.defaultSession = "plasma";
@@ -95,7 +97,7 @@ nixpkgs.lib.nixosSystem {
         };
         users.users.${machine} = {
           isNormalUser = true;
-          extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" ];
+          extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" "nordvpn" ];
           shell = pkgs.zsh;
         };
         #hardware.graphics = {
@@ -376,11 +378,11 @@ nixpkgs.lib.nixosSystem {
             };
           };
         };
-        networking.firewall = {
-          enable = true;
-          allowedTCPPorts = [ 8080 8081 8082 ] ;
-          allowedUDPPorts = [ 8080 8081 8082 ] ;
-        };
+        # networking.firewall = {
+        #   enable = true;
+        #   allowedTCPPorts = [ 8080 8081 8082 443 47989 ] ;
+        #   allowedUDPPorts = [ 8080 8081 8082 1194 47989 ] ;
+        # };
         services.sunshine = {
           autoStart = false;
           enable = true;
