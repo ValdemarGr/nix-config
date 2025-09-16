@@ -5,7 +5,7 @@ inputs:
 let
   metals-version = "1.6.2";
   metals-deps = pkgs.stdenv.mkDerivation {
-    name = "metals-deps-${metals-version}";
+    name = "metals-deps";
     version = metals-version;
     buildCommand = ''
       export COURSIER_CACHE=$(pwd)
