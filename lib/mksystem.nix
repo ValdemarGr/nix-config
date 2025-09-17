@@ -11,14 +11,14 @@ nixpkgs.lib.nixosSystem {
   };
   modules = [
     ../system/machine/${name}
-    ./nord.nix
+    # ./nord.nix
     inputs.home-manager.nixosModules.home-manager
     ({ pkgs, lib, config, ... }@deps:
       let
         wallpaper = ../wallpaper/wp.webp;
         gke-auth-module = pkgs.buildGoModule {
           name = "gke-auth-module";
-          vendorHash = "sha256-IHdKj8qQP8/Hw+eljpHvBQhJV4E9+PyRluXQRl6sRaQ=";
+          vendorHash = "sha256-Wi0LmibTBaUNkgBrHt86pY8lG/ieAOoQKP32pb7V83A=";
           src = "${inputs.gke-auth-module}";
         };
         set-gke-commands = pkgs.writeShellScriptBin "fix-gke-auth-commands" ''
@@ -78,7 +78,7 @@ nixpkgs.lib.nixosSystem {
         nixpkgs.overlays = [ inputs.fenix.overlays.default ];
         nixpkgs.config.allowUnfree = true;
         services.xserver.enable = true;
-        services.custom.nordvpn.enable = true;
+        # services.custom.nordvpn.enable = true;
         # services.displayManager.sddm.enable = true;
         # services.desktopManager.plasma6.enable = true;
         # services.displayManager.defaultSession = "plasma";
@@ -97,7 +97,9 @@ nixpkgs.lib.nixosSystem {
         };
         users.users.${machine} = {
           isNormalUser = true;
-          extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" "nordvpn" ];
+          extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" 
+          # "nordvpn"
+          ];
           shell = pkgs.zsh;
         };
         #hardware.graphics = {
@@ -251,7 +253,7 @@ nixpkgs.lib.nixosSystem {
                 export CLOUD_SDK_HOME="${pkgs.google-cloud-sdk}"
                 source "$CLOUD_SDK_HOME/google-cloud-sdk/completion.zsh.inc"
               '';
-              initExtra  = ''
+              initContent  = ''
               source <(${pkgs.fzf}/bin/fzf --zsh)
               '';
             };
@@ -376,6 +378,7 @@ nixpkgs.lib.nixosSystem {
               userName = "Valdemar Grange";
               userEmail = "randomvald0069@gmail.com";
             };
+            services.swww.enable = true;
           };
         };
         # networking.firewall = {
@@ -394,7 +397,6 @@ nixpkgs.lib.nixosSystem {
           pkgs.google-cloud-sdk
           pkgs.spotify
           pkgs.dunst
-          pkgs.swww
           pkgs.grim
           pkgs.slurp
           pkgs.jdk21
@@ -409,8 +411,6 @@ nixpkgs.lib.nixosSystem {
           hypr-rofi-workspace-name
           hypr-rofi-workspace-icon
           #pkgs.xwaylandvideobridge
-          # pkgs.path-of-building
-          (pkgs.callPackage ../modules/path-of-building.nix {})
           # (pkgs.fenix.complete.withComponents [
           #   "cargo"
           #   "clippy"
