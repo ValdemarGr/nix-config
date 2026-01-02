@@ -47,6 +47,8 @@ vim.cmd [[nnoremap <silent><leader>bf    <cmd>e %:h/BUILD.bazel<CR>]]
 vim.cmd [[nnoremap <silent><leader>qn    <cmd>cnext<CR>]]
 vim.cmd [[nnoremap <silent><leader>qp    <cmd>cprev<CR>]]
 vim.cmd [[nnoremap <silent><leader>qo    <cmd>copen<CR>]]
+vim.cmd [[nnoremap <silent><C-j> :cnext<CR>]]
+vim.cmd [[nnoremap <silent><C-k> :cprev<CR>]]
 
 vim.cmd [[nnoremap <silent><leader>tlspact <cmd>:lua vim.lsp.buf.code_action({apply = true, filter= function (x) return string.find(x["title"], "Insert type annotation") end})<cr>]]
 
