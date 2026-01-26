@@ -41,7 +41,7 @@ nixpkgs.lib.nixosSystem {
           slurp > /tmp/poeslurp
         '';
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
-          swww init && sleep 1.5 && swww img "${wallpaper}" --transition-type none &
+          sleep 1.5 && swww img "${wallpaper}" --transition-type none &
           waybar &
           dunst
         '';
