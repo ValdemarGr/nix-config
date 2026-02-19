@@ -254,6 +254,7 @@ nixpkgs.lib.nixosSystem {
             };
             programs.home-manager.enable = true;
             xdg.enable = true;
+            services.easyeffects.enable = true;
             programs.bash.enable = true;
             programs.fzf = {
               enable = true;
@@ -422,12 +423,14 @@ nixpkgs.lib.nixosSystem {
           pkgs.docker-compose
           pkgs.wl-clipboard
           pkgs.discord
+          pkgs.deepfilternet
           pkgs.busybox
           pkgs.kubectl
           get-unicode-list
           hypr-rofi
           hypr-rofi-workspace-name
           hypr-rofi-workspace-icon
+          # pkgs.easyeffects
           #pkgs.xwaylandvideobridge
           # (pkgs.fenix.complete.withComponents [
           #   "cargo"
