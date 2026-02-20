@@ -202,6 +202,12 @@ nixpkgs.lib.nixosSystem {
               # ])
               # pkgs.rust-analyzer-nightly
             ];
+            programs.element-desktop = {
+              enable = true;
+              settings = {
+                show_labs_settings = true;
+              };
+            };
             imports = [
               ((import ../user/valde/nvim) inputs)
             ];
