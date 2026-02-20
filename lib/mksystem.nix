@@ -73,6 +73,22 @@ nixpkgs.lib.nixosSystem {
         sleep 2
         iptables -D INPUT -p tcp --sport 6112 --tcp-flags PSH,ACK PSH,ACK -j REJECT --reject-with tcp-reset
         '';
+        nclient = pkgs.writeShellScriptBin "nclient" ''
+          nvim --server $SOCK --remote-expr "v:lua.vim.cmd(\"set splitright | vs | e $1 | setlocal bufhidden=wipe | startinsert\")"
+          # $CHECK_OPEN="nvr --servername $SOCK --remote-expr \"bufexists(fnamemodify('/tmp/thefile', ':p'))\""
+          NVR_EXECUTABLE=${pkgs.neovim-remote}/bin/nvr
+          while [[ "$($NVR_EXECUTABLE --servername $SOCK --remote-expr "bufloaded('$1')" | tr -d '\n')" == "1" ]]; do
+            sleep 0.1
+          done
+        '';
+        n = pkgs.writeShellScriptBin "n" ''
+          set -eu
+          export SOCK="$HOME/nvim.$(date +%s).sock"
+          export VISUAL=${nclient}/bin/nclient
+          export EDITOR=$VISUAL
+
+          exec nvim --listen "$SOCK" "$@"
+        '';
       in
       {
         nixpkgs.overlays = [ inputs.fenix.overlays.default ];
@@ -167,6 +183,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.webcord
               # pkgs.armcord
               pkgs.font-awesome
+              pkgs.neovim-remote
               pkgs.lato
               pkgs.noto-fonts
               pkgs.r2modman
@@ -175,6 +192,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.fontconfig
               pkgs.corefonts
               pkgs.vistafonts
+              n
               # (pkgs.fenix.complete.withComponents [
               #   "cargo"
               #   "clippy"
