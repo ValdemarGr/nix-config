@@ -57,7 +57,7 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
   -- }
 
   vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'rust', 'javascript', 'zig', 'rescript', 'lua', 'scala', 'sbt', 'terraform', "nix" },
+    pattern = { 'rust', 'javascript', 'zig', 'rescript', 'lua', 'scala', 'sbt', 'terraform', "nix", "markdown", "md" },
     callback = function() 
       vim.treesitter.start() 
       -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
