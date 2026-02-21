@@ -191,7 +191,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.dejavu_fonts
               pkgs.fontconfig
               pkgs.corefonts
-              pkgs.vistafonts
+              pkgs.vista-fonts
               n
               # (pkgs.fenix.complete.withComponents [
               #   "cargo"
@@ -268,6 +268,7 @@ nixpkgs.lib.nixosSystem {
             };
             programs.btop.enable = true;
             programs.zsh = {
+              # dotDir = "${config.xdg.configHome}/zsh";
               enable = true;
               oh-my-zsh = {
                 enable = true;

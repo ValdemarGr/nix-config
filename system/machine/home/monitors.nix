@@ -4,7 +4,7 @@
   monitor-config = ''
       monitorv2 {
         output = DP-3
-        mode = 3440x1440@160
+        mode = 3440x1440@60
         position = 0x0
         scale = 1
         bitdepth = 10
