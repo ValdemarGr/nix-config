@@ -24,7 +24,7 @@ let
       '';
       outputHashMode = "recursive";
       outputHashAlgo = "sha256";
-      outputHash = "sha256-XQFoPMhj2demLM1WWBaxNt/rPE14DgYZOhx+5ue6XP0=";
+      outputHash = "sha256-0LwgUvIAop9vkfFlgEYc+yZJ36opRwVX4zC9+jXfXzQ=";
       # outputHash = "sha256-tUetJ4v+6DJyJGMuiMQthVI4HrJOl8FEL90cI29l1l8=";
     };
 
