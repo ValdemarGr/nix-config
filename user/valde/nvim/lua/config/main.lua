@@ -50,11 +50,34 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
     cmd = { rust_analyzer }
   }
 
-  require("nvim-treesitter.configs").setup{
-    highlight = {
-      enable = true
-    }
-  }
+  -- require("nvim-treesitter.configs").setup{
+  --   highlight = {
+  --     enable = true
+  --   }
+  -- }
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'rust', 'javascript', 'zig', 'rescript', 'lua', 'scala', 'sbt', 'terraform', "nix" },
+    callback = function() 
+      vim.treesitter.start() 
+      -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      -- vim.wo.foldmethod = 'expr'
+      -- indentation, provided by nvim-treesitter
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+  })
+  -- vim.api.nvim_create_autocmd('FileType', {
+  --   pattern = { 'rust', 'javascript', 'zig', 'rescript', 'lua', 'scala', 'sbt', 'terraform' },
+  --   callback = function()
+  --     -- syntax highlighting, provided by Neovim
+  --     vim.treesitter.start()
+  --     -- folds, provided by Neovim
+  --     vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+  --     vim.wo.foldmethod = 'expr'
+  --     -- indentation, provided by nvim-treesitter
+  --     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  --   end,
+  -- })
 
   vim.cmd [[augroup Authzed]]
   vim.cmd [[au!]]

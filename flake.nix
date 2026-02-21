@@ -137,10 +137,6 @@
       url = "github:ray-x/cmp-treesitter";
       flake = false;
     };
-    playground-plugin = {
-      url = "github:nvim-treesitter/playground";
-      flake = false;
-    };
     vim-rescript-plugin = {
       url = "github:rescript-lang/vim-rescript/2065f4e1d319ffd4ff7046879f270ebbadda873e";
       flake = false;
