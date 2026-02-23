@@ -63,7 +63,7 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
       -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
       -- vim.wo.foldmethod = 'expr'
       -- indentation, provided by nvim-treesitter
-      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      -- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end,
   })
   -- vim.api.nvim_create_autocmd('FileType', {
