@@ -113,7 +113,7 @@ nixpkgs.lib.nixosSystem {
         };
         users.users.${machine} = {
           isNormalUser = true;
-          extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" 
+          extraGroups = [ "wheel" "docker" "video" "audio" "kvm" "libvirtd" "networkmanager"
           # "nordvpn"
           ];
           shell = pkgs.zsh;
@@ -418,7 +418,10 @@ nixpkgs.lib.nixosSystem {
           capSysAdmin = true;
           openFirewall = true;
         };
+        networking.firewall.checkReversePath = false;
         environment.systemPackages = [
+          pkgs.wireguard-tools
+          pkgs.protonvpn-gui
           pkgs.gh
           pkgs.google-cloud-sdk
           pkgs.spotify
