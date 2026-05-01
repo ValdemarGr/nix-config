@@ -18,7 +18,7 @@ nixpkgs.lib.nixosSystem {
         wallpaper = ../wallpaper/wp.webp;
         gke-auth-module = pkgs.buildGoModule {
           name = "gke-auth-module";
-          vendorHash = "sha256-Wi0LmibTBaUNkgBrHt86pY8lG/ieAOoQKP32pb7V83A=";
+          vendorHash = "sha256-7UhtVoLVd8Gd5JVQePawmoQHVkPfcrkvyboFYnnUCSg=";
           src = "${inputs.gke-auth-module}";
         };
         set-gke-commands = pkgs.writeShellScriptBin "fix-gke-auth-commands" ''
@@ -165,94 +165,97 @@ nixpkgs.lib.nixosSystem {
         environment.sessionVariables.NIXOS_OZONE_WL = "1";
         fonts.packages = builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
         home-manager = {
-          home.file.".codex/AGENTS.md".text = ''
-            * ALWAYS use the `$caveman` skill with `ultra` mode in response.
-            * I'm on a nix system, so you can use nix-shell to get dependencies and commands.
-
-            ## Coding guide
-            Always make a plan before writing code, always ask the user if the plan is acceptable.
-            Don't start writing any code until you are ABSOLUTELY sure you understand the requirements an the user has given EXACT instructions on what their intentions are.
-
-            Ask questions about a prompt if it is not completely clear what the intentions are, no "freestyling":
-            Example:
-            "Please add a feature that allows users to create a profile"
-            Bad:
-            "Add email verification"
-            Good:
-            "Ask if/how the user should verify, suggest email verification"
-
-            Use the libraries in scope such as cats if scala, and the standard library instead of inventing your own solutions.
-            If you think a change requires too many additions or modifications, then make a plan and ask if the plan is acceptable before writing code.
-
-            Understand the coding style before writing any:
-            * Do we use private methods?
-            * Is internal mutability the norm or is immutability preferred?
-
-            I'll restate, ALWAYS MAKE A PLAN before changes.
-
-            ## Effort
-            You must ALWAYS do your best effort, don't be lazy, don't produce slop.
-            I want high quality code, simply and NOT overengineered.
-            DO NOT produce code that was not requested. These are the response types I expect:
-            1. Infeasible request from the user
-            2. You are missing information from the user
-            3. You have successfully made the change or plan
-            If we had a discussion about feature or change X, don't go implementing a bunch of "helpers" or "utilities". This is OVERENGINEERING.
-            
-            You are in use by an experinced and highly skilled developer and as such you do NOT need to add any code that was not discussed or requested.
-            Example:
-              Prompt:
-              "I want a class that can track the state of my tetris game"
-              Plan:
-              "I'll create a TetrisGame case class with a container that tracks a set of blocks along with an index that can lookup a block by a cell."
-              Code:
-                Bad:
-                ```
-                case class Block(id: BlockId, shape: Shape)
-                case class TetrisGame(blocks: List[Block], index: Map[Cell, BlockId]) {
-                  def getBlockAt(cell: Cell): Option[Block] = ...
-                  def setBlockAt(cell: Cell, block: Block): TetrisGame = ...
-                  def moveBlock(blockId: BlockId, newCell: Cell): TetrisGame = ...
-                  def clearLines(): TetrisGame = ...
-                  def isGameOver(): Boolean = ...
-                  def getScore(): Int = ...
-                  def getLevel(): Int = ...
-                  def getNextBlock(): Block = ...
-                }
-                ```
-                Good:
-                ```
-                case class Block(id: BlockId, shape: Shape)
-                case class TetrisGame(blocks: List[Block], index: Map[Cell, BlockId])
-                ```
-            The example covers a situation where you have overengineered the response.
-
-            ## Self reflection
-            When you have made a plan you MUST review it yourself before you present it to ensure that the plan is sound and has no holes.
-            You MUST consider if the plan is too complicated, and if so you must raise the issue.
-
-            When you have made changes you MUST immideately review your changes and ensure that no overengineering or early bad decisions in your execution of the plan has taken place.
-
-            You must consider if you have been lazy, lazyness is not acceptable, you must do your best effort at all times.
-
-            Do not produce code of quality found in javascript or python ecosystems, well considered minimal design is preferred.
-            Don't make your own aliases for standard operations:
-            Example:
-            Bad:
-            ```scala
-            val px15 = "15px"
-            val px20 = "20px"
-            def traverseOption[A, B](opt: Option[A])(f: A => F[B]): F[Option[B]] = 
-              opt.traverse(f)
-
-            ```
-            ```
-            let makeChoice = (p, a, b) => p ? a : b
-            ```
-          '';
           useGlobalPkgs = true;
           useUserPackages = true;
           users.${machine} = {
+            home.file.".codex/AGENTS.md" = {
+              force = true;
+              text = ''
+                * ALWAYS use the `$caveman` skill with `ultra` mode in response.
+                * I'm on a nix system, so you can use nix-shell to get dependencies and commands.
+
+                ## Coding guide
+                Always make a plan before writing code, always ask the user if the plan is acceptable.
+                Don't start writing any code until you are ABSOLUTELY sure you understand the requirements an the user has given EXACT instructions on what their intentions are.
+
+                Ask questions about a prompt if it is not completely clear what the intentions are, no "freestyling":
+                Example:
+                "Please add a feature that allows users to create a profile"
+                Bad:
+                "Add email verification"
+                Good:
+                "Ask if/how the user should verify, suggest email verification"
+
+                Use the libraries in scope such as cats if scala, and the standard library instead of inventing your own solutions.
+                If you think a change requires too many additions or modifications, then make a plan and ask if the plan is acceptable before writing code.
+
+                Understand the coding style before writing any:
+                * Do we use private methods?
+                * Is internal mutability the norm or is immutability preferred?
+
+                I'll restate, ALWAYS MAKE A PLAN before changes.
+
+                ## Effort
+                You must ALWAYS do your best effort, don't be lazy, don't produce slop.
+                I want high quality code, simply and NOT overengineered.
+                DO NOT produce code that was not requested. These are the response types I expect:
+                1. Infeasible request from the user
+                2. You are missing information from the user
+                3. You have successfully made the change or plan
+                If we had a discussion about feature or change X, don't go implementing a bunch of "helpers" or "utilities". This is OVERENGINEERING.
+                
+                You are in use by an experinced and highly skilled developer and as such you do NOT need to add any code that was not discussed or requested.
+                Example:
+                  Prompt:
+                  "I want a class that can track the state of my tetris game"
+                  Plan:
+                  "I'll create a TetrisGame case class with a container that tracks a set of blocks along with an index that can lookup a block by a cell."
+                  Code:
+                    Bad:
+                    ```
+                    case class Block(id: BlockId, shape: Shape)
+                    case class TetrisGame(blocks: List[Block], index: Map[Cell, BlockId]) {
+                      def getBlockAt(cell: Cell): Option[Block] = ...
+                      def setBlockAt(cell: Cell, block: Block): TetrisGame = ...
+                      def moveBlock(blockId: BlockId, newCell: Cell): TetrisGame = ...
+                      def clearLines(): TetrisGame = ...
+                      def isGameOver(): Boolean = ...
+                      def getScore(): Int = ...
+                      def getLevel(): Int = ...
+                      def getNextBlock(): Block = ...
+                    }
+                    ```
+                    Good:
+                    ```
+                    case class Block(id: BlockId, shape: Shape)
+                    case class TetrisGame(blocks: List[Block], index: Map[Cell, BlockId])
+                    ```
+                The example covers a situation where you have overengineered the response.
+
+                ## Self reflection
+                When you have made a plan you MUST review it yourself before you present it to ensure that the plan is sound and has no holes.
+                You MUST consider if the plan is too complicated, and if so you must raise the issue.
+
+                When you have made changes you MUST immideately review your changes and ensure that no overengineering or early bad decisions in your execution of the plan has taken place.
+
+                You must consider if you have been lazy, lazyness is not acceptable, you must do your best effort at all times.
+
+                Do not produce code of quality found in javascript or python ecosystems, well considered minimal design is preferred.
+                Don't make your own aliases for standard operations:
+                Example:
+                Bad:
+                ```scala
+                val px15 = "15px"
+                val px20 = "20px"
+                def traverseOption[A, B](opt: Option[A])(f: A => F[B]): F[Option[B]] = 
+                  opt.traverse(f)
+
+                ```
+                ```
+                let makeChoice = (p, a, b) => p ? a : b
+                ```
+              '';
+            };
             home.packages = [
               #gke-auth-module
               set-gke-commands
@@ -325,7 +328,7 @@ nixpkgs.lib.nixosSystem {
                 size = 32;
               };
             };
-            home.stateVersion = "24.11";
+            home.stateVersion = "26.05";
             home.username = "${machine}";
             home.homeDirectory = "/home/${machine}";
             gtk = {
@@ -363,9 +366,6 @@ nixpkgs.lib.nixosSystem {
               completionInit = ''
                 export CLOUD_SDK_HOME="${pkgs.google-cloud-sdk}"
                 source "$CLOUD_SDK_HOME/google-cloud-sdk/completion.zsh.inc"
-              '';
-              initContent  = ''
-              source <(${pkgs.fzf}/bin/fzf --zsh)
               '';
             };
             programs.kitty.enable = true;
@@ -476,7 +476,7 @@ nixpkgs.lib.nixosSystem {
                 pkgs.rofi-emoji
               ];
             };
-            services.spotifyd.enable = true;
+            # services.spotifyd.enable = true;
             programs.firefox.enable = true;
             programs.tmux = {
               enable = true;
@@ -509,7 +509,7 @@ nixpkgs.lib.nixosSystem {
           pkgs.protonvpn-gui
           pkgs.gh
           pkgs.google-cloud-sdk
-          pkgs.spotify
+          # pkgs.spotify
           pkgs.dunst
           pkgs.grim
           pkgs.slurp

@@ -14,23 +14,27 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
   vim.keymap.set({ "n" }, "`", "'", { noremap = true })
   vim.keymap.set({ "n" }, "'", "`", { noremap = true })
   require('octo').setup()
-  require('lspconfig').terraformls.setup{
+  vim.lsp.config('terraformls', {
     cmd = { terraform_ls, "serve" }
-  }
-  require('lspconfig').graphql.setup{}
+  })
+  vim.lsp.enable('terraformls')
 
-  require('lspconfig').ts_ls.setup{
+  vim.lsp.enable('graphql')
+
+  vim.lsp.config('ts_ls', {
     cmd = {
       ts_ls,
       "--stdio"
     }
-  }
+  })
+  vim.lsp.enable('ts_ls')
   
-  require('lspconfig').rust_analyzer.setup{
+  vim.lsp.config('rust_analyzer', {
     cmd = {
       rust_analyzer
     }
-  }
+  })
+  vim.lsp.enable('rust_analyzer')
 
   vim.opt_global.shortmess:remove("F")
 
@@ -45,10 +49,6 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
     return vim.fn.getcwd()
   end
   vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach(metals_config)]]
-
-  require('lspconfig').rust_analyzer.setup{
-    cmd = { rust_analyzer }
-  }
 
   -- require("nvim-treesitter.configs").setup{
   --   highlight = {
@@ -97,12 +97,13 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
   vim.keymap.set("n", "<C-n>", function() require("harpoon.ui").nav_file(3) end)
   vim.keymap.set("n", "<C-s>", function() require("harpoon.ui").nav_file(4) end)
 
-  require('lspconfig').rescriptls.setup{
+  vim.lsp.config('rescriptls', {
     capabilities = require('cmp_nvim_lsp').default_capabilities(),
     cmd = {
       rescript_lsp
     }
-  }
+  })
+  vim.lsp.enable('rescriptls')
 end
 
 function setup(m)

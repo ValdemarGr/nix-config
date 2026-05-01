@@ -158,7 +158,7 @@
       flake = false;
     };
     leap-nvim-plugin = {
-      url = "github:ggandor/leap.nvim";
+      url = "git+https://codeberg.org/andyg/leap.nvim";
       flake = false;
     };
     gke-auth-module = {
