@@ -6,6 +6,7 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
   require('config/telescope')
 
   vim.g.copilot_node_command = node
+  vim.g.copilot_npx_command = ""
   vim.g.copilot_filetypes = { ['*'] = true }
   require('leap')
   vim.keymap.set({ "n" }, "<leader>M", "<Plug>(leap-backward-to)")
