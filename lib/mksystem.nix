@@ -170,6 +170,7 @@ nixpkgs.lib.nixosSystem {
           users.${machine} = {
             home.file.".codex/AGENTS.md" = {
               force = true;
+              recursive = true;
               text = ''
                 * ALWAYS use the `$caveman` skill with `ultra` mode in response.
                 * I'm on a nix system, so you can use nix-shell to get dependencies and commands.
@@ -194,6 +195,35 @@ nixpkgs.lib.nixosSystem {
                 * Is internal mutability the norm or is immutability preferred?
 
                 I'll restate, ALWAYS MAKE A PLAN before changes.
+
+                Prefer composition over inheritance. Prefer composition over copying too.
+                Examlpe:
+                Bad:
+                ```
+                case class Vec3(
+                  x: Int,
+                  y: Int,
+                  z: Int
+                )
+                case class NamedVec3(
+                  name: String,
+                  x: Int,
+                  y: Int,
+                  z: Int
+                )
+                ```
+                Good:
+                ```
+                case class Vec3(
+                  x: Int,
+                  y: Int,
+                  z: Int
+                )
+                case class NamedVec3(
+                  name: String,
+                  vec: Vec3
+                )
+                ```
 
                 ## Effort
                 You must ALWAYS do your best effort, don't be lazy, don't produce slop.
