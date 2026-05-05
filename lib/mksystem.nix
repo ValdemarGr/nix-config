@@ -284,6 +284,9 @@ nixpkgs.lib.nixosSystem {
                 ```
                 let makeChoice = (p, a, b) => p ? a : b
                 ```
+                ## Plan mode
+                When in plan mode always prefer asking too many questions instead of too few. Make zero assumptions, freestyling is absolutely not allowed.
+                Choices, and especially design choices MUST be queried for.
               '';
             };
             home.packages = [
