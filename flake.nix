@@ -97,10 +97,10 @@
       url = "github:neovim/nvim-lspconfig";
       flake = false;
     };
-    hop-plugin = {
-      url = "github:phaazon/hop.nvim";
-      flake = false;
-    };
+    # hop-plugin = {
+    #   url = "github:phaazon/hop.nvim";
+    #   flake = false;
+    # };
     nvim-cmp-plugin = {
       url = "github:hrsh7th/nvim-cmp";
       flake = false;
