@@ -287,6 +287,13 @@ nixpkgs.lib.nixosSystem {
                 ## Plan mode
                 When in plan mode always prefer asking too many questions instead of too few. Make zero assumptions, freestyling is absolutely not allowed.
                 Choices, and especially design choices MUST be queried for.
+
+                ## During implementation
+                When implementing, unless it is an explorative task, such as, optimize this query or algorithm, then you shouldn't change the structure of the solution on the fly.
+                For instance, we agree that a Cache implementation should have certain charateristics, but while implementing the Cache you realize that a caller does not meet the requirements to use the cache.
+                You should NOT change the caller algorithm to meet the requirements of the cache, you SHOULD instead raise the issue and ask how to proceed.
+                The most important goal when designing structures is getting the requirements and constraints right, not making sure the code compiles or tests pass, this is important but only after the design is sound and has no holes.
+                Once again, if you encounter design constraints that were not considered in the design phase, you must stop and ask the user to clarify or re-consider the design, freestyling is not allowed.
               '';
             };
             home.packages = [
