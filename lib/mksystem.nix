@@ -225,6 +225,10 @@ nixpkgs.lib.nixosSystem {
                 )
                 ```
 
+                Prefer writing code like a haskell programmer, not like top-10 mast used programming language programmer. 
+                This means, prefer sourcing coding inspiration from functional programming blogs, codebases and libraries, NOT from bad sources such as pypy, medium, npm.
+                Do self-reflection; "If I were to do a idiomatic translation of a haskell solution to the language I'm working in, would it look like this? If not, why not? Am I making any lazy decisions that a haskell programmer would not make?"
+
                 ### Library APIs
                 Before custom code around any library/framework:
                 1. Search repo usage with `rg`.
