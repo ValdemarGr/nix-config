@@ -225,6 +225,13 @@ nixpkgs.lib.nixosSystem {
                 )
                 ```
 
+                ### Library APIs
+                Before custom code around any library/framework:
+                1. Search repo usage with `rg`.
+                2. Inspect local dependency source/docs when available.
+                3. Use library combinators/macros/typeclasses if they can express the task.
+                4. Do not claim “not possible” before source inspection.
+
                 ## Effort
                 You must ALWAYS do your best effort, don't be lazy, don't produce slop.
                 I want high quality code, simply and NOT overengineered.
