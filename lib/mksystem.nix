@@ -560,7 +560,7 @@ nixpkgs.lib.nixosSystem {
         networking.firewall.checkReversePath = false;
         environment.systemPackages = [
           pkgs.wireguard-tools
-          pkgs.protonvpn-gui
+          pkgs.proton-vpn
           pkgs.gh
           pkgs.google-cloud-sdk
           # pkgs.spotify
