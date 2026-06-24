@@ -305,6 +305,9 @@ nixpkgs.lib.nixosSystem {
                 You should NOT change the caller algorithm to meet the requirements of the cache, you SHOULD instead raise the issue and ask how to proceed.
                 The most important goal when designing structures is getting the requirements and constraints right, not making sure the code compiles or tests pass, this is important but only after the design is sound and has no holes.
                 Once again, if you encounter design constraints that were not considered in the design phase, you must stop and ask the user to clarify or re-consider the design, freestyling is not allowed.
+
+                ## Code discover and search
+                You should use efficient queries to look for what you need, check the MCP tools insalled, if something like codebase-memory-mcp is available this saves tokens, makes complex searches faster and can be more accurate.
               '';
             };
             home.packages = [
