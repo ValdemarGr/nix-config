@@ -3,72 +3,53 @@ inputs:
 { lib, pkgs, ... }:
 
 let
-  metals-version = "1.6.7";
-  # metals-version = "2.0.0-M7";
-  metals-pkg = pkgs.stdenv.mkDerivation (finalAttrs: {
-    name = "metals";
-    version = metals-version;
-
-    deps = pkgs.stdenv.mkDerivation {
-      name = "metals-deps";
-      version = metals-version;
-      buildCommand = ''
-        export COURSIER_CACHE=$(pwd)
-        mkdir -p $out/bin
-        ${pkgs.coursier}/bin/cs bootstrap org.scalameta:metals_2.13:${metals-version} \
-          -r bintray:scalacenter/releases \
-          -r sonatype:snapshots \
-          --repository "https://central.sonatype.com/repository/maven-snapshots" \
-          --standalone \
-          -o $out/bin/metals-launcher
-
-        launcher=$out/bin/metals-launcher
-        tmp=$(mktemp -d)
-        zipOffset="$(${pkgs.perl}/bin/perl -0777 -ne 'print index($_, "PK\003\004")' "$launcher")"
-
-        if [ "$zipOffset" -lt 0 ]; then
-          echo "Could not find zip payload in metals launcher" >&2
-          exit 1
-        fi
-
-        dd if="$launcher" of="$tmp/preamble" bs=1 count="$zipOffset" status=none
-
-        mkdir "$tmp/extracted"
-        (cd "$tmp/extracted" && ${pkgs.jdk}/bin/jar xf "$launcher")
-
-        find "$tmp/extracted" -exec touch -h -t 198001010000.00 {} +
-        (cd "$tmp/extracted" && find . -type f | LC_ALL=C sort | sed 's#^\./##' > "$tmp/files")
-        (cd "$tmp/extracted" && ${pkgs.zip}/bin/zip -X -q -@ "$tmp/metals-launcher-normalized.jar" < "$tmp/files")
-
-        cat "$tmp/preamble" "$tmp/metals-launcher-normalized.jar" > "$launcher"
-        chmod +x "$launcher"
-      '';
-      outputHashMode = "recursive";
-      outputHashAlgo = "sha256";
-      # outputHash = "sha256-d0/FuOBJtGeHGtLOv09uDJBvDS41VXZkHg/T/R5aOfg=";
-      outputHash = "sha256-Hvicw9fwZnwsk/UPbtt/qQuHbsgFjxnMQog6xjL2EWw=";
-      # outputHash = "sha256-tUetJ4v+6DJyJGMuiMQthVI4HrJOl8FEL90cI29l1l8=";
-    };
-
-    nativeBuildInputs = [ pkgs.makeWrapper ];
-    buildInputs = [ finalAttrs.deps ];
-    dontUnpack = true;
-    extraJavaOpts = 
-      "-XX:+UseG1GC" +
-      "-XX:+UseStringDeduplication" +
-      "-Xss4m" +
-      "-Xms100m" +
-      "-Dmetals.client=nvim-lsp" +
-      "-Dmetals.verbose=true" +
-      "-Dmetals.askToReconnect=false" +
-      "-Dmetals.loglevel=debug" +
-      "-Dmetals.build-server-ping-interval=10h";
-
+  metals-jvm-args = [
+    "-XX:+UseG1GC"
+    "-XX:+UseStringDeduplication"
+    "-Xss4m"
+    "-Xms100m"
+    "-Dmetals.client=nvim-lsp"
+    "-Dmetals.verbose=true"
+    "-Dmetals.askToReconnect=false"
+    "-Dmetals.loglevel=debug"
+    "-Dmetals.build-server-ping-interval=10h"
+  ];
+  metals-pkg = pkgs.metals.overrideAttrs (_old: {
     installPhase = ''
+      runHook preInstall
+
       mkdir -p $out/bin
 
-      makeWrapper ${finalAttrs.deps}/bin/metals-launcher $out/bin/metals \
-        --set JAVA_HOME ${pkgs.jre} --add-flags ${finalAttrs.extraJavaOpts}
+      writeMetalsWrapper() {
+        local name="$1"
+        local mainClass="$2"
+
+        cat > "$out/bin/$name" <<EOF
+#!${pkgs.runtimeShell}
+set -euo pipefail
+
+jvm_args=(
+${lib.concatMapStringsSep "\n" (arg: "  ${lib.escapeShellArg arg}") metals-jvm-args}
+)
+app_args=()
+
+for arg in "\$@"; do
+  case "\$arg" in
+    -J*) jvm_args+=("\''${arg#-J}") ;;
+    *) app_args+=("\$arg") ;;
+  esac
+done
+
+exec ${pkgs.jre}/bin/java "\''${jvm_args[@]}" -cp "$CLASSPATH" "$mainClass" "\''${app_args[@]}"
+EOF
+
+        chmod +x "$out/bin/$name"
+      }
+
+      writeMetalsWrapper metals scala.meta.metals.Main
+      writeMetalsWrapper metals-mcp scala.meta.metals.McpMain
+
+      runHook postInstall
     '';
   });
   telescope-fzf-native-plugin = pkgs.stdenv.mkDerivation {

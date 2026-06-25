@@ -400,6 +400,11 @@ nixpkgs.lib.nixosSystem {
 
                 ## Code discover and search
                 You should use efficient queries to look for what you need, check the MCP tools insalled, if something like codebase-memory-mcp is available this saves tokens, makes complex searches faster and can be more accurate.
+
+                ## Execution planning
+                In your plans, include subagents in the plan, if things are sufficiently seperable that you can use subagents to implement it, prefer that.
+                When you actually execute, if you get a prompt that you think can be handled as a subagent then do that instead of doing it sequentially.
+                
               '';
             };
             home.packages = [
