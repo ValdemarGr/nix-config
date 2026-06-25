@@ -3,7 +3,7 @@ inputs:
 { lib, pkgs, ... }:
 
 let
-  metals-version = "1.6.5";
+  metals-version = "1.6.7";
   # metals-version = "2.0.0-M7";
   metals-pkg = pkgs.stdenv.mkDerivation (finalAttrs: {
     name = "metals";
@@ -21,10 +21,32 @@ let
           --repository "https://central.sonatype.com/repository/maven-snapshots" \
           --standalone \
           -o $out/bin/metals-launcher
+
+        launcher=$out/bin/metals-launcher
+        tmp=$(mktemp -d)
+        zipOffset="$(${pkgs.perl}/bin/perl -0777 -ne 'print index($_, "PK\003\004")' "$launcher")"
+
+        if [ "$zipOffset" -lt 0 ]; then
+          echo "Could not find zip payload in metals launcher" >&2
+          exit 1
+        fi
+
+        dd if="$launcher" of="$tmp/preamble" bs=1 count="$zipOffset" status=none
+
+        mkdir "$tmp/extracted"
+        (cd "$tmp/extracted" && ${pkgs.jdk}/bin/jar xf "$launcher")
+
+        find "$tmp/extracted" -exec touch -h -t 198001010000.00 {} +
+        (cd "$tmp/extracted" && find . -type f | LC_ALL=C sort | sed 's#^\./##' > "$tmp/files")
+        (cd "$tmp/extracted" && ${pkgs.zip}/bin/zip -X -q -@ "$tmp/metals-launcher-normalized.jar" < "$tmp/files")
+
+        cat "$tmp/preamble" "$tmp/metals-launcher-normalized.jar" > "$launcher"
+        chmod +x "$launcher"
       '';
       outputHashMode = "recursive";
       outputHashAlgo = "sha256";
-      outputHash = "sha256-d0/FuOBJtGeHGtLOv09uDJBvDS41VXZkHg/T/R5aOfg=";
+      # outputHash = "sha256-d0/FuOBJtGeHGtLOv09uDJBvDS41VXZkHg/T/R5aOfg=";
+      outputHash = "sha256-Hvicw9fwZnwsk/UPbtt/qQuHbsgFjxnMQog6xjL2EWw=";
       # outputHash = "sha256-tUetJ4v+6DJyJGMuiMQthVI4HrJOl8FEL90cI29l1l8=";
     };
 
@@ -76,7 +98,7 @@ let
   #  runScript = "${pkgs.nodejs_18}/bin/node ${rescript-npm-pkg} --stdio";
   #};
   rescript-lsp-start = pkgs.writeShellScriptBin "rescript-lsp-start" ''
-    ${pkgs.nodejs_20}/bin/node ${rescript-npm-pkg}/out/cli.js --stdio
+    ${pkgs.nodejs_26}/bin/node ${rescript-npm-pkg}/out/cli.js --stdio
   '';
   rescript-lsp-fhs = pkgs.buildFHSEnv {
     name = "rescript-lsp-fhs";
@@ -120,7 +142,7 @@ in
       terraform_ls = '${pkgs.terraform-ls}/bin/terraform-ls',
       metals = '${metals-pkg}/bin/metals',
       rescript_lsp = '${rescript-lsp-fhs}/bin/rescript-lsp-fhs',
-      node = '${pkgs.nodejs_22}/bin/node',
+      node = '${pkgs.nodejs_26}/bin/node',
       rust_analyzer = 'rust-analyzer',
       ts_ls = '${pkgs.typescript-language-server}/bin/typescript-language-server',
     }

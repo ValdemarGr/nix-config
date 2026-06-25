@@ -16,10 +16,96 @@ nixpkgs.lib.nixosSystem {
     ({ pkgs, lib, config, ... }@deps:
       let
         wallpaper = ../wallpaper/wp.webp;
+        waybar-lua-dispatch = pkgs.waybar.overrideAttrs (old: {
+          patches = (old.patches or [ ]) ++ [
+            (pkgs.writeText "waybar-hyprland-lua-dispatch.patch" ''
+              diff --git a/src/modules/hyprland/workspace.cpp b/src/modules/hyprland/workspace.cpp
+              --- a/src/modules/hyprland/workspace.cpp
+              +++ b/src/modules/hyprland/workspace.cpp
+              @@ -11,6 +11,44 @@
+               
+               namespace waybar::modules::hyprland {
+               
+              +std::string quoteLuaString(const std::string& value) {
+              +  std::string result;
+              +  result.reserve(value.size() + 2);
+              +  result.push_back('"');
+              +  for (const auto c : value) {
+              +    switch (c) {
+              +      case '\\':
+              +        result += "\\\\";
+              +        break;
+              +      case '"':
+              +        result += "\\\"";
+              +        break;
+              +      case '\n':
+              +        result += "\\n";
+              +        break;
+              +      case '\r':
+              +        result += "\\r";
+              +        break;
+              +      case '\t':
+              +        result += "\\t";
+              +        break;
+              +      default:
+              +        result.push_back(c);
+              +        break;
+              +    }
+              +  }
+              +  result.push_back('"');
+              +  return result;
+              +}
+              +
+              +std::string focusWorkspaceDispatch(const std::string& workspace, bool on_current_monitor) {
+              +  auto command = "dispatch hl.dsp.focus({ workspace = " + quoteLuaString(workspace);
+              +  if (on_current_monitor) {
+              +    command += ", on_current_monitor = true";
+              +  }
+              +  return command + " })";
+              +}
+              +
+               Workspace::Workspace(const Json::Value& workspace_data, Workspaces& workspace_manager,
+                                    const Json::Value& clients_data)
+                   : m_workspaceManager(workspace_manager),
+              @@ -70,21 +108,16 @@
+                 if (bt->type == GDK_BUTTON_PRESS) {
+                   try {
+                     if (id() > 0) {  // normal
+              -        if (m_workspaceManager.moveToMonitor()) {
+              -          m_ipc.getSocket1Reply("dispatch focusworkspaceoncurrentmonitor " + std::to_string(id()));
+              -        } else {
+              -          m_ipc.getSocket1Reply("dispatch workspace " + std::to_string(id()));
+              -        }
+              +        m_ipc.getSocket1Reply(
+              +            focusWorkspaceDispatch(std::to_string(id()), m_workspaceManager.moveToMonitor()));
+                     } else if (!isSpecial()) {  // named (this includes persistent)
+              -        if (m_workspaceManager.moveToMonitor()) {
+              -          m_ipc.getSocket1Reply("dispatch focusworkspaceoncurrentmonitor name:" + name());
+              -        } else {
+              -          m_ipc.getSocket1Reply("dispatch workspace name:" + name());
+              -        }
+              +        m_ipc.getSocket1Reply(
+              +            focusWorkspaceDispatch("name:" + name(), m_workspaceManager.moveToMonitor()));
+                     } else if (id() != -99) {  // named special
+              -        m_ipc.getSocket1Reply("dispatch togglespecialworkspace " + name());
+              +        m_ipc.getSocket1Reply("dispatch hl.dsp.workspace.toggle_special(" +
+              +                              quoteLuaString(name()) + ")");
+                     } else {  // special
+              -        m_ipc.getSocket1Reply("dispatch togglespecialworkspace");
+              +        m_ipc.getSocket1Reply("dispatch hl.dsp.workspace.toggle_special()");
+                     }
+                     return true;
+                   } catch (const std::exception& e) {
+            '')
+          ];
+        });
         gke-auth-module = pkgs.buildGoModule {
           name = "gke-auth-module";
-          vendorHash = "sha256-7UhtVoLVd8Gd5JVQePawmoQHVkPfcrkvyboFYnnUCSg=";
+          vendorHash = "sha256-G+dW2FTl78a6fBCzZ/7p8cWktSexGCiKlnyuf1W+GFI=";
           src = "${inputs.gke-auth-module}";
+          postPatch = ''
+            substituteInPlace go.mod --replace-fail "go 1.26" "go 1.26.0"
+          '';
         };
         set-gke-commands = pkgs.writeShellScriptBin "fix-gke-auth-commands" ''
           kubectl config get-users | xargs -I {} kubectl config set-credentials {} --exec-command=${gke-auth-module}/bin/gke-auth-plugin
@@ -41,7 +127,7 @@ nixpkgs.lib.nixosSystem {
           slurp > /tmp/poeslurp
         '';
         hyprland-startup = pkgs.writeShellScript "hyprland-start" ''
-          sleep 1.5 && swww img "${wallpaper}" --transition-type none &
+          sleep 1.5 && awww img "${wallpaper}" --transition-type none &
           waybar &
           dunst
         '';
@@ -51,7 +137,7 @@ nixpkgs.lib.nixosSystem {
           sleep 0.1
           W=$(hyprctl clients | grep " *class: Rofi$")
           if [ -n "$W" ]; then
-            hyprctl dispatch focuswindow Rofi
+            hyprctl dispatch 'hl.dsp.focus({ window = "Rofi" })' >/dev/null 2>&1
             break
           fi
         done
@@ -62,11 +148,17 @@ nixpkgs.lib.nixosSystem {
         '';
         hypr-rofi-workspace-name = pkgs.writeShellScriptBin "hypr-rofi-workspace-name" ''
         ${rofi-focus}/bin/rofi-focus &
-        hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(rofi -dmenu -lines 0 -p 'Workspace name') && killall -SIGUSR2 waybar
+        workspace="$(hyprctl activeworkspace -j | ${pkgs.jq}/bin/jq -r '.id')"
+        name="$(rofi -dmenu -lines 0 -p 'Workspace name')"
+        quoted="$(printf '%s' "$name" | ${pkgs.jq}/bin/jq -Rs .)"
+        hyprctl dispatch "hl.dsp.workspace.rename({ workspace = $workspace, name = $quoted })"
         '';
         hypr-rofi-workspace-icon = pkgs.writeShellScriptBin "hypr-rofi-workspace-icon" ''
         ${rofi-focus}/bin/rofi-focus &
-        hyprctl dispatch renameworkspace $(hyprctl activeworkspace | head -n 1 | awk '{ print $3 }') $(printf '\u'$(rofi-get-unicode-list | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2)) && killall -SIGUSR2 waybar
+        workspace="$(hyprctl activeworkspace -j | ${pkgs.jq}/bin/jq -r '.id')"
+        icon="$(printf '\u'$(rofi-get-unicode-list | rofi -dmenu -i -markup-rows -p "" -columns 6 -width 100 -location 1 --lines 20 -bw 2 -yoffset -2 | cut -d\' -f2 | tail -c +4 | head -c -2))"
+        quoted="$(printf '%s' "$icon" | ${pkgs.jq}/bin/jq -Rs .)"
+        hyprctl dispatch "hl.dsp.workspace.rename({ workspace = $workspace, name = $quoted })"
         '';
         poedc = pkgs.writeShellScriptBin "poedc" ''
         iptables -I INPUT -p tcp --sport 6112 --tcp-flags PSH,ACK PSH,ACK -j REJECT --reject-with tcp-reset
@@ -317,7 +409,7 @@ nixpkgs.lib.nixosSystem {
               pkgs.gh
               pkgs.yarn
               pkgs.python311
-              pkgs.nodejs_20
+              pkgs.nodejs_26
               pkgs.gnat
               pkgs.gnumake
               pkgs.watchman
@@ -363,16 +455,27 @@ nixpkgs.lib.nixosSystem {
             fonts.fontconfig.enable = true;
             wayland.windowManager.hyprland.enable = true;
             wayland.windowManager.hyprland.xwayland.enable = true;
+            wayland.windowManager.hyprland.configType = "lua";
             wayland.windowManager.hyprland.extraConfig = hypr-config + ''
-              bind = $mod, D, exec, ${hypr-rofi}/bin/hypr-rofi
-              bind = $mod, N, exec, ${hypr-rofi-workspace-name}/bin/hypr-rofi-workspace-name
-              bind = $mod, I, exec, ${hypr-rofi-workspace-icon}/bin/hypr-rofi-workspace-icon
+              hl.bind(mod .. " + D", hl.dsp.exec_cmd("${hypr-rofi}/bin/hypr-rofi"))
+              hl.bind(mod .. " + N", hl.dsp.exec_cmd("${hypr-rofi-workspace-name}/bin/hypr-rofi-workspace-name"))
+              hl.bind(mod .. " + I", hl.dsp.exec_cmd("${hypr-rofi-workspace-icon}/bin/hypr-rofi-workspace-icon"))
               ${monitors.monitor-config}
-              monitor = ,addreserved,-12,0,0,0
-              bind = ,F1, exec, sudo ${poedc}/bin/poedc
-              exec-once=bash ${hyprland-startup}
-              bind = $mod, A, exec, ${send-adjust}/bin/send-adjust
-              bind = $mod, R, exec, ${send-refresh}/bin/send-refresh
+              hl.monitor({
+                output = "",
+                reserved = {
+                  top = -12,
+                  right = 0,
+                  bottom = 0,
+                  left = 0,
+                },
+              })
+              hl.bind("F1", hl.dsp.exec_cmd("sudo ${poedc}/bin/poedc"))
+              hl.on("hyprland.start", function()
+                hl.exec_cmd("bash ${hyprland-startup}")
+              end)
+              hl.bind(mod .. " + A", hl.dsp.exec_cmd("${send-adjust}/bin/send-adjust"))
+              hl.bind(mod .. " + R", hl.dsp.exec_cmd("${send-refresh}/bin/send-refresh"))
             '';
             home = {
               pointerCursor = {
@@ -387,14 +490,15 @@ nixpkgs.lib.nixosSystem {
             home.homeDirectory = "/home/${machine}";
             gtk = {
               enable = true;
-              theme = {
-                package = pkgs.flat-remix-gtk;
-                name = "Flat-Remix-GTK-Grey-Darkest";
-              };
-              iconTheme = {
-                package = pkgs.libsForQt5.breeze-icons;
-                name = "breeze-dark";
-              };
+              colorScheme = "dark";
+              # theme = {
+              #   package = pkgs.flat-remix-gtk;
+              #   name = "Flat-Remix-GTK-Grey-Darkest";
+              # };
+              # iconTheme = {
+              #   package = pkgs.libsForQt5.breeze-icons;
+              #   name = "breeze-dark";
+              # };
               font = {
                 name = "Sans";
                 size = 11;
@@ -427,6 +531,7 @@ nixpkgs.lib.nixosSystem {
             programs.kitty.extraConfig = builtins.readFile ./kitty.conf;
             programs.waybar = {
               enable = true;
+              package = waybar-lua-dispatch;
               settings =
                 let
                   base = {
@@ -444,12 +549,11 @@ nixpkgs.lib.nixosSystem {
                       active-only = false;
                       all-outputs = false;
                       disable-scroll = false;
-                      on-scroll-up = "hyprctl dispatch workspace e-1";
-                      on-scroll-down = "hyprctl dispatch workspace e+1";
-                      on-click = "activate";
-                      show-special = "false";
-                      sort-by-number = true;
-                      format = "{id}: {name}";
+                      on-scroll-up = "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'";
+                      on-scroll-down = "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'";
+                      show-special = false;
+                      sort-by = "id";
+                      format = "{id}: {icon}";
                     };
                   };
                 in
@@ -543,7 +647,7 @@ nixpkgs.lib.nixosSystem {
               userName = "Valdemar Grange";
               userEmail = "randomvald0069@gmail.com";
             };
-            services.swww.enable = true;
+            services.awww.enable = true;
           };
         };
         # networking.firewall = {
@@ -563,7 +667,7 @@ nixpkgs.lib.nixosSystem {
           pkgs.proton-vpn
           pkgs.gh
           pkgs.google-cloud-sdk
-          # pkgs.spotify
+          pkgs.spotify
           pkgs.dunst
           pkgs.grim
           pkgs.slurp
@@ -573,7 +677,7 @@ nixpkgs.lib.nixosSystem {
           pkgs.wl-clipboard
           pkgs.discord
           pkgs.deepfilternet
-          pkgs.busybox
+          pkgs.inetutils
           pkgs.kubectl
           get-unicode-list
           hypr-rofi
