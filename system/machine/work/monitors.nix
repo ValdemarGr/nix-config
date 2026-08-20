@@ -1,6 +1,6 @@
 {
-  primary = "DP-1";
-  other = [ "DP-2" "DP-3" ];
+  primary = "DP-2";
+  other = [ "DP-1" "DP-3" ];
   monitor-config = ''
     hl.monitor({
       output = "DP-2",
