@@ -3,6 +3,8 @@ inputs:
 { lib, pkgs, ... }:
 
 let
+  metals-version = "1.6.8";
+  metals-deps-hash = "sha256-LdZ6I7zOUTHgS/TTo0T6Dh+Kb3YpgJg8gK0UngsA7Gs=";
   metals-jvm-args = [
     "-XX:+UseG1GC"
     "-XX:+UseStringDeduplication"
@@ -14,7 +16,12 @@ let
     "-Dmetals.loglevel=debug"
     "-Dmetals.build-server-ping-interval=10h"
   ];
-  metals-pkg = pkgs.metals.overrideAttrs (_old: {
+  metals-pkg = pkgs.metals.overrideAttrs (old: {
+    version = metals-version;
+    deps = old.deps.overrideAttrs (_: {
+      outputHash = metals-deps-hash;
+    });
+
     installPhase = ''
       runHook preInstall
 
