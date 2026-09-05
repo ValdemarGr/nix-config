@@ -161,6 +161,10 @@
       url = "git+https://codeberg.org/andyg/leap.nvim";
       flake = false;
     };
+    yanky-plugin = {
+      url = "github:gbprod/yanky.nvim";
+      flake = false;
+    };
     gke-auth-module = {
       flake = false;
       url = "github:traviswt/gke-auth-plugin";

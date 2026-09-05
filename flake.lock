@@ -487,7 +487,8 @@
         "vim-rescript-plugin": "vim-rescript-plugin",
         "vim-rhubarb-plugin": "vim-rhubarb-plugin",
         "vim-surround-plugin": "vim-surround-plugin",
-        "vim-terraform-plugin": "vim-terraform-plugin"
+        "vim-terraform-plugin": "vim-terraform-plugin",
+        "yanky-plugin": "yanky-plugin"
       }
     },
     "rust-analyzer-src": {
@@ -748,6 +749,22 @@
       "original": {
         "owner": "hashivim",
         "repo": "vim-terraform",
+        "type": "github"
+      }
+    },
+    "yanky-plugin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784708876,
+        "narHash": "sha256-2uNKHtFfIokuZ8AcPP5LXuStxPzQGP2Jcq04DsYM9s4=",
+        "owner": "gbprod",
+        "repo": "yanky.nvim",
+        "rev": "dd6689fdda85f66cab7d9b1a1664625f3be0920d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gbprod",
+        "repo": "yanky.nvim",
         "type": "github"
       }
     }

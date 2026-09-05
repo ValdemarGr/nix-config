@@ -64,3 +64,8 @@ vim.cmd [[imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")]]
 vim.cmd [[autocmd FileType rescript setlocal commentstring=//\ %s]]
 vim.cmd [[autocmd FileType proto setlocal commentstring=//\ %s]]
 vim.cmd [[autocmd FileType sql setlocal commentstring=--\ %s]]
+
+vim.keymap.set("n", "<leader>qh", require("telescope.builtin").quickfixhistory, { desc = "Quickfix history" })
+vim.keymap.set({ "n", "x" }, "<leader>y",
+  "<cmd>Telescope yank_history<CR>",
+  { desc = "Yank history" })

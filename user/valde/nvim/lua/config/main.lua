@@ -9,12 +9,21 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
   vim.g.copilot_npx_command = ""
   vim.g.copilot_filetypes = { ['*'] = true }
   require('leap')
-  vim.keymap.set({ "n" }, "<leader>M", "<Plug>(leap-backward-to)")
-  vim.keymap.set({ "n" }, "<leader>m", "<Plug>(leap-forward-to)")
+  vim.keymap.set({ "n" }, "<leader>m", function() require('leap').leap { target_windows = { vim.fn.win_getid() } } end)
+  vim.keymap.set({ "n" }, "<leader>M", function() require('leap').leap { backward = true } end)
 
   vim.keymap.set({ "n" }, "`", "'", { noremap = true })
   vim.keymap.set({ "n" }, "'", "`", { noremap = true })
   require('octo').setup()
+  require("yanky").setup({
+    ring = {
+      sync_with_numbered_registers = false,
+    },
+    highlight = {
+      on_put = false,
+      on_yank = false
+    },
+  })
   vim.lsp.config('terraformls', {
     cmd = { terraform_ls, "serve" }
   })
