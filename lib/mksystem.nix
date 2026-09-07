@@ -690,14 +690,14 @@ nixpkgs.lib.nixosSystem {
           hypr-rofi-workspace-icon
           # pkgs.easyeffects
           #pkgs.xwaylandvideobridge
-          # (pkgs.fenix.complete.withComponents [
-          #   "cargo"
-          #   "clippy"
-          #   "rust-src"
-          #   "rustc"
-          #   "rustfmt"
-          # ])
-          # pkgs.rust-analyzer-nightly
+          (pkgs.fenix.complete.withComponents [
+            "cargo"
+            "clippy"
+            "rust-src"
+            "rustc"
+            "rustfmt"
+          ])
+          pkgs.rust-analyzer-nightly
           pkgs.vaapi-intel-hybrid
           pkgs.libva-vdpau-driver
         ];
