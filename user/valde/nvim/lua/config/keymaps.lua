@@ -69,3 +69,7 @@ vim.keymap.set("n", "<leader>qh", require("telescope.builtin").quickfixhistory, 
 vim.keymap.set({ "n", "x" }, "<leader>y",
   "<cmd>Telescope yank_history<CR>",
   { desc = "Yank history" })
+
+vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope commands<CR>", {
+  desc = "Commands",
+})
