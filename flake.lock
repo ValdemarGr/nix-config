@@ -128,6 +128,29 @@
         "type": "github"
       }
     },
+    "codex-cli-nix": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791736270,
+        "narHash": "sha256-iug4fsFt3MX8jMAxNStEmcjc1ZPjxjRSB4svXmk7kE8=",
+        "owner": "sadjow",
+        "repo": "codex-cli-nix",
+        "rev": "0ba1b93ea032580f9cf19ab26fb8a1b5d0f97f99",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sadjow",
+        "repo": "codex-cli-nix",
+        "type": "github"
+      }
+    },
     "copilot-vim-plugin": {
       "flake": false,
       "locked": {
@@ -455,6 +478,7 @@
         "cmp-nvim-lsp-signature-help-plugin": "cmp-nvim-lsp-signature-help-plugin",
         "cmp-path-plugin": "cmp-path-plugin",
         "cmp-treesitter-plugin": "cmp-treesitter-plugin",
+        "codex-cli-nix": "codex-cli-nix",
         "copilot-vim-plugin": "copilot-vim-plugin",
         "fenix": "fenix",
         "flake-utils": "flake-utils",
@@ -488,6 +512,7 @@
         "vim-rhubarb-plugin": "vim-rhubarb-plugin",
         "vim-surround-plugin": "vim-surround-plugin",
         "vim-terraform-plugin": "vim-terraform-plugin",
+        "which-key-plugin": "which-key-plugin",
         "yanky-plugin": "yanky-plugin"
       }
     },
@@ -749,6 +774,22 @@
       "original": {
         "owner": "hashivim",
         "repo": "vim-terraform",
+        "type": "github"
+      }
+    },
+    "which-key-plugin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761664528,
+        "narHash": "sha256-rKaYnXM4gRkkF/+xIFm2oCZwtAU6CeTdRWU93N+Jmbc=",
+        "owner": "folke",
+        "repo": "which-key.nvim",
+        "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "which-key.nvim",
         "type": "github"
       }
     },

@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    codex-cli-nix = {
+      url = "github:sadjow/codex-cli-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -153,6 +158,10 @@
       url = "github:pwntester/octo.nvim";
       flake = false;
     };
+    which-key-plugin = {
+      url = "github:folke/which-key.nvim";
+      flake = false;
+    };
     oil-nvim-plugin = {
       url = "github:stevearc/oil.nvim";
       flake = false;
@@ -181,6 +190,9 @@
     in
     {
       packages.x86_64-linux.default = fenix.packages.x86_64-linux.minimal.toolchain;
+      devShells.${system}.default = nixpkgs.legacyPackages.${system}.mkShell {
+        packages = [ inputs.codex-cli-nix.packages.${system}.default ];
+      };
       nixosConfigurations.home = mkSystem "home";
       nixosConfigurations.work = mkSystem "work";
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;

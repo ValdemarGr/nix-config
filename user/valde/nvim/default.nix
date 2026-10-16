@@ -104,6 +104,7 @@ EOF
       pname = key;
       src = inputs."${key}";
       version = "0.1";
+      patches = lib.optional (key == "octo-plugin") ./octo-large-pr.patch;
       doCheck = false;
     }))
     vim-plugin-keys)

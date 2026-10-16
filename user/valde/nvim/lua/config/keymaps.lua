@@ -73,3 +73,16 @@ vim.keymap.set({ "n", "x" }, "<leader>y",
 vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope commands<CR>", {
   desc = "Commands",
 })
+
+vim.keymap.set("n", "<leader>?", function()
+  require("which-key").show({ global = false })
+end, { desc = "Buffer keymaps" })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "octo_panel",
+  callback = function(event)
+    vim.keymap.set("x", "<localleader><Space>",
+      ":normal " .. (vim.g.maplocalleader or "\\") .. " <CR>",
+      { buffer = event.buf, desc = "Toggle selected files viewed" })
+  end,
+})
