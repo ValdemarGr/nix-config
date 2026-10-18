@@ -70,12 +70,25 @@ EOF
       	    cp -r * $out/
       	  '';
   };
+  rescript-format-diff = pkgs.fetchzip {
+    url = "https://registry.npmjs.org/fast-diff/-/fast-diff-1.3.0.tgz";
+    hash = "sha256-ehkNQdeyhYndqYgISELDpKO3Rp7rzVT5Njzp7udJeGk=";
+  };
   rescript-npm-pkg = pkgs.stdenv.mkDerivation {
     name = "rescript-npm-pkg";
     src = pkgs.fetchurl {
       url = "https://registry.npmjs.org/@rescript/language-server/-/language-server-1.50.0.tgz";
       sha256 = "sha256-YK+i8Fay54uhEpRWaOwyxXTgeuSFntKjicMHTlyR6Uc=";
     };
+    postPatch = ''
+      cp ${./rescript-format-edits.cjs} out/format-edits.cjs
+      substituteInPlace out/format-edits.cjs \
+        --replace-fail 'require("fast-diff")' 'require("${rescript-format-diff}/diff.js")'
+      substituteInPlace out/cli.js \
+        --replace-fail \
+          'let h=o.length,p=[{range:{start:{line:0,character:0},end:{line:h,character:h}},newText:u.result}]' \
+          'let p=require("./format-edits.cjs")(B,o,u.result)'
+    '';
     installPhase = ''
       mkdir -p $out
       cp -r * $out/
@@ -104,7 +117,6 @@ EOF
       pname = key;
       src = inputs."${key}";
       version = "0.1";
-      patches = lib.optional (key == "octo-plugin") ./octo-large-pr.patch;
       doCheck = false;
     }))
     vim-plugin-keys)

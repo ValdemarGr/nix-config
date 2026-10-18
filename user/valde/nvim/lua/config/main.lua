@@ -14,21 +14,6 @@ function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts
 
   vim.keymap.set({ "n" }, "`", "'", { noremap = true })
   vim.keymap.set({ "n" }, "'", "`", { noremap = true })
-  require('octo').setup({
-    use_local_fs = true,
-    mappings = {
-      file_panel = {
-        next_entry = { lhs = '' },
-        prev_entry = { lhs = '' },
-      },
-    },
-  })
-  require('which-key').setup({
-    expand = math.huge,
-    triggers = {
-      { "<localleader>", mode = { "n", "x" } },
-    },
-  })
   require("yanky").setup({
     ring = {
       sync_with_numbered_registers = false,

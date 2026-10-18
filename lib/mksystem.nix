@@ -217,6 +217,7 @@ nixpkgs.lib.nixosSystem {
         #};
         security.polkit.enable = true;
         programs.dconf.enable = true;
+        programs.wshowkeys.enable = true;
         # programs.gamescope = {
         #   enable = true;
         #   capSysNice = true;

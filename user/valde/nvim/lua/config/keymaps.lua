@@ -25,9 +25,6 @@ vim.cmd [[nnoremap <silent><leader>o <cmd>lua require('telescope.builtin').git_s
 vim.cmd [[nnoremap <silent>gd              <cmd>lua require('telescope.builtin').lsp_definitions()<CR>]]
 vim.cmd [[nnoremap <silent><leader>gw              <cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<CR>]]
 
-vim.cmd [[nnoremap <silent><leader>gil             <cmd>Octo issue list<CR>]]
-vim.cmd [[nnoremap <silent><leader>ga             <cmd>Octo actions<CR>]]
-
 vim.cmd [[nnoremap <silent><leader>e       <cmd>lua vim.lsp.buf.hover()<CR>]]
 vim.cmd [[nnoremap <silent><leader>q       <cmd>lua vim.lsp.buf.signature_help()<CR>]]
 
@@ -74,15 +71,12 @@ vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope commands<CR>", {
   desc = "Commands",
 })
 
-vim.keymap.set("n", "<leader>?", function()
-  require("which-key").show({ global = false })
-end, { desc = "Buffer keymaps" })
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "octo_panel",
-  callback = function(event)
-    vim.keymap.set("x", "<localleader><Space>",
-      ":normal " .. (vim.g.maplocalleader or "\\") .. " <CR>",
-      { buffer = event.buf, desc = "Toggle selected files viewed" })
-  end,
-})
+for _, key in ipairs({ "<ScrollWheelUp>", "<ScrollWheelDown>" }) do
+  vim.keymap.set({ "n", "x", "i" }, key, function()
+    local win = vim.fn.getmousepos().winid
+    if win ~= 0 and vim.wo[win].diff then
+      vim.api.nvim_set_current_win(win)
+    end
+    vim.api.nvim_feedkeys(vim.keycode(key), "in", false)
+  end, { desc = "Scroll diff windows together" })
+end

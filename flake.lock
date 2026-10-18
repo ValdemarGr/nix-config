@@ -371,22 +371,6 @@
         "type": "github"
       }
     },
-    "octo-plugin": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1781884649,
-        "narHash": "sha256-dZl0/0JbrxLdQEhPI7xzg0HjD173t67fI5xG9eEJZcI=",
-        "owner": "pwntester",
-        "repo": "octo.nvim",
-        "rev": "66b8eeca8e18213a19742f8a031e6947c738342f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pwntester",
-        "repo": "octo.nvim",
-        "type": "github"
-      }
-    },
     "oil-nvim-plugin": {
       "flake": false,
       "locked": {
@@ -492,7 +476,6 @@
         "nvim-metals-plugin": "nvim-metals-plugin",
         "nvim-tree-plugin": "nvim-tree-plugin",
         "nvim-web-devicons-plugin": "nvim-web-devicons-plugin",
-        "octo-plugin": "octo-plugin",
         "oil-nvim-plugin": "oil-nvim-plugin",
         "pgsql-plugin": "pgsql-plugin",
         "plenary-plugin": "plenary-plugin",
@@ -512,7 +495,6 @@
         "vim-rhubarb-plugin": "vim-rhubarb-plugin",
         "vim-surround-plugin": "vim-surround-plugin",
         "vim-terraform-plugin": "vim-terraform-plugin",
-        "which-key-plugin": "which-key-plugin",
         "yanky-plugin": "yanky-plugin"
       }
     },
@@ -774,22 +756,6 @@
       "original": {
         "owner": "hashivim",
         "repo": "vim-terraform",
-        "type": "github"
-      }
-    },
-    "which-key-plugin": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1761664528,
-        "narHash": "sha256-rKaYnXM4gRkkF/+xIFm2oCZwtAU6CeTdRWU93N+Jmbc=",
-        "owner": "folke",
-        "repo": "which-key.nvim",
-        "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "folke",
-        "repo": "which-key.nvim",
         "type": "github"
       }
     },

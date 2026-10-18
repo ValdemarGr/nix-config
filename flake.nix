@@ -154,14 +154,6 @@
       url = "github:github/copilot.vim";
       flake = false;
     };
-    octo-plugin = {
-      url = "github:pwntester/octo.nvim";
-      flake = false;
-    };
-    which-key-plugin = {
-      url = "github:folke/which-key.nvim";
-      flake = false;
-    };
     oil-nvim-plugin = {
       url = "github:stevearc/oil.nvim";
       flake = false;
