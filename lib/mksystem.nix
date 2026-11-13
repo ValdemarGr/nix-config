@@ -652,6 +652,19 @@ nixpkgs.lib.nixosSystem {
               enable = true;
               userName = "Valdemar Grange";
               userEmail = "randomvald0069@gmail.com";
+              settings = {
+                diff = {
+                  algorithm = "histogram";
+                  indentHeuristic = true;
+                  colorMoved = "default";
+                  colorMovedWS = "allow-indentation-change";
+                  wsErrorHighlight = "new";
+                };
+              };
+              aliases = {
+                # Review changes without whitespace noise
+                dw = "diff --ignore-all-space --ignore-blank-lines";
+              };
             };
             services.awww.enable = true;
           };

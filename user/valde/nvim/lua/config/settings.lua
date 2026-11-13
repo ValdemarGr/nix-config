@@ -59,3 +59,11 @@ vim.cmd([[hi! link LspReferenceWrite CursorColumn]])
 
 vim.cmd [[let g:sql_type_default = 'pgsql']]
 vim.cmd [[let g:ftplugin_sql_omni_key = '<C-j>']]
+
+vim.opt.diffopt:append({
+  "algorithm:histogram",
+  "iwhiteall",
+  "iblank",
+  "linematch:60",
+  "inline:word",
+})
