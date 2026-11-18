@@ -1,9 +1,30 @@
-function main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts_ls)
+function main_config(terraform_ls, metals, csf, rescript_lsp, node, rust_analyzer, ts_ls)
   require('config/settings')
   require('config/keymaps')
   require('config/cmp')
   require('config/oil')
   require('config/telescope')
+
+  require('conform').setup({
+    formatters_by_ft = {
+      scala = { 'csf' },
+    },
+    formatters = {
+      csf = {
+        command = csf,
+        args = { '-' },
+        stdin = true,
+      },
+    },
+  })
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'scala',
+    callback = function(args)
+      vim.keymap.set('n', '<leader>fo', function()
+        require('conform').format({ timeout_ms = 5000 })
+      end, { buffer = args.buf, silent = true })
+    end,
+  })
 
   vim.g.copilot_node_command = node
   vim.g.copilot_npx_command = ""
@@ -126,12 +147,13 @@ function setup(m)
 
   local terraform_ls = must("terraform_ls")
   local metals = must("metals")
+  local csf = must("csf")
   local rescript_lsp = must("rescript_lsp")
   local node = must("node")
   local rust_analyzer = must("rust_analyzer")
   local ts_ls = must("ts_ls")
 
-  main_config(terraform_ls, metals, rescript_lsp, node, rust_analyzer, ts_ls)
+  main_config(terraform_ls, metals, csf, rescript_lsp, node, rust_analyzer, ts_ls)
 end
 
 return setup

@@ -3,6 +3,27 @@ inputs:
 { lib, pkgs, ... }:
 
 let
+  csf-pkg = pkgs.stdenvNoCC.mkDerivation rec {
+    pname = "csf";
+    version = "0.2.0";
+    src = pkgs.fetchurl {
+      url = "https://github.com/ValdemarGr/csf/releases/download/v${version}/csf-linux-x86_64-native.tar.gz";
+      hash = "sha256-bv3SFMavQ7c2kZHWyOkGARBS4O500O5f1T1Bsx5+hoo=";
+    };
+    sourceRoot = ".";
+    dontConfigure = true;
+    dontBuild = true;
+    dontStrip = true;
+    installPhase = ''
+      runHook preInstall
+      install -Dm755 csf $out/bin/csf
+      runHook postInstall
+    '';
+    meta = {
+      platforms = [ "x86_64-linux" ];
+      mainProgram = "csf";
+    };
+  };
   metals-version = "1.6.8";
   metals-deps-hash = "sha256-LdZ6I7zOUTHgS/TTo0T6Dh+Kb3YpgJg8gK0UngsA7Gs=";
   metals-jvm-args = [
@@ -133,6 +154,7 @@ in
     enable = true;
     defaultEditor = true;
     plugins = vim-plugins ++ [
+      pkgs.vimPlugins.conform-nvim
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
     ];
     extraLuaConfig = ''
@@ -142,6 +164,7 @@ in
     setup{
       terraform_ls = '${pkgs.terraform-ls}/bin/terraform-ls',
       metals = '${metals-pkg}/bin/metals',
+      csf = '${csf-pkg}/bin/csf',
       rescript_lsp = '${rescript-lsp-fhs}/bin/rescript-lsp-fhs',
       node = '${pkgs.nodejs_26}/bin/node',
       rust_analyzer = 'rust-analyzer',
