@@ -5,10 +5,10 @@ inputs:
 let
   csf-pkg = pkgs.stdenvNoCC.mkDerivation rec {
     pname = "csf";
-    version = "0.2.0";
+    version = "0.3.0";
     src = pkgs.fetchurl {
       url = "https://github.com/ValdemarGr/csf/releases/download/v${version}/csf-linux-x86_64-native.tar.gz";
-      hash = "sha256-bv3SFMavQ7c2kZHWyOkGARBS4O500O5f1T1Bsx5+hoo=";
+      hash = "sha256-xJfQvpYObY8VW+PWGErMjLwp+azIOQ/ByuV+j13nO3Y=";
     };
     sourceRoot = ".";
     dontConfigure = true;
