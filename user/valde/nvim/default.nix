@@ -144,6 +144,8 @@ EOF
   ;
 in
 {
+  home.packages = [ csf-pkg ];
+
   home.file.".vimtmp" = {
     recursive = true;
     target = ".vimtmp/keep";
