@@ -21,6 +21,8 @@
       url = "github:akhiljalagam/rofi-fontawesome";
       flake = false;
     };
+    buf-review.url = "github:valdemargr/buf-review";
+    csf.url = "github:ValdemarGr/csf";
     vim-fugitive-plugin = {
       url = "github:tpope/vim-fugitive/cbe9dfa162c178946afa689dd3f42d4ea8bf89c1";
       flake = false;

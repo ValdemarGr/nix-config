@@ -8,10 +8,38 @@ vim.cmd [[nnoremap <leader>j :wincmd j<CR>]]
 vim.cmd [[nnoremap <leader>k :wincmd k<CR>]]
 vim.cmd [[nnoremap <leader>l :wincmd l<CR>]]
 
-vim.cmd [[nnoremap <silent> <leader>gs :G<CR>]]
+vim.keymap.set("n", "<leader>gs", function()
+  vim.cmd.Git()
+  vim.cmd("silent only")
+end, { silent = true, desc = "Fullscreen Fugitive status" })
 vim.cmd [[nnoremap <silent> <leader>gp :G push<CR>]]
 vim.cmd [[nmap <leader>gh :diffget //3<CR>]]
 vim.cmd [[nmap <leader>gu :diffget //2<CR>]]
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "FugitiveIndex",
+  callback = function(event)
+    vim.keymap.set("n", "dd", function()
+      local previous_windows = vim.api.nvim_tabpage_list_wins(0)
+      vim.cmd.normal({ args = { vim.keycode("<Plug>fugitive:dd") } })
+      if vim.api.nvim_get_current_buf() == event.buf then
+        return
+      end
+
+      local current = vim.api.nvim_get_current_win()
+      local diff = vim.wo[current].diff
+      for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        local diff_peer = diff and vim.wo[win].diff and not vim.list_contains(previous_windows, win)
+        if win ~= current and not diff_peer then
+          if vim.wo[win].diff then
+            vim.api.nvim_win_call(win, function() vim.cmd.diffoff() end)
+          end
+          vim.api.nvim_win_hide(win)
+        end
+      end
+    end, { buffer = event.buf, silent = true, nowait = true, desc = "Fullscreen Fugitive diff" })
+  end,
+})
 
 vim.cmd [[nnoremap <silent><leader>fo      <cmd>lua vim.lsp.buf.format(nil, 5000)<CR>]]
 vim.cmd [[inoremap <C-c> <Esc>]]

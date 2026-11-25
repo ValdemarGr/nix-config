@@ -3,27 +3,7 @@ inputs:
 { lib, pkgs, ... }:
 
 let
-  csf-pkg = pkgs.stdenvNoCC.mkDerivation rec {
-    pname = "csf";
-    version = "0.3.0";
-    src = pkgs.fetchurl {
-      url = "https://github.com/ValdemarGr/csf/releases/download/v${version}/csf-linux-x86_64-native.tar.gz";
-      hash = "sha256-xJfQvpYObY8VW+PWGErMjLwp+azIOQ/ByuV+j13nO3Y=";
-    };
-    sourceRoot = ".";
-    dontConfigure = true;
-    dontBuild = true;
-    dontStrip = true;
-    installPhase = ''
-      runHook preInstall
-      install -Dm755 csf $out/bin/csf
-      runHook postInstall
-    '';
-    meta = {
-      platforms = [ "x86_64-linux" ];
-      mainProgram = "csf";
-    };
-  };
+  csf-pkg = inputs.csf.packages.${pkgs.stdenv.hostPlatform.system}.csf;
   metals-version = "1.6.8";
   metals-deps-hash = "sha256-LdZ6I7zOUTHgS/TTo0T6Dh+Kb3YpgJg8gK0UngsA7Gs=";
   metals-jvm-args = [
@@ -156,6 +136,7 @@ in
     enable = true;
     defaultEditor = true;
     plugins = vim-plugins ++ [
+      inputs.buf-review.packages.${pkgs.stdenv.hostPlatform.system}.plugin
       pkgs.vimPlugins.conform-nvim
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
     ];
